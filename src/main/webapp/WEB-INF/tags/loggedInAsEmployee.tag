@@ -8,12 +8,16 @@
 </head>
 <body>
 <nav class="navbar navbar-light" style="background: #144985;">
-    <div class="container-fluid container">
-        <span class="fs-4 fw-bold text-light">Fog</span>
-        <form action="Navigator" class="mb-0" method="post">
-            <button class="btn btn-outline-light" type="submit" name="route" value="login">Log ind</button>
-        </form>
-    </div>
+    <form action="Navigator" class="mb-0 w-100" method="post">
+        <div class="container-fluid container d-flex justify-content-between align-items-center">
+            <button class="btn fs-4 fw-bold text-light" name="route" value="employeeOverview" type="submit">Fog</button>
+            <div class="d-flex">
+                <button class="btn text-light nav-link" name="route" value="employeeProducts">Produkter</button>
+                <button class="btn text-light nav-link" name="route" value="employeeOrders">Ordre</button>
+            </div>
+            <button class="btn btn-outline-light" name="route" value="logout">Log ud</button>
+        </div>
+    </form>
 </nav>
 <jsp:doBody/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

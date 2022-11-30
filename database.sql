@@ -41,8 +41,36 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
-INSERT INTO `customers` VALUES ('50c7777a-13a3-4d28-8bf6-65f02f9b1fa4','Jakob','Staudal','jakobstaudal@outlook.com','12345');
+INSERT INTO `customers` VALUES ('50c7777a-13a3-4d28-8bf6-65f02f9b1fa4','Jakob','Staudal','jakobstaudal@outlook.com','12345'),('926d6c3a-5c6f-4516-b556-a85e5b8b78b6','Mette','Staudal','mstaudal@gmail.com','12345'),('b73dc17e-1c11-4e77-9598-e43c4a3fcd42','Jakob','Staudal','jakob@staudal.com','12345'),('d20d7307-ad04-4a1f-8980-ab63e38da69f','Nikolaj','Staudal','niko@staudal.com','12345');
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `employees`
+--
+
+DROP TABLE IF EXISTS `employees`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `employees` (
+  `id` varchar(255) NOT NULL,
+  `firstName` varchar(45) NOT NULL,
+  `lastName` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `employees`
+--
+
+LOCK TABLES `employees` WRITE;
+/*!40000 ALTER TABLE `employees` DISABLE KEYS */;
+INSERT INTO `employees` VALUES ('50c7777a-13a3-4d28-8bf6-65f02f9b1fa5','Niels','Christensen','employee@fog.dk','12345');
+/*!40000 ALTER TABLE `employees` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -59,6 +87,9 @@ CREATE TABLE `orders` (
   `carportLength` int NOT NULL,
   `carportSlope` int NOT NULL,
   `customer_id` varchar(255) NOT NULL,
+  `totalPrice` int DEFAULT NULL,
+  `discountPrice` int DEFAULT NULL,
+  `status` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_orders_customers_idx` (`customer_id`),
@@ -84,4 +115,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-30  7:00:34
+-- Dump completed on 2022-11-30 20:22:35

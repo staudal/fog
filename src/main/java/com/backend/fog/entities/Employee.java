@@ -2,27 +2,23 @@ package com.backend.fog.entities;
 
 import java.util.UUID;
 
-public class Customer {
+public class Employee {
     private UUID id;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
 
-    public Customer() {
-
-    }
-
-    public Customer(String firstName, String lastName, String email, String password) {
-        this.id = UUID.randomUUID();
+    public Employee(UUID id, String firstName, String lastName, String email, String password) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
     }
 
-    public Customer(UUID id, String firstName, String lastName, String email, String password) {
-        this.id = id;
+    public Employee(String firstName, String lastName, String email, String password) {
+        this.id = UUID.randomUUID();
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

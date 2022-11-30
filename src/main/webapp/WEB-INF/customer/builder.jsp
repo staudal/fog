@@ -2,15 +2,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:loggedOut>
+<t:loggedInAsCustomer>
     <%--  HERO START  --%>
     <section class="d-flex flex-column bg-dark text-center p-5">
-        <small class="text-muted">Step 1 af 3</small>
-        <h1 class="text-light m-auto fw-bold mb-1">Angiv mål på carport</h1>
-        <p class="text-white-50 mb-0">Indtast dine ønskede mål på carporten nedenfor</p>
+        <h1 class="text-light m-auto fw-bold mb-1">QuickBuild</h1>
+        <p class="text-white-50 mb-0">Indtast mål på carport nedenfor</p>
     </section>
     <%--  HERO END  --%>
-    <form action="SaveDimensions" method="post" class="mb-0">
+    <form action="BuilderServlet" method="post" class="mb-0">
         <div class="container-fluid container d-flex flex-column align-items-center justify-content-center mt-5">
             <div class="d-flex flex-column w-100 gap-4" style="max-width: 600px">
                 <div class="d-flex gap-4">
@@ -33,10 +32,8 @@
                         <input id="slope" type="number" class="form-control" placeholder="Angiv tagets hældning" name="carportSlope" value="${sessionScope.carportSlope}" required>
                     </div>
                 </div>
+                <button type="submit" class="btn btn-primary w-100">Modtag tilbud</button>
             </div>
         </div>
-        <div class="position-fixed bottom-0 w-100 d-flex justify-content-center mb-4">
-            <button type="submit" class="btn btn-primary">Videre</button>
-        </div>
     </form>
-</t:loggedOut>
+</t:loggedInAsCustomer>
