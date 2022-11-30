@@ -1,6 +1,6 @@
 package com.backend.fog.controllers;
 
-import jakarta.servlet.*;
+import javax.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
