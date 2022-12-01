@@ -10,14 +10,14 @@ public class Order {
     private int slope;
     private int totalPrice;
     private int discountPrice;
-    private String status;
+    private int status;
     private Customer customer;
 
     public Order() {
 
     }
 
-    public Order(int width, int length, int height, int slope, String status, int totalPrice, int discountPrice, Customer customer) {
+    public Order(int width, int length, int height, int slope, int status, int totalPrice, int discountPrice, Customer customer) {
         this.id = UUID.randomUUID();
         this.width = width;
         this.length = length;
@@ -29,7 +29,7 @@ public class Order {
         this.customer = customer;
     }
 
-    public Order(UUID id, int width, int length, int height, int slope, String status, int totalPrice, int discountPrice, Customer customer) {
+    public Order(UUID id, int width, int length, int height, int slope, int status, int totalPrice, int discountPrice, Customer customer) {
         this.id = id;
         this.width = width;
         this.length = length;
@@ -97,11 +97,11 @@ public class Order {
         this.height = height;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

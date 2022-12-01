@@ -60,11 +60,15 @@ public class OrderFacade {
         orderMapper.updateOrderTotalPrice(price, connection);
     }
 
-    public void updateOrderDiscountPrice(int price) {
-        orderMapper.updateOrderDiscountPrice(price, connection);
+    public void updateOrderDiscountPrice(int price, UUID id) {
+        orderMapper.updateOrderDiscountPrice(price, id, connection);
     }
 
-    public String getStatus(UUID id) {
+    public int getStatus(UUID id) {
         return orderMapper.getStatus(id, connection);
+    }
+
+    public void updateStatus(int status, UUID id) {
+        orderMapper.updateStatus(status, id, connection);
     }
 }

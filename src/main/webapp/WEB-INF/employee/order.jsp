@@ -8,20 +8,34 @@
         <h1 class="text-light m-auto fw-bold mb-1">Ordreoversigt</h1>
     </section>
 
-    <section class="d-flex container justify-content-between pt-4 gap-4">
-        <div class="d-flex flex-column bg-light p-3 rounded w-100">
+    <section class="d-flex container justify-content-between align-items-stretch pt-4 gap-4">
+        <div class="d-flex flex-column bg-light p-3 rounded w-100 border">
             <h2 class="fs-5 fw-bold mb-3">Kunde</h2>
             <p class="mb-1"><strong>Navn:</strong> ${requestScope.order.getCustomer().getFirstName()} ${requestScope.order.getCustomer().getLastName()}</p>
             <p class="mb-0"><strong>Email:</strong> ${requestScope.order.getCustomer().getEmail()}</p>
         </div>
-        <div class="d-flex flex-column bg-light p-3 rounded w-100">
+        <div class="d-flex flex-column bg-light p-3 rounded w-100 border">
             <h2 class="fs-5 fw-bold mb-3">Ordre</h2>
             <p class="mb-0"><strong>Id:</strong> ${requestScope.order.getId()}</p>
-            <p class="mb-0"><strong>Status:</strong> ${requestScope.order.getStatus()}</p>
+            <c:if test="${requestScope.order.getStatus() == 1}">
+                <p class="mb-0"><strong>Status:</strong> Forespørgsel modtaget</p>
+            </c:if>
+            <c:if test="${requestScope.order.getStatus() == 2}">
+                <p class="mb-0"><strong>Status:</strong> Tilbud afsendt</p>
+            </c:if>
+            <c:if test="${requestScope.order.getStatus() == 3}">
+                <p class="mb-0"><strong>Status:</strong> Tilbud betalt</p>
+            </c:if>
+            <c:if test="${requestScope.order.getDiscountPrice() == 0}">
+                <p class="mb-0"><strong>Tilbudspris:</strong> Endnu ikke angivet</p>
+            </c:if>
+            <c:if test="${requestScope.order.getDiscountPrice() != 0}">
+                <p class="mb-0"><strong>Tilbudspris:</strong> ${requestScope.order.getDiscountPrice()},00 DKK</p>
+            </c:if>
         </div>
     </section>
     <section class="d-flex container flex-column justify-content-between align-items-center pt-4">
-        <div class="w-100 bg-light justify-content-center rounded p-3">
+        <div class="w-100 bg-light justify-content-center rounded p-3 border">
             <table class="table table-bordered mb-0">
                 <thead>
                 <tr>
@@ -47,26 +61,62 @@
             </table>
         </div>
     </section>
-    <form class="mb-0 needs-validation" method="post" novalidate>
+    <form class="mb-0" method="post">
         <section class="d-flex container justify-content-between align-items-stretch pt-4 gap-4">
-            <div class="bg-light w-100 p-3 rounded">
-                <h2 class="fs-5 fw-bold text-center w-100">Prisoversigt</h2>
-                <p>Indkøbspris: ${requestScope.order.getTotalPrice()},00 DKK</p>
+            <div class="bg-light w-100 p-3 rounded border">
+                <h2 class="fs-5 fw-bold mb-3">Prisoversigt</h2>
+                <p class="mb-0"><strong>Indkøbspris:</strong> ${requestScope.order.getTotalPrice()},00 DKK</p>
                 <c:if test="${requestScope.order.getDiscountPrice() == 0}">
-                    <p class="mb-0">Tilbudspris: Endnu ikke givet</p>
+                    <p class="mb-0"><strong>Tilbudspris:</strong> Endnu ikke angivet</p>
+                    <p class="mb-0"><strong>Dækningsbidrag:</strong> Endnu ikke beregnet</p>
                 </c:if>
                 <c:if test="${requestScope.order.getDiscountPrice() != 0}">
-                    <p>Tilbudsprisen: ${requestScope.order.getDiscountPrice()},00 DKK</p>
+                    <p class="mb-0"><strong>Tilbudspris:</strong> ${requestScope.order.getDiscountPrice()},00 DKK</p>
+                    <p class="mb-0"><strong>Dækningsbidrag:</strong> FUNGERER IKKE</p>
                 </c:if>
             </div>
-            <div class="bg-light w-100 p-3 rounded text-center">
-                <h2 class="fs-5 fw-bold text-center w-100">Tilbudsformular</h2>
-                <input id="discountPrice" type="number" name="price" class="form-control" placeholder="Angiv tilbudspris" required>
-            </div>
+            <c:if test="${requestScope.order.getStatus() == 1}">
+                <div class="bg-light w-100 p-3 rounded border">
+                    <h2 class="fs-5 fw-bold mb-3">Tilbudsformular</h2>
+                    <label for="discountPrice" class="form-label"><strong>Bemærk:</strong> Tilbudsprisen skal være højere end indkøbsprisen.</label>
+                    <input id="discountPrice" type="number" name="price" class="form-control" placeholder="Angiv tilbudspris" required>
+                </div>
+            </c:if>
         </section>
-        <section class="container pt-4">
-            <button class="w-100 btn btn-primary mb-2" formaction="UpdateOrderStatusServlet" type="submit" name="orderId" value="${requestScope.order.getId()}">Afsend tilbud</button>
-            <button class="w-100 btn btn-danger" formaction="RemoveEmployeeOrderServlet" type="submit" name="orderId" value="${requestScope.order.getId()}" formnovalidate>Annuller ordre</button>
-        </section>
+
+        <c:if test="${requestScope.order.getStatus() == 1}">
+            <section class="container pt-4">
+                <div class="row">
+                    <div class="col">
+                        <button class="w-100 btn btn-primary mb-2" formaction="UpdateOrderStatusServlet" type="submit" name="orderId" value="${requestScope.order.getId()}">Afsend tilbud</button>
+                    </div>
+                    <div class="col">
+                        <button class="w-100 btn btn-danger" formaction="RemoveEmployeeOrderServlet" type="submit" name="orderId" value="${requestScope.order.getId()}" formnovalidate>Annuller ordre</button>
+                    </div>
+                </div>
+            </section>
+        </c:if>
+        <c:if test="${requestScope.order.getStatus() == 2}">
+            <section class="container pt-4">
+                <div class="row">
+                    <div class="col">
+                        <button class="w-100 btn btn-primary mb-2" formaction="ManuallyPayForOrderServlet" type="submit" name="orderId" value="${requestScope.order.getId()}">Kunde har betalt kontant/bankoverførsel</button>
+                    </div>
+                    <div class="col">
+                        <button class="w-100 btn btn-danger" formaction="RemoveEmployeeOrderServlet" type="submit" name="orderId" value="${requestScope.order.getId()}" formnovalidate>Annuller ordre</button>
+                    </div>
+                </div>
+            </section>
+        </c:if>
+        <c:if test="${requestScope.order.getStatus() == 3}">
+            <section class="container pt-4">
+                <div class="row">
+                    <div class="col">
+                        <button class="w-100 btn btn-danger" formaction="RemoveEmployeeOrderServlet" type="submit" name="orderId" value="${requestScope.order.getId()}" formnovalidate>Fjern ordre fra systemet</button>
+                    </div>
+                </div>
+            </section>
+        </c:if>
+
     </form>
 </t:loggedInAsEmployee>

@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class OrderMapper {
     public void createNewOrder(Order order, DatabaseConnection connection) {
-        String sql = "INSERT INTO orders (id, carportWidth, carportHeight, carportLength, carportSlope, status, totalPrice, discountPrice   , customer_id) VALUES ('"+order.getId()+"', '"+order.getWidth()+"', '"+order.getHeight()+"', '"+order.getLength()+"', '"+order.getSlope()+"','"+"Forespørgsel afsendt"+"', '"+order.getTotalPrice()+"', '"+order.getDiscountPrice()+"', '"+order.getCustomer().getId()+"')";
+        String sql = "INSERT INTO orders (id, carportWidth, carportHeight, carportLength, carportSlope, status, totalPrice, discountPrice   , customer_id) VALUES ('"+order.getId()+"', '"+order.getWidth()+"', '"+order.getHeight()+"', '"+order.getLength()+"', '"+order.getSlope()+"','"+order.getStatus()+"', '"+order.getTotalPrice()+"', '"+order.getDiscountPrice()+"', '"+order.getCustomer().getId()+"')";
         try {
             connection.connect().createStatement().executeUpdate(sql);
         } catch (SQLException e) {
@@ -95,22 +95,22 @@ public class OrderMapper {
         }
     }
 
-    public String getStatus(UUID id, DatabaseConnection connection) {
+    public int getStatus(UUID id, DatabaseConnection connection) {
+        int status = 0;
         try {
-            String status = "";
             PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM orders WHERE id = ?");
             statement.setString(1, String.valueOf(id));
 
             ResultSet set = statement.executeQuery();
             if (set.next()) {
-                status = set.getString("status");
+                status = set.getInt("status");
             }
-            return status;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
             connection.disconnect();
         }
+        return status;
     }
 
     public int getTotalPrice(UUID id, DatabaseConnection connection) {
@@ -173,7 +173,7 @@ public class OrderMapper {
 
             ResultSet set = statement.executeQuery();
             while (set.next()) {
-                orders.put(UUID.fromString(set.getString("id")), new Order(UUID.fromString(set.getString("id")), set.getInt("carportWidth"), set.getInt("carportLength"), set.getInt("carportHeight"), set.getInt("carportSlope"), set.getString("status"), set.getInt("totalPrice"), set.getInt("discountPrice"), customer));
+                orders.put(UUID.fromString(set.getString("id")), new Order(UUID.fromString(set.getString("id")), set.getInt("carportWidth"), set.getInt("carportLength"), set.getInt("carportHeight"), set.getInt("carportSlope"), set.getInt("status"), set.getInt("totalPrice"), set.getInt("discountPrice"), customer));
             }
             return orders;
         } catch (SQLException e) {
@@ -190,7 +190,7 @@ public class OrderMapper {
 
             ResultSet set = statement.executeQuery();
             while (set.next()) {
-                orders.put(UUID.fromString(set.getString("id")), new Order(UUID.fromString(set.getString("id")), set.getInt("carportWidth"), set.getInt("carportLength"), set.getInt("carportHeight"), set.getInt("carportSlope"), set.getString("status"), set.getInt("totalPrice"), set.getInt("discountPrice"), getCustomer(UUID.fromString(set.getString("customer_id")), connection)));
+                orders.put(UUID.fromString(set.getString("id")), new Order(UUID.fromString(set.getString("id")), set.getInt("carportWidth"), set.getInt("carportLength"), set.getInt("carportHeight"), set.getInt("carportSlope"), set.getInt("status"), set.getInt("totalPrice"), set.getInt("discountPrice"), getCustomer(UUID.fromString(set.getString("customer_id")), connection)));
             }
             return orders;
         } catch (SQLException e) {
@@ -208,7 +208,7 @@ public class OrderMapper {
 
             ResultSet set = statement.executeQuery();
             while (set.next()) {
-                order = new Order(UUID.fromString(set.getString("id")), set.getInt("carportWidth"), set.getInt("carportLength"), set.getInt("carportHeight"), set.getInt("carportSlope"), set.getString("status"), set.getInt("totalPrice"), set.getInt("discountPrice"), getCustomer(UUID.fromString(set.getString("customer_id")), connection));
+                order = new Order(UUID.fromString(set.getString("id")), set.getInt("carportWidth"), set.getInt("carportLength"), set.getInt("carportHeight"), set.getInt("carportSlope"), set.getInt("status"), set.getInt("totalPrice"), set.getInt("discountPrice"), getCustomer(UUID.fromString(set.getString("customer_id")), connection));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -242,10 +242,11 @@ public class OrderMapper {
         }
     }
 
-    public void updateOrderDiscountPrice(int price, DatabaseConnection connection) {
+    public void updateOrderDiscountPrice(int price, UUID id, DatabaseConnection connection) {
         try {
-            PreparedStatement statement = connection.connect().prepareStatement("UPDATE orders SET discountPrice = ?");
+            PreparedStatement statement = connection.connect().prepareStatement("UPDATE orders SET discountPrice = ? WHERE id = ?");
             statement.setInt(1, price);
+            statement.setString(2, String.valueOf(id));
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -254,10 +255,11 @@ public class OrderMapper {
         }
     }
 
-    public void updateStatus(String status, DatabaseConnection connection) {
+    public void updateStatus(int status, UUID id, DatabaseConnection connection) {
         try {
-            PreparedStatement statement = connection.connect().prepareStatement("UPDATE orders SET status = ?");
-            statement.setString(1, status);
+            PreparedStatement statement = connection.connect().prepareStatement("UPDATE orders SET status = ? WHERE id = ?");
+            statement.setInt(1, status);
+            statement.setString(2, String.valueOf(id));
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -265,4 +267,6 @@ public class OrderMapper {
             connection.disconnect();
         }
     }
+
+
 }

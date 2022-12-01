@@ -18,7 +18,7 @@ public class BuilderServlet extends HttpServlet {
         int carportLength = Integer.parseInt(request.getParameter("carportLength"));
         int carportSlope = Integer.parseInt(request.getParameter("carportSlope"));
 
-        Order order = new Order(carportWidth, carportLength, carportHeight, carportSlope, "Forespørgsel afsendt", 10000, 0, (Customer) request.getSession().getAttribute("customer"));
+        Order order = new Order(carportWidth, carportLength, carportHeight, carportSlope, 1, 10000, 0, (Customer) request.getSession().getAttribute("customer"));
 
         OrderFacade orderFacade = new OrderFacade();
         orderFacade.createNewOrder(order);

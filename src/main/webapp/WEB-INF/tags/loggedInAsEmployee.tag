@@ -14,6 +14,7 @@
             <div class="d-flex">
                 <button class="btn text-light nav-link" name="route" value="employeeProducts">Produkter</button>
                 <button class="btn text-light nav-link" name="route" value="employeeOrders">Ordre</button>
+                <button class="btn text-light nav-link" name="route" value="employeeCustomers">Kunder</button>
             </div>
             <button class="btn btn-outline-light" name="route" value="logout">Log ud</button>
         </div>

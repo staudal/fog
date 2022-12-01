@@ -5,14 +5,37 @@
 <t:loggedInAsEmployee>
   <%--  HERO START  --%>
   <section class="d-flex flex-column bg-dark text-center p-5">
-    <h1 class="text-light m-auto fw-bold mb-1">Ordreoversigt</h1>
+    <h1 class="text-light m-auto fw-bold mb-1">Ordre</h1>
   </section>
   <%--  HERO END  --%>
-  <form action="LoadEmployeeOrderServlet" method="post" class="mb-0">
-    <div class="d-flex flex-column gap-4 mt-4 justify-content-center align-items-center">
-      <c:forEach items="${sessionScope.orders.values()}" var="order">
-        <button class="btn btn-primary" type="submit" style="max-width: 600px;" name="orderId" value="${order.getId()}">${order.getId()}</button>
-      </c:forEach>
+  <form action="LoadEmployeeOrderServlet" method="post" class="mb-0 mt-4 mb-4">
+    <div class="container vh-100">
+      <div class="row vh-100 gap-4">
+        <div class="col vh-100 border p-4 bg-light rounded">
+          <h2 class="text-center fs-4 mb-4">Forespørgsel modtaget</h2>
+          <c:forEach items="${sessionScope.orders.values()}" var="order">
+            <c:if test="${order.getStatus() == 1}">
+              <button class="btn btn-primary w-100" type="submit" name="orderId" value="${order.getId()}">${order.getId()}</button>
+            </c:if>
+          </c:forEach>
+        </div>
+        <div class="col vh-100 border p-4 bg-light rounded">
+          <h2 class="text-center fs-4 mb-4">Tilbud afsendt</h2>
+          <c:forEach items="${sessionScope.orders.values()}" var="order">
+            <c:if test="${order.getStatus() == 2}">
+              <button class="btn btn-primary w-100" type="submit" name="orderId" value="${order.getId()}">${order.getId()}</button>
+            </c:if>
+          </c:forEach>
+        </div>
+        <div class="col vh-100 border p-4 bg-light rounded">
+          <h2 class="text-center fs-4 mb-4">Tilbud betalt</h2>
+          <c:forEach items="${sessionScope.orders.values()}" var="order">
+            <c:if test="${order.getStatus() == 3}">
+              <button class="btn btn-primary w-100" type="submit" name="orderId" value="${order.getId()}">${order.getId()}</button>
+            </c:if>
+          </c:forEach>
+        </div>
+      </div>
     </div>
   </form>
 </t:loggedInAsEmployee>

@@ -36,6 +36,10 @@ public class NavigatorServlet extends HttpServlet {
             request.getRequestDispatcher("WEB-INF/employee/orders.jsp").forward(request, response);
         } else if (route.equals("employeeOverview")) {
             request.getRequestDispatcher("WEB-INF/employee/overview.jsp").forward(request, response);
+        } else if (route.equals("employeeCustomers")) {
+            request.getRequestDispatcher("WEB-INF/employee/customers.jsp").forward(request, response);
+        } else if (route.equals("employeeProducts")) {
+            request.getRequestDispatcher("WEB-INF/employee/products.jsp").forward(request, response);
         }
     }
 }
