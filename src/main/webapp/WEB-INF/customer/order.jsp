@@ -83,6 +83,37 @@
             </table>
         </div>
     </section>
+    <c:if test="${requestScope.order.getStatus() == 3}">
+        <section class="d-flex container flex-column justify-content-between align-items-center pt-4">
+            <div class="w-100 bg-light justify-content-center rounded p-3 border">
+                <table class="table table-bordered mb-0">
+                    <thead>
+                    <tr>
+                        <th colspan="4" class="text-center table-primary">Stykliste</th>
+                    </tr>
+                    </thead>
+                    <thead>
+                    <tr>
+                        <th>Vare</th>
+                        <th>Længde</th>
+                        <th>Antal</th>
+                        <th>Meterpris</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${requestScope.products}" var="product">
+                        <tr>
+                            <td>${product.getName()}</td>
+                            <td>${product.getLength()}</td>
+                            <td>${product.getQuantity()}</td>
+                            <td>${product.getPrice()}</td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </c:if>
     <c:if test="${requestScope.order.getStatus() == 1}">
         <section class="container pt-4 gap-4">
             <div class="row">

@@ -1,9 +1,9 @@
 package com.backend.fog.entities;
 
-import java.util.UUID;
+import java.util.ArrayList;
 
 public class Order {
-    private UUID id;
+    private int id;
     private int width;
     private int length;
     private int height;
@@ -12,32 +12,41 @@ public class Order {
     private int discountPrice;
     private int status;
     private Customer customer;
+    private ArrayList<Product> partsList;
 
     public Order() {
 
     }
 
-    public Order(int width, int length, int height, int slope, int status, int totalPrice, int discountPrice, Customer customer) {
-        this.id = UUID.randomUUID();
-        this.width = width;
-        this.length = length;
-        this.height = height;
-        this.slope = slope;
-        this.status = status;
-        this.totalPrice = totalPrice;
-        this.discountPrice = discountPrice;
-        this.customer = customer;
-    }
-
-    public Order(UUID id, int width, int length, int height, int slope, int status, int totalPrice, int discountPrice, Customer customer) {
+    public Order(int id, int width, int length, int height, int slope, int totalPrice, int discountPrice, int status) {
         this.id = id;
         this.width = width;
         this.length = length;
         this.height = height;
         this.slope = slope;
-        this.status = status;
         this.totalPrice = totalPrice;
         this.discountPrice = discountPrice;
+        this.status = status;
+    }
+
+    // ONLY USED FOR PARTS LIST
+    public Order(int id, int width, int length, int height, int slope, int totalPrice, int discountPrice, int status, ArrayList<Product> partsList) {
+        this.id = id;
+        this.width = width;
+        this.length = length;
+        this.height = height;
+        this.slope = slope;
+        this.totalPrice = totalPrice;
+        this.discountPrice = discountPrice;
+        this.status = status;
+        this.partsList = partsList;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
@@ -57,11 +66,11 @@ public class Order {
         this.discountPrice = discountPrice;
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -105,11 +114,11 @@ public class Order {
         this.status = status;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public ArrayList<Product> getPartsList() {
+        return partsList;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setPartsList(ArrayList<Product> partsList) {
+        this.partsList = partsList;
     }
 }

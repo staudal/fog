@@ -1,4 +1,4 @@
-package com.backend.fog.controllers;
+package com.backend.fog.facades.controllers;
 
 import com.backend.fog.facades.OrderFacade;
 import jakarta.servlet.ServletException;
@@ -10,14 +10,19 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.UUID;
 
-@WebServlet(name = "LoadEmployeeOrderServlet", value = "/LoadEmployeeOrderServlet")
-public class LoadEmployeeOrderServlet extends HttpServlet {
+@WebServlet(name = "UpdateOrderStatusServlet", value = "/UpdateOrderStatusServlet")
+public class UpdateOrderStatusServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UUID orderId = UUID.fromString(request.getParameter("orderId"));
+        int orderId = Integer.parseInt(request.getParameter("orderId"));
+        int price = Integer.parseInt(request.getParameter("price"));
         OrderFacade orderFacade = new OrderFacade();
 
+        orderFacade.updateStatus(2, orderId);
+        orderFacade.updateOrderDiscountPrice(price, orderId);
+
         request.setAttribute("order", orderFacade.getOrder(orderId));
+        request.setAttribute("products", orderFacade.getProductsFromOrderLine(orderId));
         request.getRequestDispatcher("WEB-INF/employee/order.jsp").forward(request, response);
     }
 }

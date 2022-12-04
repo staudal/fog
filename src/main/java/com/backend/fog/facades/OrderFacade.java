@@ -1,31 +1,45 @@
 package com.backend.fog.facades;
 
-import com.backend.fog.entities.Customer;
 import com.backend.fog.entities.Order;
+import com.backend.fog.entities.Product;
 import com.backend.fog.mappers.OrderMapper;
 import com.backend.fog.persistence.DatabaseConnection;
 
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.UUID;
 
 public class OrderFacade {
     DatabaseConnection connection = new DatabaseConnection();
     OrderMapper orderMapper = new OrderMapper();
 
-    public void createNewOrder(Order order) {
-        orderMapper.createNewOrder(order, connection);
+    public int createNewOrder(int carportWidth, int carportHeight, int carportLength, int carportSlope, int customerId, int totalPrice, int discountPrice, int status) {
+        return orderMapper.createNewOrder(carportWidth, carportHeight, carportLength, carportSlope, customerId, totalPrice, discountPrice, status, connection);
     }
 
-    public Map<UUID, Order> getCustomerOrders(Customer customer) {
-        return orderMapper.getCustomerOrders(customer, connection);
+    public void createOrderLines(int orderId, int productId, int quantity) {
+        orderMapper.createOrderLines(orderId, productId, quantity, connection);
     }
 
-    public Map<UUID, Order> getAllOrders() {
+    public TreeMap<Integer, Order> getCustomerOrders(int customerId) {
+        return orderMapper.getCustomerOrders(customerId, connection);
+    }
+
+    public Map<Integer, Order> getAllOrders() {
         return orderMapper.getAllOrders(connection);
     }
 
-    public Order getOrder(UUID id) {
+    public Order getOrder(int id) {
         return orderMapper.getOrder(id, connection);
+    }
+
+    public int countOrdersForCustomer(int customerId) {
+        return orderMapper.countOrdersForCustomer(customerId, connection);
+    }
+
+    public ArrayList<Product> getProductsFromOrderLine(int orderId) {
+        return orderMapper.getProductsFromOrderLine(orderId, connection);
     }
 
     public int getWidth(UUID id) {
@@ -52,7 +66,7 @@ public class OrderFacade {
         return orderMapper.getDiscountPrice(id, connection);
     }
 
-    public void removeCustomerOrder(UUID id) {
+    public void removeCustomerOrder(int id) {
         orderMapper.removeCustomerOrder(id, connection);
     }
 
@@ -60,15 +74,15 @@ public class OrderFacade {
         orderMapper.updateOrderTotalPrice(price, connection);
     }
 
-    public void updateOrderDiscountPrice(int price, UUID id) {
-        orderMapper.updateOrderDiscountPrice(price, id, connection);
+    public void updateOrderDiscountPrice(int price, int orderId) {
+        orderMapper.updateOrderDiscountPrice(price, orderId, connection);
     }
 
     public int getStatus(UUID id) {
         return orderMapper.getStatus(id, connection);
     }
 
-    public void updateStatus(int status, UUID id) {
-        orderMapper.updateStatus(status, id, connection);
+    public void updateStatus(int status, int orderId) {
+        orderMapper.updateStatus(status, orderId, connection);
     }
 }

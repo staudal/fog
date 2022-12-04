@@ -61,6 +61,37 @@
             </table>
         </div>
     </section>
+    <section class="d-flex container flex-column justify-content-between align-items-center pt-4">
+        <div class="w-100 bg-light justify-content-center rounded p-3 border">
+            <table class="table table-bordered mb-0">
+                <thead>
+                <tr>
+                    <th colspan="5" class="text-center table-primary">Stykliste</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr>
+                    <th>Vare</th>
+                    <th>Længde</th>
+                    <th>Antal</th>
+                    <th>Meterpris</th>
+                    <th>Pris i alt</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items="${requestScope.products}" var="product">
+                        <tr>
+                            <td>${product.getName()}</td>
+                            <td>${product.getLength()}</td>
+                            <td>${product.getQuantity()}</td>
+                            <td>${product.getPrice()}</td>
+                            <td>${((product.getLength() / 100) * product.getQuantity()) * product.getPrice()} DKK</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </section>
     <form class="mb-0" method="post">
         <section class="d-flex container justify-content-between align-items-stretch pt-4 gap-4">
             <div class="bg-light w-100 p-3 rounded border">

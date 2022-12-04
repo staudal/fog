@@ -1,6 +1,7 @@
-package com.backend.fog.controllers;
+package com.backend.fog.facades.controllers;
 
 import com.backend.fog.entities.Customer;
+import com.backend.fog.facades.CustomerFacade;
 import com.backend.fog.facades.OrderFacade;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,7 +16,9 @@ public class NavigatorServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String route = request.getParameter("route");
+
         OrderFacade orderFacade = new OrderFacade();
+        CustomerFacade customerFacade = new CustomerFacade();
 
         if (route.equals("login")) {
             request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -25,7 +28,8 @@ public class NavigatorServlet extends HttpServlet {
         } else if (route.equals("customerOverview")) {
             request.getRequestDispatcher("WEB-INF/customer/overview.jsp").forward(request, response);
         } else if (route.equals("customerOrders")) {
-            request.getSession().setAttribute("orders", orderFacade.getCustomerOrders((Customer) request.getSession().getAttribute("customer")));
+            Customer customer = (Customer) request.getSession().getAttribute("customer");
+            request.getSession().setAttribute("orders", orderFacade.getCustomerOrders(customer.getId()));
             request.getRequestDispatcher("WEB-INF/customer/orders.jsp").forward(request, response);
         } else if (route.equals("customerBuilder")) {
             request.getRequestDispatcher("WEB-INF/customer/builder.jsp").forward(request, response);
@@ -37,6 +41,7 @@ public class NavigatorServlet extends HttpServlet {
         } else if (route.equals("employeeOverview")) {
             request.getRequestDispatcher("WEB-INF/employee/overview.jsp").forward(request, response);
         } else if (route.equals("employeeCustomers")) {
+            request.getSession().setAttribute("customers", customerFacade.getAllCustomers());
             request.getRequestDispatcher("WEB-INF/employee/customers.jsp").forward(request, response);
         } else if (route.equals("employeeProducts")) {
             request.getRequestDispatcher("WEB-INF/employee/products.jsp").forward(request, response);

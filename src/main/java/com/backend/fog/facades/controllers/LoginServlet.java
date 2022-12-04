@@ -1,4 +1,4 @@
-package com.backend.fog.controllers;
+package com.backend.fog.facades.controllers;
 
 import com.backend.fog.entities.Customer;
 import com.backend.fog.entities.Employee;
@@ -38,8 +38,7 @@ public class LoginServlet extends HttpServlet {
             }
             // IF INFO IS CORRECT
             if (customerFacade.validateEmail(email) && customerFacade.validatePassword(email, password)) {
-                Customer customer = new Customer(UUID.fromString(customerFacade.getId(email)), customerFacade.getFirstname(email), customerFacade.getLastname(email), email, customerFacade.getPassword(email));
-                request.getSession().setAttribute("customer", customer);
+                request.getSession().setAttribute("customer", customerFacade.getCustomerByEmail(email));
                 request.getRequestDispatcher("WEB-INF/customer/overview.jsp").forward(request, response);
             }
         }

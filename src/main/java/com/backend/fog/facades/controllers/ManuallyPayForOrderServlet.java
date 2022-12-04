@@ -1,4 +1,4 @@
-package com.backend.fog.controllers;
+package com.backend.fog.facades.controllers;
 
 import com.backend.fog.facades.OrderFacade;
 import jakarta.servlet.*;
@@ -12,11 +12,13 @@ import java.util.UUID;
 public class ManuallyPayForOrderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UUID orderId = UUID.fromString(request.getParameter("orderId"));
+        int orderId = Integer.parseInt(request.getParameter("orderId"));
         OrderFacade orderFacade = new OrderFacade();
 
         orderFacade.updateStatus(3, orderId);
+
         request.setAttribute("order", orderFacade.getOrder(orderId));
+        request.setAttribute("products", orderFacade.getProductsFromOrderLine(orderId));
         request.getRequestDispatcher("WEB-INF/employee/order.jsp").forward(request, response);
     }
 }

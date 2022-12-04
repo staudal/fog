@@ -1,11 +1,12 @@
-package com.backend.fog.controllers;
+package com.backend.fog.facades.controllers;
 
-import com.backend.fog.entities.Customer;
 import com.backend.fog.errors.ErrorHandler;
 import com.backend.fog.facades.CustomerFacade;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
@@ -26,9 +27,8 @@ public class CreateAccountServlet extends HttpServlet {
             request.setAttribute("emailErrorClass", errorHandler.errorClass());
             request.getRequestDispatcher("createAccount.jsp").forward(request, response);
         } else {
-            Customer customer = new Customer(firstName, lastName, email, password);
-            customerFacade.CreateNewCustomer(customer);
-            request.getSession().setAttribute("customer", customer);
+            int customerId = customerFacade.createNewCustomer(firstName, lastName, email, password);
+            request.getSession().setAttribute("customer", customerFacade.getCustomerById(customerId));
             request.getRequestDispatcher("WEB-INF/customer/builder.jsp").forward(request, response);
         }
     }

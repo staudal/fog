@@ -1,4 +1,4 @@
-package com.backend.fog.controllers;
+package com.backend.fog.facades.controllers;
 
 import com.backend.fog.entities.Customer;
 import com.backend.fog.facades.OrderFacade;
@@ -13,11 +13,13 @@ import java.util.UUID;
 public class RemoveCustomerOrderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UUID orderId = UUID.fromString(request.getParameter("orderId"));
+        Customer customer = (Customer) request.getSession().getAttribute("customer");
+        int orderId = Integer.parseInt(request.getParameter("orderId"));
+
         OrderFacade orderFacade = new OrderFacade();
         orderFacade.removeCustomerOrder(orderId);
 
-        request.getSession().setAttribute("orders", orderFacade.getCustomerOrders((Customer) request.getSession().getAttribute("customer")));
+        request.getSession().setAttribute("orders", orderFacade.getCustomerOrders(customer.getId()));
         request.getRequestDispatcher("WEB-INF/customer/orders.jsp").forward(request, response);
     }
 }
