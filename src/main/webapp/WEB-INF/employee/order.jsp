@@ -74,7 +74,7 @@
                     <th>Vare</th>
                     <th>Længde</th>
                     <th>Antal</th>
-                    <th>Meterpris</th>
+                    <th>Pris pr. stk</th>
                     <th>Pris i alt</th>
                 </tr>
                 </thead>
@@ -85,7 +85,7 @@
                             <td>${product.getLength()}</td>
                             <td>${product.getQuantity()}</td>
                             <td>${product.getPrice()}</td>
-                            <td>${((product.getLength() / 100) * product.getQuantity()) * product.getPrice()} DKK</td>
+                            <td>${product.getPrice() * product.getQuantity()} DKK</td>
                         </tr>
                     </c:forEach>
                 </tbody>

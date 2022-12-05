@@ -3,7 +3,7 @@ package com.backend.fog.entities;
 public class Product {
     private int id;
     private String name;
-    private int mPrice;
+    private int price;
     private int length;
     private int quantity;
 
@@ -13,14 +13,14 @@ public class Product {
     public Product(int id, String name, int mPrice, int length) {
         this.id = id;
         this.name = name;
-        this.mPrice = mPrice;
+        this.price = mPrice;
         this.length = length;
     }
 
     public Product(int id, String name, int mPrice, int length, int quantity) {
         this.id = id;
         this.name = name;
-        this.mPrice = mPrice;
+        this.price = mPrice;
         this.length = length;
         this.quantity = quantity;
     }
@@ -42,11 +42,11 @@ public class Product {
     }
 
     public int getPrice() {
-        return mPrice;
+        return price;
     }
 
-    public void setmPrice(int mPrice) {
-        this.mPrice = mPrice;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public int getLength() {

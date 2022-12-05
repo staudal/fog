@@ -89,7 +89,7 @@
                 <table class="table table-bordered mb-0">
                     <thead>
                     <tr>
-                        <th colspan="4" class="text-center table-primary">Stykliste</th>
+                        <th colspan="3" class="text-center table-primary">Stykliste</th>
                     </tr>
                     </thead>
                     <thead>
@@ -97,7 +97,6 @@
                         <th>Vare</th>
                         <th>Længde</th>
                         <th>Antal</th>
-                        <th>Meterpris</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -106,7 +105,6 @@
                             <td>${product.getName()}</td>
                             <td>${product.getLength()}</td>
                             <td>${product.getQuantity()}</td>
-                            <td>${product.getPrice()}</td>
                         </tr>
                     </c:forEach>
                     </tbody>

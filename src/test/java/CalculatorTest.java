@@ -13,29 +13,39 @@ class CalculatorTest {
 
     @Test
     void testCalculateBeams() {
-        // 0 - 310 (4 beams)
-        assertEquals(4, calculator.calculateNumberOfBeams(127));
-        assertEquals(4, calculator.calculateNumberOfBeams(200));
-        assertEquals(4, calculator.calculateNumberOfBeams(310));
+        // LENGTH: 0 - 310  WIDTH: 0 - 500
+        assertEquals(4, calculator.calculateNumberOfBeams(127, 127));
+        assertEquals(4, calculator.calculateNumberOfBeams(200, 250));
+        assertEquals(4, calculator.calculateNumberOfBeams(310, 500));
 
-        // 311 - 619 (6 beams)
-        assertEquals(6, calculator.calculateNumberOfBeams(311));
-        assertEquals(6, calculator.calculateNumberOfBeams(511));
-        assertEquals(6, calculator.calculateNumberOfBeams(619));
+        // LENGTH: 311 - 619    WIDTH: 0 - 500
+        assertEquals(6, calculator.calculateNumberOfBeams(311, 200));
+        assertEquals(6, calculator.calculateNumberOfBeams(500, 400));
+        assertEquals(6, calculator.calculateNumberOfBeams(619, 500));
 
-        // 620 - 929 (8 beams)
-        assertEquals(8, calculator.calculateNumberOfBeams(620));
-        assertEquals(8, calculator.calculateNumberOfBeams(767));
-        assertEquals(8, calculator.calculateNumberOfBeams(929));
+        // LENGTH: 620 - 929  WIDTH: 0 - 500
+        assertEquals(8, calculator.calculateNumberOfBeams(620, 150));
+        assertEquals(8, calculator.calculateNumberOfBeams(800, 200));
+        assertEquals(8, calculator.calculateNumberOfBeams(929, 500));
 
-        // 930 - 1239 (10 beams)
-        assertEquals(10, calculator.calculateNumberOfBeams(930));
-        assertEquals(10, calculator.calculateNumberOfBeams(1000));
-        assertEquals(10, calculator.calculateNumberOfBeams(1239));
+        // LENGTH: 0 - 310  WIDTH: 501 - 999
+        assertEquals(6, calculator.calculateNumberOfBeams(150, 501));
+        assertEquals(6, calculator.calculateNumberOfBeams(200, 750));
+        assertEquals(6, calculator.calculateNumberOfBeams(310, 999));
 
-        // 1240 - 1549 (12 beams)
-        assertEquals(12, calculator.calculateNumberOfBeams(1240));
-        assertEquals(12, calculator.calculateNumberOfBeams(1430));
-        assertEquals(12, calculator.calculateNumberOfBeams(1549));
+        // LENGTH: 0 - 310  WIDTH: 1000 - 1499
+        assertEquals(8, calculator.calculateNumberOfBeams(150, 1000));
+        assertEquals(8, calculator.calculateNumberOfBeams(200, 1200));
+        assertEquals(8, calculator.calculateNumberOfBeams(310, 1499));
+
+        // LENGTH: 311 - 619    WIDTH: 501 - 999
+        assertEquals(8, calculator.calculateNumberOfBeams(311, 501));
+        assertEquals(8, calculator.calculateNumberOfBeams(500, 750));
+        assertEquals(8, calculator.calculateNumberOfBeams(619, 999));
+
+        // LENGTH: 620 - 929    WIDTH: 501 - 999
+        assertEquals(10, calculator.calculateNumberOfBeams(620, 501));
+        assertEquals(10, calculator.calculateNumberOfBeams(750, 750));
+        assertEquals(10, calculator.calculateNumberOfBeams(929, 999));
     }
 }

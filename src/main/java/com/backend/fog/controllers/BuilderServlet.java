@@ -1,4 +1,4 @@
-package com.backend.fog.facades.controllers;
+package com.backend.fog.controllers;
 
 import com.backend.fog.entities.Customer;
 import com.backend.fog.entities.Order;
@@ -23,9 +23,6 @@ public class BuilderServlet extends HttpServlet {
         ProductFacade productFacade = new ProductFacade();
         Calculator calculator = new Calculator();
 
-        // Defining the products
-        Product beam = productFacade.getBeam();
-
         // Defining the order and adding it to the database
         int carportWidth = Integer.parseInt(request.getParameter("carportWidth"));
         int carportHeight = Integer.parseInt(request.getParameter("carportHeight"));
@@ -35,13 +32,16 @@ public class BuilderServlet extends HttpServlet {
         int discountPrice = 0;
         int status = 1;
 
+        // Defining the products
+        Product beam = productFacade.getBeam(carportHeight);
+
         // Calculating the price of the order and defining total price
-        int priceOfBeams = calculator.calculatePriceOfBeams(carportLength, beam.getPrice());
+        int priceOfBeams = calculator.calculatePriceOfBeams(carportLength, carportWidth, beam.getPrice());
         int totalPrice = priceOfBeams;
 
         // Adding info to database
         int orderId = orderFacade.createNewOrder(carportWidth, carportHeight, carportLength, carportSlope, customerId, totalPrice, discountPrice, status);
-        orderFacade.createOrderLines(orderId, beam.getId(), calculator.calculateNumberOfBeams(carportLength));
+        orderFacade.createOrderLines(orderId, beam.getId(), calculator.calculateNumberOfBeams(carportLength, carportWidth));
 
         // Loading orders into session scope to be displayed on the orders page
         request.getSession().setAttribute("orders", orderFacade.getCustomerOrders(customer.getId()));

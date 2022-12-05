@@ -1,4 +1,4 @@
-package com.backend.fog.facades.controllers;
+package com.backend.fog.controllers;
 
 import com.backend.fog.errors.ErrorHandler;
 import com.backend.fog.facades.CustomerFacade;

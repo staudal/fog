@@ -1,4 +1,4 @@
-package com.backend.fog.facades.controllers;
+package com.backend.fog.controllers;
 
 import com.backend.fog.facades.OrderFacade;
 import jakarta.servlet.ServletException;
@@ -9,16 +9,15 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "LoadCustomerOrderServlet", value = "/LoadCustomerOrderServlet")
-public class LoadCustomerOrderServlet extends HttpServlet {
+@WebServlet(name = "LoadEmployeeOrderServlet", value = "/LoadEmployeeOrderServlet")
+public class LoadEmployeeOrderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int orderId = Integer.parseInt(request.getParameter("orderId"));
-
         OrderFacade orderFacade = new OrderFacade();
 
         request.setAttribute("order", orderFacade.getOrder(orderId));
         request.setAttribute("products", orderFacade.getProductsFromOrderLine(orderId));
-        request.getRequestDispatcher("WEB-INF/customer/order.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/employee/order.jsp").forward(request, response);
     }
 }

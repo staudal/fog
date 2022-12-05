@@ -4,6 +4,7 @@ import com.backend.fog.entities.Customer;
 import com.backend.fog.entities.Order;
 import com.backend.fog.entities.Product;
 import com.backend.fog.facades.CustomerFacade;
+import com.backend.fog.facades.ProductFacade;
 import com.backend.fog.persistence.DatabaseConnection;
 
 import java.sql.PreparedStatement;
@@ -267,6 +268,7 @@ public class OrderMapper {
     }
 
     public Product getProductFromId(int productId, int amount, DatabaseConnection connection) {
+        ProductFacade productFacade = new ProductFacade();
         Product product = new Product();
         try {
             PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM products WHERE id = ?");
@@ -275,7 +277,7 @@ public class OrderMapper {
             while (set.next()) {
                 product.setId(set.getInt("id"));
                 product.setName(set.getString("name"));
-                product.setmPrice(set.getInt("mPrice"));
+                product.setPrice(set.getInt("price"));
                 product.setLength(set.getInt("length"));
                 product.setQuantity(amount);
             }

@@ -12,7 +12,7 @@ public class ProductFacade {
         productMapper.createNewProduct(name, mPrice, length, connection);
     }
 
-    public Product getBeam() {
-        return productMapper.getBeam(connection);
+    public Product getBeam(int carportHeight) {
+        return productMapper.getBeam(carportHeight, connection);
     }
 }
