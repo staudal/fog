@@ -28,4 +28,16 @@ public class ErrorHandler {
                 "        Tilbudsprisen skal være højere end indkøbsprisen.\n" +
                 "      </div>";
     }
+
+    public String widthTooWide() {
+        return "<div class=\"invalid-tooltip position-relative\">\n" +
+                "        Carporten kan maksimalt være 600 cm bred.\n" +
+                "      </div>";
+    }
+
+    public String heightTooHigh() {
+        return "<div class=\"invalid-tooltip position-relative\">\n" +
+                "        Carporten kan maksimalt være 390 cm høj.\n" +
+                "      </div>";
+    }
 }

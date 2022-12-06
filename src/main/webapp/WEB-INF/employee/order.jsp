@@ -52,10 +52,10 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>${requestScope.order.getWidth()}</td>
-                    <td>${requestScope.order.getLength()}</td>
-                    <td>${requestScope.order.getHeight()}</td>
-                    <td>${requestScope.order.getSlope()}</td>
+                    <td>${requestScope.order.getWidth()} cm</td>
+                    <td>${requestScope.order.getLength()} cm</td>
+                    <td>${requestScope.order.getHeight()} cm</td>
+                    <td>${requestScope.order.getSlope()}°</td>
                 </tr>
                 </tbody>
             </table>
@@ -82,9 +82,9 @@
                     <c:forEach items="${requestScope.products}" var="product">
                         <tr>
                             <td>${product.getName()}</td>
-                            <td>${product.getLength()}</td>
+                            <td>${product.getLength()} cm</td>
                             <td>${product.getQuantity()}</td>
-                            <td>${product.getPrice()}</td>
+                            <td>${product.getPrice()} DKK</td>
                             <td>${product.getPrice() * product.getQuantity()} DKK</td>
                         </tr>
                     </c:forEach>

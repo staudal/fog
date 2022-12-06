@@ -37,15 +37,17 @@ public class ProductMapper {
         return beam;
     }
 
-    public Product getLongestSupportBeam(DatabaseConnection connection) {
+    public Product getSupportBeamCloseTo(int length, DatabaseConnection connection) {
         Product supportBeam = new Product();
         try {
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM products WHERE description = ? ORDER BY length ASC");
+            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM products WHERE description = ? ORDER BY length DESC");
             statement.setString(1, "Rem");
             ResultSet set = statement.executeQuery();
 
             while (set.next()) {
-                supportBeam = new Product(set.getInt("id"), set.getString("name"), set.getInt("price"), set.getInt("length"));
+                if (set.getInt("length") >= length) {
+                    supportBeam = new Product(set.getInt("id"), set.getString("name"), set.getInt("price"), set.getInt("length"));
+                }
             }
 
         } catch (SQLException e) {
@@ -56,24 +58,40 @@ public class ProductMapper {
 
     public Product getSupportBeam(int carportLength, DatabaseConnection connection) {
         Product supportBeam = new Product();
+        // LENGTH:  0 - 310
+        if (carportLength >= 0 && carportLength <= 310) {
+            supportBeam = getSupportBeamCloseTo(carportLength, connection);
+        }
+
+        // LENGTH:  311 - 620
+        if (carportLength >= 311 && carportLength <= 620) {
+            supportBeam = getSupportBeamCloseTo(carportLength / 2, connection);
+        }
+
+        // LENGTH:  621 - 800
+        if (carportLength >= 621 && carportLength <= 800) {
+            supportBeam = getSupportBeamCloseTo(carportLength / 3, connection);
+        }
+
+        return supportBeam;
+    }
+
+    public Product getRafter(int carportWidth, DatabaseConnection connection) {
+        Product rafter = new Product();
         try {
             PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM products WHERE description = ? ORDER BY length DESC");
-            statement.setString(1, "Rem");
+            statement.setString(1, "Spær");
             ResultSet set = statement.executeQuery();
 
-            if (carportLength > 600) {
-                supportBeam = getLongestSupportBeam(connection);
-            } else {
-                while (set.next()) {
-                    if (set.getInt("length") >= carportLength) {
-                        supportBeam = new Product(set.getInt("id"), set.getString("name"), set.getInt("price"), set.getInt("length"));
-                    }
+            while (set.next()) {
+                if (set.getInt("length") >= (carportWidth + 70)) {
+                    rafter = new Product(set.getInt("id"), set.getString("name"), set.getInt("price"), set.getInt("length"));
                 }
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return supportBeam;
+        return rafter;
     }
 }

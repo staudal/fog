@@ -1,70 +1,106 @@
 package com.backend.fog.logics;
 
-import com.backend.fog.entities.Product;
-import com.backend.fog.facades.ProductFacade;
-import com.backend.fog.persistence.DatabaseConnection;
-
 public class Calculator {
 
-    public int calculateNumberOfBeams(int length, int width) {
-        double numberOfBeams = 0;
+    public int calculateNumberOfPoles(int length, int width) {
+        int numberOfPoles = 0;
 
-        // if carport is max 310 cm long and 500 cm wide
-        if (length <= 310 && width <= 500) {
-            numberOfBeams = 4;
+        // LENGTH:  0 - 310
+        // WIDTH:   0 - 500
+        if (length >= 0 && length <= 310 && width >= 0 && width <= 500) {
+            numberOfPoles = 4;
         }
 
-        // if carport is max 500 cm wide and longer than 310 cm
-        if (width <= 500 && length > 310) {
-            numberOfBeams = Math.floor(length / 310) + Math.floor(length / 310) + 4;
+        // LENGTH:  311 - 620
+        // WIDTH:   0 - 500
+        if (length >= 311 && length <= 620 && width >= 0 && width <= 500) {
+            numberOfPoles = 6;
         }
 
-        // if carport is max 310 cm long and wider than 500 cm
-        if (width > 500 && length <= 310) {
-            numberOfBeams = Math.floor(width / 500) + Math.floor(width / 500) + 4;
+        // LENGTH:  621 - 800
+        // WIDTH:   0 - 500
+        if (length >= 621 && length <= 800 && width >= 0 && width <= 500) {
+            numberOfPoles = 8;
         }
 
-        // if carport is both wider and longer than 310 cm
-        if (width > 500 && length > 310) {
-            double extraMiddleBeams = Math.floor(width / 500);
-            numberOfBeams = (extraMiddleBeams * 2) + Math.floor(length / 310) + Math.floor(length / 310) + 4;
+        // LENGTH:  0 - 310
+        // WIDTH:   501 - 600
+        if (length >= 0 && length <= 310 && width >= 501 && width <= 600) {
+            numberOfPoles = 6;
         }
 
-        return (int) numberOfBeams;
+        // LENGTH:  311 - 620
+        // WIDTH:   501 - 600
+        if (length >= 311 && length <= 620 && width >= 501 && width <= 600) {
+            numberOfPoles = 9;
+        }
+
+        // LENGTH:  621 - 800
+        // WIDTH:   501 - 600
+        if (length >= 621 && length <= 800 && width >= 501 && width <= 600) {
+            numberOfPoles = 12;
+        }
+
+        return numberOfPoles;
     }
 
-    public int calculatePriceOfBeams(int carportLength, int carportWidth, int price) {
-        return (calculateNumberOfBeams(carportLength, carportWidth) * price);
+    public int calculatePriceOfPoles(int carportLength, int carportWidth, int price) {
+        return (calculateNumberOfPoles(carportLength, carportWidth) * price);
     }
 
     public int calculateNumberOfSupportBeam(int length, int width) {
-        DatabaseConnection connection = new DatabaseConnection();
-        ProductFacade productFacade = new ProductFacade();
-        Product longestSupportBeam = productFacade.getLongestSupportBeam(connection);
+        int numberOfSupportBeams = 0;
 
-        double numberOfSupportBeams = 0;
-
-        if (length <= longestSupportBeam.getLength() && width <= 500) {
+        // LENGTH:  0 - 310
+        // WIDTH:   0 - 500
+        if (length >= 0 && length <= 310 && width >= 0 && width <= 500) {
             numberOfSupportBeams = 2;
         }
 
-        if (length <= longestSupportBeam.getLength() && width > 500) {
-            numberOfSupportBeams = Math.floor(width / 500) + 2;
+        // LENGTH:  311 - 620
+        // WIDTH:   0 - 500
+        if (length >= 311 && length <= 620 && width >= 0 && width <= 500) {
+            numberOfSupportBeams = 4;
         }
 
-        if (length > longestSupportBeam.getLength() && width <= 500) {
-            numberOfSupportBeams = Math.floor(length / longestSupportBeam.getLength()) + Math.floor(length / longestSupportBeam.getLength()) + 2;
+        // LENGTH:  621 - 800
+        // WIDTH:   0 - 500
+        if (length >= 621 && length <= 800 && width >= 0 && width <= 500) {
+            numberOfSupportBeams = 6;
         }
 
-        if (length > longestSupportBeam.getLength() && width > 500) {
-            double extraMiddleSupportBeam = Math.floor(width / 500) * (Math.floor(length / longestSupportBeam.getLength()) + 1);
-            numberOfSupportBeams = extraMiddleSupportBeam + Math.floor(length / longestSupportBeam.getLength()) + Math.floor(length / longestSupportBeam.getLength()) + 2;
+        // LENGTH:  0 - 310
+        // WIDTH:   501 - 600
+        if (length >= 0 && length <= 310 && width >= 501 && width <= 600) {
+            numberOfSupportBeams = 3;
         }
 
-        return (int) numberOfSupportBeams;
+        // LENGTH:  311 - 620
+        // WIDTH:   501 - 600
+        if (length >= 311 && length <= 620 && width >= 501 && width <= 600) {
+            numberOfSupportBeams = 6;
+        }
+
+        // LENGTH:  621 - 800
+        // WIDTH:   501 - 600
+        if (length >= 621 && length <= 800 && width >= 501 && width <= 600) {
+            numberOfSupportBeams = 9;
+        }
+
+        return numberOfSupportBeams;
     }
 
     public int calculatePriceOfSupportBeams(int carportLength, int carportWidth, int price) {
         return (calculateNumberOfSupportBeam(carportLength, carportWidth) * price);
+    }
+
+    public int calculateNumberOfRafters(int length) {
+        double numberOfRafters = 0;
+        numberOfRafters = Math.floor(length / 55) + 1;
+        return (int) numberOfRafters;
+    }
+
+    public int calculatePriceOfRafters(int length, int price) {
+        return (calculateNumberOfRafters(length) * price);
     }
 }

@@ -16,11 +16,15 @@ public class ProductFacade {
         return productMapper.getBeam(carportHeight, connection);
     }
 
-    public Product getLongestSupportBeam(DatabaseConnection connection) {
-        return productMapper.getLongestSupportBeam(connection);
+    public Product getSupportBeamCloseTo(int length) {
+        return productMapper.getSupportBeamCloseTo(length, connection);
     }
 
     public Product getSupportBeam(int carportLength) {
         return productMapper.getSupportBeam(carportLength, connection);
+    }
+
+    public Product getRafter(int carportWidth) {
+        return productMapper.getRafter(carportWidth, connection);
     }
 }
