@@ -1,6 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `fog` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `fog`;
--- MySQL dump 10.13  Distrib 8.0.30, for macos12 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
 --
 -- Host: localhost    Database: fog
 -- ------------------------------------------------------
@@ -83,15 +83,15 @@ DROP TABLE IF EXISTS `order_line`;
 CREATE TABLE `order_line` (
   `id` int NOT NULL AUTO_INCREMENT,
   `orders_id` int NOT NULL,
-  `products_id` int NOT NULL,
   `amount` int NOT NULL,
+  `products_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_order_line_orders1_idx` (`orders_id`),
   KEY `fk_order_line_products1_idx` (`products_id`),
   CONSTRAINT `fk_order_line_orders1` FOREIGN KEY (`orders_id`) REFERENCES `orders` (`id`),
   CONSTRAINT `fk_order_line_products1` FOREIGN KEY (`products_id`) REFERENCES `products` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,7 +100,7 @@ CREATE TABLE `order_line` (
 
 LOCK TABLES `order_line` WRITE;
 /*!40000 ALTER TABLE `order_line` DISABLE KEYS */;
-INSERT INTO `order_line` VALUES (19,13,1,8),(21,16,1,12),(22,17,1,6),(23,18,1,4);
+INSERT INTO `order_line` VALUES (32,28,6,8),(33,28,2,12),(34,29,8,8),(36,30,8,8),(37,30,4,15),(38,31,12,8),(39,31,6,15);
 /*!40000 ALTER TABLE `order_line` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -125,7 +125,7 @@ CREATE TABLE `orders` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_orders_customers_idx` (`customer_id`),
   CONSTRAINT `fk_orders_customers` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,7 +134,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (13,500,500,700,20,1,2400,5000,3),(16,300,300,1500,20,2,3600,0,1),(17,500,200,500,30,3,1800,0,1),(18,200,200,200,20,1,1200,0,1);
+INSERT INTO `orders` VALUES (28,400,300,400,0,1,1740,0,1),(29,400,300,760,0,1,1680,0,1),(30,400,300,760,0,1,3552,0,1),(31,400,300,1500,0,1,5328,0,1);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,11 +148,12 @@ DROP TABLE IF EXISTS `products`;
 CREATE TABLE `products` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `mPrice` int NOT NULL,
   `length` int NOT NULL,
+  `price` int NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -161,7 +162,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'STOLPE - 97x97 mm. trykimp.',100,300);
+INSERT INTO `products` VALUES (5,'STOLPE - 97x97',240,120,'Stolpe'),(6,'STOLPE - 97x97',300,150,'Stolpe'),(7,'STOLPE - 97x97',360,180,'Stolpe'),(8,'STOLPE - 97x97',420,210,'Stolpe'),(9,'STOLPE - 97x97',480,240,'Stolpe'),(10,'SPÆRTRÆ - 47 x 200',300,170,'Rem'),(11,'SPÆRTRÆ - 47 x 200',360,205,'Rem'),(12,'SPÆRTRÆ - 47 x 200',420,240,'Rem'),(13,'SPÆRTRÆ - 47 x 200',480,274,'Rem'),(14,'SPÆRTRÆ - 47 x 200',540,308,'Rem'),(15,'SPÆRTRÆ - 47 x 200',600,468,'Rem');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -174,4 +175,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-04 12:41:34
+-- Dump completed on 2022-12-06  6:51:43

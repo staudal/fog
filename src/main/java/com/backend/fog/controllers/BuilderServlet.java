@@ -34,14 +34,17 @@ public class BuilderServlet extends HttpServlet {
 
         // Defining the products
         Product beam = productFacade.getBeam(carportHeight);
+        Product supportBeam = productFacade.getSupportBeam(carportLength);
 
         // Calculating the price of the order and defining total price
         int priceOfBeams = calculator.calculatePriceOfBeams(carportLength, carportWidth, beam.getPrice());
-        int totalPrice = priceOfBeams;
+        int priceOfSupportBeams = calculator.calculatePriceOfSupportBeams(carportLength, carportWidth, supportBeam.getPrice());
+        int totalPrice = priceOfBeams + priceOfSupportBeams;
 
         // Adding info to database
         int orderId = orderFacade.createNewOrder(carportWidth, carportHeight, carportLength, carportSlope, customerId, totalPrice, discountPrice, status);
         orderFacade.createOrderLines(orderId, beam.getId(), calculator.calculateNumberOfBeams(carportLength, carportWidth));
+        orderFacade.createOrderLines(orderId, supportBeam.getId(), calculator.calculateNumberOfSupportBeam(carportLength, carportWidth));
 
         // Loading orders into session scope to be displayed on the orders page
         request.getSession().setAttribute("orders", orderFacade.getCustomerOrders(customer.getId()));

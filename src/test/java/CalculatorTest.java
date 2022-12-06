@@ -48,4 +48,42 @@ class CalculatorTest {
         assertEquals(10, calculator.calculateNumberOfBeams(750, 750));
         assertEquals(10, calculator.calculateNumberOfBeams(929, 999));
     }
+
+    @Test
+    void testCalculateSupportBeams() {
+        // LENGTH: 0 - 600  WIDTH: 0 - 500
+        assertEquals(2, calculator.calculateNumberOfSupportBeam(200, 200));
+        assertEquals(2, calculator.calculateNumberOfSupportBeam(400, 350));
+        assertEquals(2, calculator.calculateNumberOfSupportBeam(600, 500));
+
+        // LENGTH: 601 - 1199  WIDTH: 0 - 500
+        assertEquals(4, calculator.calculateNumberOfSupportBeam(601, 200));
+        assertEquals(4, calculator.calculateNumberOfSupportBeam(900, 350));
+        assertEquals(4, calculator.calculateNumberOfSupportBeam(1199, 500));
+
+        // LENGTH: 1200 - 1799  WIDTH: 0 - 500
+        assertEquals(6, calculator.calculateNumberOfSupportBeam(1200, 200));
+        assertEquals(6, calculator.calculateNumberOfSupportBeam(1500, 350));
+        assertEquals(6, calculator.calculateNumberOfSupportBeam(1799, 500));
+
+        // LENGTH: 0 - 600  WIDTH: 501 - 999
+        assertEquals(3, calculator.calculateNumberOfSupportBeam(200, 501));
+        assertEquals(3, calculator.calculateNumberOfSupportBeam(400, 800));
+        assertEquals(3, calculator.calculateNumberOfSupportBeam(600, 999));
+
+        // LENGTH: 0 - 600  WIDTH: 1000 - 1499
+        assertEquals(4, calculator.calculateNumberOfSupportBeam(200, 1000));
+        assertEquals(4, calculator.calculateNumberOfSupportBeam(400, 1250));
+        assertEquals(4, calculator.calculateNumberOfSupportBeam(600, 1499));
+
+        // LENGTH: 601 - 1199  WIDTH: 501 - 999
+        assertEquals(6, calculator.calculateNumberOfSupportBeam(601, 501));
+        assertEquals(6, calculator.calculateNumberOfSupportBeam(850, 650));
+        assertEquals(6, calculator.calculateNumberOfSupportBeam(1199, 999));
+
+        // LENGTH: 1200 - 1799  WIDTH: 1000 - 1499
+        assertEquals(12, calculator.calculateNumberOfSupportBeam(1200, 1000));
+        assertEquals(12, calculator.calculateNumberOfSupportBeam(1500, 1250));
+        assertEquals(12, calculator.calculateNumberOfSupportBeam(1799, 1499));
+    }
 }
