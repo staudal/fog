@@ -1,6 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `fog` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `fog`;
--- MySQL dump 10.13  Distrib 8.0.30, for macos12 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
 --
 -- Host: localhost    Database: fog
 -- ------------------------------------------------------
@@ -91,7 +91,7 @@ CREATE TABLE `order_line` (
   KEY `fk_order_line_products1_idx` (`products_id`),
   CONSTRAINT `fk_order_line_orders1` FOREIGN KEY (`orders_id`) REFERENCES `orders` (`id`),
   CONSTRAINT `fk_order_line_products1` FOREIGN KEY (`products_id`) REFERENCES `products` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=185 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,7 +100,7 @@ CREATE TABLE `order_line` (
 
 LOCK TABLES `order_line` WRITE;
 /*!40000 ALTER TABLE `order_line` DISABLE KEYS */;
-INSERT INTO `order_line` VALUES (123,72,12,8),(124,72,9,10),(125,72,15,27),(126,73,6,7),(127,73,4,10),(128,73,8,21);
+INSERT INTO `order_line` VALUES (164,82,6,8),(165,82,4,10),(166,82,11,23),(167,82,2,38),(168,82,2,32),(169,82,2,39),(170,82,2,33),(171,83,8,8),(172,83,6,10),(173,83,15,23),(174,83,2,38),(175,83,2,32),(176,83,4,36),(177,83,4,30),(178,84,12,8),(179,84,9,10),(180,84,15,27),(181,84,2,51),(182,84,2,45),(183,84,4,36),(184,84,4,30);
 /*!40000 ALTER TABLE `order_line` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -125,7 +125,7 @@ CREATE TABLE `orders` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_orders_customers_idx` (`customer_id`),
   CONSTRAINT `fk_orders_customers` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,7 +134,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (72,600,300,800,0,1,12465,0,1),(73,400,250,400,0,1,3952,0,1);
+INSERT INTO `orders` VALUES (82,500,300,600,0,1,9054,0,1),(83,500,300,800,0,1,11934,0,1),(84,600,300,800,0,1,14933,0,1);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -147,7 +147,6 @@ DROP TABLE IF EXISTS `products`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `products` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
   `width` int NOT NULL,
   `height` int DEFAULT NULL,
   `length` int NOT NULL,
@@ -156,7 +155,7 @@ CREATE TABLE `products` (
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -165,7 +164,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (5,'STOLPE - 97x97',0,NULL,240,120,NULL,'Stolpe'),(6,'STOLPE - 97x97',0,NULL,300,150,NULL,'Stolpe'),(7,'STOLPE - 97x97',0,NULL,360,180,NULL,'Stolpe'),(8,'STOLPE - 97x97',0,NULL,420,210,NULL,'Stolpe'),(9,'STOLPE - 97x97',0,NULL,480,240,NULL,'Stolpe'),(10,'SPÆRTRÆ - 47 x 200',0,NULL,300,170,NULL,'Rem'),(11,'SPÆRTRÆ - 47 x 200',0,NULL,360,205,NULL,'Rem'),(12,'SPÆRTRÆ - 47 x 200',0,NULL,420,240,NULL,'Rem'),(13,'SPÆRTRÆ - 47 x 200',0,NULL,480,274,NULL,'Rem'),(14,'SPÆRTRÆ - 47 x 200',0,NULL,540,308,NULL,'Rem'),(15,'SPÆRTRÆ - 47 x 200',0,NULL,600,468,NULL,'Rem'),(18,'SPÆRTRÆ - 47 x 200',0,NULL,300,170,NULL,'Spær'),(19,'SPÆRTRÆ - 47 x 200',0,NULL,360,205,NULL,'Spær'),(20,'SPÆRTRÆ - 47 x 200',0,NULL,420,240,NULL,'Spær'),(21,'SPÆRTRÆ - 47 x 200',0,NULL,480,274,NULL,'Spær'),(22,'SPÆRTRÆ - 47 x 200',0,NULL,540,308,NULL,'Spær'),(23,'SPÆRTRÆ - 47 x 200',0,NULL,600,468,NULL,'Spær'),(24,'SPÆRTRÆ - 47 x 200',0,NULL,660,515,NULL,'Rem'),(25,'SPÆRTRÆ - 47 x 200',0,NULL,720,561,NULL,'Rem'),(26,'SPÆRTRÆ - 47 x 200',0,NULL,660,515,NULL,'Spær'),(27,'SPÆRTRÆ - 47 x 200',0,NULL,720,561,NULL,'Spær');
+INSERT INTO `products` VALUES (5,97,97,240,120,'Stolpe','Skal graves 90 cm ned i jorden.'),(6,97,97,300,150,'Stolpe','Skal graves 90 cm ned i jorden.'),(7,97,97,360,180,'Stolpe','Skal graves 90 cm ned i jorden.'),(8,97,97,420,210,'Stolpe','Skal graves 90 cm ned i jorden.'),(9,97,97,480,240,'Stolpe','Skal graves 90 cm ned i jorden.'),(10,47,200,300,170,'Rem','Skal samles over hver stolpe med beslag.'),(11,47,200,360,205,'Rem','Skal samles over hver stolpe med beslag.'),(12,47,200,420,240,'Rem','Skal samles over hver stolpe med beslag.'),(13,47,200,480,274,'Rem','Skal samles over hver stolpe med beslag.'),(14,47,200,540,308,'Rem','Skal samles over hver stolpe med beslag.'),(15,47,200,600,468,'Rem','Skal samles over hver stolpe med beslag.'),(18,47,200,300,170,'Spær','Skal hænge 35 cm ud over rem i begge sider.'),(19,47,200,360,205,'Spær','Skal hænge 35 cm ud over rem i begge sider.'),(20,47,200,420,240,'Spær','Skal hænge 35 cm ud over rem i begge sider.'),(21,47,200,480,274,'Spær','Skal hænge 35 cm ud over rem i begge sider.'),(22,47,200,540,308,'Spær','Skal hænge 35 cm ud over rem i begge sider.'),(23,47,200,600,468,'Spær','Skal hænge 35 cm ud over rem i begge sider.'),(24,47,200,660,515,'Rem','Skal samles over hver stolpe med beslag.'),(25,47,200,720,561,'Rem','Skal samles over hver stolpe med beslag.'),(26,47,200,660,515,'Spær','Skal hænge 35 cm ud over rem i begge sider.'),(27,47,200,720,561,'Spær','Skal hænge 35 cm ud over rem i begge sider.'),(28,25,200,300,171,'Understern (side)','Understernbræt til siderne på carporten.'),(29,25,200,360,205,'Understern (side)','Understernbræt til siderne på carporten.'),(30,25,200,420,240,'Understern (side)','Understernbræt til siderne på carporten.'),(31,25,200,480,274,'Understern (side)','Understernbræt til siderne på carporten.'),(32,25,200,540,308,'Understern (side)','Understernbræt til siderne på carporten.'),(33,25,200,600,390,'Understern (side)','Understernbræt til siderne på carporten.'),(34,25,125,300,108,'Overstern (side)','Oversternbræt til siderne på carporten.'),(35,25,125,360,130,'Overstern (side)','Oversternbræt til siderne på carporten.'),(36,25,125,420,151,'Overstern (side)','Oversternbræt til siderne på carporten.'),(37,25,125,480,173,'Overstern (side)','Oversternbræt til siderne på carporten.'),(38,25,125,540,195,'Overstern (side)','Oversternbræt til siderne på carporten.'),(39,25,125,600,240,'Overstern (side)','Oversternbræt til siderne på carporten.'),(40,25,200,300,171,'Understern (for/bag)','Understernbræt til for- og bagside på carporten.'),(41,25,200,360,205,'Understern (for/bag)','Understernbræt til for- og bagside på carporten.'),(42,25,200,420,240,'Understern (for/bag)','Understernbræt til for- og bagside på carporten.'),(43,25,200,480,274,'Understern (for/bag)','Understernbræt til for- og bagside på carporten.'),(44,25,200,540,308,'Understern (for/bag)','Understernbræt til for- og bagside på carporten.'),(45,25,200,600,390,'Understern (for/bag)','Understernbræt til for- og bagside på carporten.'),(46,25,125,300,108,'Overstern (for/bag)','Oversternbræt til for- og bagside på carporten.'),(47,25,125,360,130,'Overstern (for/bag)','Oversternbræt til for- og bagside på carporten.'),(48,25,125,420,151,'Overstern (for/bag)','Oversternbræt til for- og bagside på carporten.'),(49,25,125,480,173,'Overstern (for/bag)','Oversternbræt til for- og bagside på carporten.'),(50,25,125,540,195,'Overstern (for/bag)','Oversternbræt til for- og bagside på carporten.'),(51,25,125,600,240,'Overstern (for/bag)','Oversternbræt til for- og bagside på carporten.');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -178,4 +177,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-06 15:19:34
+-- Dump completed on 2022-12-08  6:28:03
