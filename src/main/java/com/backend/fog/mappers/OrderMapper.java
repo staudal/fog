@@ -276,9 +276,12 @@ public class OrderMapper {
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 product.setId(set.getInt("id"));
-                product.setName(set.getString("name"));
-                product.setPrice(set.getInt("price"));
+                product.setWidth(set.getInt("width"));
+                product.setHeight(set.getInt("height"));
                 product.setLength(set.getInt("length"));
+                product.setPrice(set.getInt("price"));
+                product.setCategory(set.getString("category"));
+                product.setDescription(set.getString("description"));
                 product.setQuantity(amount);
             }
         } catch (SQLException e) {

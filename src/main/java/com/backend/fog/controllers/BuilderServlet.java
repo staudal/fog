@@ -50,21 +50,30 @@ public class BuilderServlet extends HttpServlet {
             request.getRequestDispatcher("WEB-INF/customer/builder.jsp").forward(request, response);
         } else {
             // Defining the products
-            Product beam = productFacade.getBeam(carportHeight);
+            Product pole = productFacade.getPole(carportHeight);
             Product supportBeam = productFacade.getSupportBeam(carportLength);
             Product rafter = productFacade.getRafter(carportWidth);
+            Product frontBackUpperFascia = productFacade.getFrontBackUpperFascia(carportWidth);
+            Product frontBackLowerFascia = productFacade.getFrontBackLowerFascia(carportWidth);
+            Product sideUpperFascia = productFacade.getSideUpperFascia(carportLength);
+            Product sideLowerFascia = productFacade.getSideLowerFascia(carportLength);
 
             // Calculating the price of the order and defining total price
-            int priceOfBeams = calculator.calculatePriceOfPoles(carportLength, carportWidth, beam.getPrice());
+            int priceOfBeams = calculator.calculatePriceOfPoles(carportLength, carportWidth, pole.getPrice());
             int priceOfSupportBeams = calculator.calculatePriceOfSupportBeams(carportLength, carportWidth, supportBeam.getPrice());
             int priceOfRafters = calculator.calculatePriceOfRafters(carportLength, rafter.getPrice());
-            int totalPrice = priceOfBeams + priceOfSupportBeams + priceOfRafters;
+            int priceOfFascias = calculator.calculatePriceOfFrontBackFascia(frontBackUpperFascia.getPrice()) + calculator.calculatePriceOfFrontBackFascia(frontBackLowerFascia.getPrice()) + calculator.calculatePriceOfSideFascia(carportLength, sideUpperFascia.getPrice()) + calculator.calculatePriceOfSideFascia(carportLength, sideUpperFascia.getPrice());
+            int totalPrice = priceOfBeams + priceOfSupportBeams + priceOfRafters + priceOfFascias;
 
             // Adding info to database
             int orderId = orderFacade.createNewOrder(carportWidth, carportHeight, carportLength, carportSlope, customerId, totalPrice, discountPrice, status);
-            orderFacade.createOrderLines(orderId, beam.getId(), calculator.calculateNumberOfPoles(carportLength, carportWidth));
+            orderFacade.createOrderLines(orderId, pole.getId(), calculator.calculateNumberOfPoles(carportLength, carportWidth));
             orderFacade.createOrderLines(orderId, supportBeam.getId(), calculator.calculateNumberOfSupportBeam(carportLength, carportWidth));
             orderFacade.createOrderLines(orderId, rafter.getId(), calculator.calculateNumberOfRafters(carportLength));
+            orderFacade.createOrderLines(orderId, frontBackUpperFascia.getId(), calculator.calculateNumberOfFrontBackFascia());
+            orderFacade.createOrderLines(orderId, frontBackLowerFascia.getId(), calculator.calculateNumberOfFrontBackFascia());
+            orderFacade.createOrderLines(orderId, sideUpperFascia.getId(), calculator.calculateNumberOfSideFascia(carportLength));
+            orderFacade.createOrderLines(orderId, sideLowerFascia.getId(), calculator.calculateNumberOfSideFascia(carportLength));
 
             // Loading orders into session scope to be displayed on the orders page
             request.getSession().setAttribute("orders", orderFacade.getCustomerOrders(customer.getId()));

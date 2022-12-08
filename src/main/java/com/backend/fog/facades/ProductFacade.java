@@ -8,12 +8,8 @@ public class ProductFacade {
     DatabaseConnection connection = new DatabaseConnection();
     ProductMapper productMapper = new ProductMapper();
 
-    public void createNewProduct(String name, int mPrice, int length) {
-        productMapper.createNewProduct(name, mPrice, length, connection);
-    }
-
-    public Product getBeam(int carportHeight) {
-        return productMapper.getBeam(carportHeight, connection);
+    public Product getPole(int carportHeight) {
+        return productMapper.getPole(carportHeight, connection);
     }
 
     public Product getSupportBeamCloseTo(int length) {
@@ -26,5 +22,21 @@ public class ProductFacade {
 
     public Product getRafter(int carportWidth) {
         return productMapper.getRafter(carportWidth, connection);
+    }
+
+    public Product getFrontBackUpperFascia(int carportWidth) {
+        return productMapper.getFrontBackUpperFascia(carportWidth, connection);
+    }
+
+    public Product getFrontBackLowerFascia(int carportWidth) {
+        return productMapper.getFrontBackLowerFascia(carportWidth, connection);
+    }
+
+    public Product getSideUpperFascia(int carportLength) {
+        return productMapper.getSideUpperFascia(carportLength, connection);
+    }
+
+    public Product getSideLowerFascia(int carportLength) {
+        return productMapper.getSideLowerFascia(carportLength, connection);
     }
 }

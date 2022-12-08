@@ -18,7 +18,6 @@ public class CreateNewProductServlet extends HttpServlet {
         int length = Integer.parseInt(request.getParameter("length"));
         ProductFacade productFacade = new ProductFacade();
 
-        productFacade.createNewProduct(productName, mPrice, length);
 
         request.getRequestDispatcher("WEB-INF/employee/products.jsp").forward(request, response);
     }

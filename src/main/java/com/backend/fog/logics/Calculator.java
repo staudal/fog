@@ -103,4 +103,29 @@ public class Calculator {
     public int calculatePriceOfRafters(int length, int price) {
         return (calculateNumberOfRafters(length) * price);
     }
+
+    public int calculateNumberOfFrontBackFascia() {
+        return 2;
+    }
+
+    public int calculatePriceOfFrontBackFascia(int price) {
+        return (calculateNumberOfFrontBackFascia() * price);
+    }
+
+    public int calculateNumberOfSideFascia(int length) {
+        int numberOfFascia = 0;
+        if (length >= 0 && length <= 600) {
+            numberOfFascia = 2;
+        }
+
+        if (length > 600 && length <= 800) {
+            numberOfFascia = 4;
+        }
+
+        return numberOfFascia;
+    }
+
+    public int calculatePriceOfSideFascia(int length, int price) {
+        return (calculateNumberOfSideFascia(length) * price);
+    }
 }

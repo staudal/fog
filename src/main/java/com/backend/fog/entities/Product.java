@@ -2,26 +2,35 @@ package com.backend.fog.entities;
 
 public class Product {
     private int id;
-    private String name;
-    private int price;
+    private int width;
+    private int height;
     private int length;
+    private int price;
+    private String category;
+    private String description;
     private int quantity;
 
     public Product() {
     }
 
-    public Product(int id, String name, int mPrice, int length) {
+    public Product(int id, int width, int height, int length, int price, String category, String description) {
         this.id = id;
-        this.name = name;
-        this.price = mPrice;
+        this.width = width;
+        this.height = height;
         this.length = length;
+        this.price = price;
+        this.category = category;
+        this.description = description;
     }
 
-    public Product(int id, String name, int mPrice, int length, int quantity) {
+    public Product(int id, int width, int height, int length, int price, String category, String description, int quantity) {
         this.id = id;
-        this.name = name;
-        this.price = mPrice;
+        this.width = width;
+        this.height = height;
         this.length = length;
+        this.price = price;
+        this.category = category;
+        this.description = description;
         this.quantity = quantity;
     }
 
@@ -33,12 +42,28 @@ public class Product {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public int getWidth() {
+        return width;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
     }
 
     public int getPrice() {
@@ -49,12 +74,20 @@ public class Product {
         this.price = price;
     }
 
-    public int getLength() {
-        return length;
+    public String getCategory() {
+        return category;
     }
 
-    public void setLength(int length) {
-        this.length = length;
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getQuantity() {

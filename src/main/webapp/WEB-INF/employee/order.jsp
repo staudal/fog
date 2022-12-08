@@ -66,26 +66,32 @@
             <table class="table table-bordered mb-0">
                 <thead>
                 <tr>
-                    <th colspan="5" class="text-center table-primary">Stykliste</th>
+                    <th colspan="8" class="text-center table-primary">Stykliste</th>
                 </tr>
                 </thead>
                 <thead>
                 <tr>
-                    <th>Vare</th>
+                    <th>Varetype</th>
+                    <th>Bredde</th>
+                    <th>Højde</th>
                     <th>Længde</th>
                     <th>Antal</th>
                     <th>Pris pr. stk</th>
                     <th>Pris i alt</th>
+                    <th>Note</th>
                 </tr>
                 </thead>
                 <tbody>
                     <c:forEach items="${requestScope.products}" var="product">
                         <tr>
-                            <td>${product.getName()}</td>
+                            <td>${product.getCategory()}</td>
+                            <td>${product.getWidth()}</td>
+                            <td>${product.getHeight()}</td>
                             <td>${product.getLength()} cm</td>
                             <td>${product.getQuantity()}</td>
                             <td>${product.getPrice()} DKK</td>
                             <td>${product.getPrice() * product.getQuantity()} DKK</td>
+                            <td>${product.getDescription()}</td>
                         </tr>
                     </c:forEach>
                 </tbody>
