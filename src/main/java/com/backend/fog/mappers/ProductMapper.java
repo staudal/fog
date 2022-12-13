@@ -389,7 +389,7 @@ public class ProductMapper {
         Product handle = new Product();
         try {
             PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM products WHERE category = ? ORDER BY length DESC");
-            statement.setString(1, "Staldørsgreb til skur");
+            statement.setString(1, "Stalddørsgreb til skur");
             ResultSet set = statement.executeQuery();
 
             while (set.next()) {

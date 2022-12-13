@@ -78,36 +78,152 @@
     </section>
     <section class="d-flex container flex-column justify-content-between align-items-center pt-4">
         <div class="w-100 bg-light justify-content-center rounded p-3 border">
-            <table class="table table-bordered mb-0">
-                <thead>
+            <h2 class="fs-5 fw-bold mb-3">Stykliste over byggeprojekt</h2>
+
+            <!-- carport -->
+            <table class="table table-bordered border-dark table-striped">
+                <thead class="table-dark text-center fw-bold"><tr><td colspan="7">Carport</td></tr></thead>
+                <thead class="table-primary border-dark text-center fw-bold">
                 <tr>
-                    <th colspan="7" class="text-center table-primary">Stykliste</th>
+                    <td colspan="7">Træ (carport)</td>
                 </tr>
                 </thead>
-                <thead>
+                <thead class="table-primary border-dark fw-bold">
+                    <tr>
+                        <td>Antal</td>
+                        <td>Vare</td>
+                        <td>Længde</td>
+                        <td>Stykpris</td>
+                        <td>Beskrivelse</td>
+                        <td>Pris</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items="${requestScope.woodsCarport}" var="wood">
+                        <tr>
+                            <td>${wood.getQuantity()}x</td>
+                            <td>${wood.getName()}</td>
+                            <td>${wood.getLength()} cm</td>
+                            <td>${wood.getPrice()} DKK</td>
+                            <td>${wood.getDescription()}</td>
+                            <td>${wood.getPrice() * wood.getQuantity()} DKK</td>
+                        </tr>
+                    </c:forEach>
+                    <tr class="fw-bold">
+                        <td colspan="5" class="text-center">Pris for træ (til carport)</td>
+                        <td>${requestScope.woodsCarportPrice} DKK</td>
+                    </tr>
+                </tbody>
+                <thead class="table-primary border-dark text-center fw-bold">
                 <tr>
-                    <th>Varetype</th>
-                    <th>Dimensions</th>
-                    <th>Længde</th>
-                    <th>Antal</th>
-                    <th>Pris pr. stk</th>
-                    <th>Pris i alt</th>
-                    <th>Note</th>
+                    <td colspan="7">Beslag & skruer (carport)</td>
+                </tr>
+                </thead>
+                <thead class="table-primary border-dark fw-bold">
+                <tr>
+                    <td>Antal</td>
+                    <td>Vare</td>
+                    <td>Længde</td>
+                    <td>Stykpris</td>
+                    <td>Beskrivelse</td>
+                    <td>Pris</td>
                 </tr>
                 </thead>
                 <tbody>
-                    <c:forEach items="${requestScope.products}" var="product">
-                        <tr>
-                            <td>${product.getCategory()}</td>
-                            <td>${product.getDimensions()}</td>
-                            <td>${product.getLength()} cm</td>
-                            <td>${product.getQuantity()}</td>
-                            <td>${product.getPrice()} DKK</td>
-                            <td>${product.getPrice() * product.getQuantity()} DKK</td>
-                            <td>${product.getDescription()}</td>
-                        </tr>
-                    </c:forEach>
+                <c:forEach items="${requestScope.screwsCarport}" var="screw">
+                    <tr>
+                        <td>${screw.getQuantity()}x</td>
+                        <td>${screw.getName()}</td>
+                        <td class="table-dark"></td>
+                        <td>${screw.getPrice()} DKK</td>
+                        <td>${screw.getDescription()}</td>
+                        <td>${screw.getPrice() * screw.getQuantity()} DKK</td>
+                    </tr>
+                </c:forEach>
+                <tr class="fw-bold">
+                    <td colspan="5" class="text-center">Pris for beslag & skruer (til carport)</td>
+                    <td>${requestScope.screwsCarportPrice} DKK</td>
+                </tr>
                 </tbody>
+                <tfoot>
+                    <tr class="table-dark border-dark fw-bold">
+                        <td colspan="5" class="text-center">Pris i alt (carport)</td>
+                        <td>${requestScope.woodsCarportPrice + requestScope.screwsCarportPrice} DKK</td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <!-- skur -->
+            <table class="table table-bordered border-dark table-striped">
+                <thead class="table-dark text-center fw-bold"><tr><td colspan="7">Skur</td></tr></thead>
+                <thead class="table-primary border-dark text-center fw-bold">
+                <tr>
+                    <td colspan="7">Træ (skur)</td>
+                </tr>
+                </thead>
+                <thead class="table-primary border-dark fw-bold">
+                <tr>
+                    <td>Antal</td>
+                    <td>Vare</td>
+                    <td>Længde</td>
+                    <td>Stykpris</td>
+                    <td>Beskrivelse</td>
+                    <td>Pris</td>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${requestScope.woodsShed}" var="wood">
+                    <tr>
+                        <td>${wood.getQuantity()}x</td>
+                        <td>${wood.getName()}</td>
+                        <td>${wood.getLength()} cm</td>
+                        <td>${wood.getPrice()} DKK</td>
+                        <td>${wood.getDescription()}</td>
+                        <td>${wood.getPrice() * wood.getQuantity()} DKK</td>
+                    </tr>
+                </c:forEach>
+                <tr class="fw-bold">
+                    <td colspan="5" class="text-center">Pris for træ (til skur)</td>
+                    <td>${requestScope.woodsShedPrice} DKK</td>
+                </tr>
+                </tbody>
+                <thead class="table-primary border-dark text-center fw-bold">
+                <tr>
+                    <td colspan="7">Beslag & skruer (skur)</td>
+                </tr>
+                </thead>
+                <thead class="table-primary border-dark fw-bold">
+                <tr>
+                    <td>Antal</td>
+                    <td>Vare</td>
+                    <td>Længde</td>
+                    <td>Stykpris</td>
+                    <td>Beskrivelse</td>
+                    <td>Pris</td>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${requestScope.screwsShed}" var="screw">
+                    <tr>
+                        <td>${screw.getQuantity()}x</td>
+                        <td>${screw.getName()}</td>
+                        <td class="table-dark"></td>
+                        <td>${screw.getPrice()} DKK</td>
+                        <td>${screw.getDescription()}</td>
+                        <td>${screw.getPrice() * screw.getQuantity()} DKK</td>
+                    </tr>
+                </c:forEach>
+                <tr class="fw-bold">
+                    <td colspan="5" class="text-center">Pris for beslag & skruer (til skur)</td>
+                    <td>${requestScope.screwsShedPrice} DKK</td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr class="table-dark border-dark fw-bold">
+                    <td colspan="5" class="text-center">Pris i alt (skur)</td>
+                    <td>${requestScope.woodsShedPrice + requestScope.screwsShedPrice} DKK</td>
+                </tr>
+                </tfoot>
             </table>
         </div>
     </section>

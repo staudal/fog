@@ -240,7 +240,9 @@ public class OrderMapper {
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 product.setId(set.getInt("id"));
-                product.setDimensions(set.getString("dimensions"));
+                product.setName(set.getString("name"));
+                product.setKind(set.getInt("kind"));
+                product.setUse(set.getInt("use"));
                 product.setLength(set.getInt("length"));
                 product.setPrice(set.getInt("price"));
                 product.setCategory(set.getString("category"));
