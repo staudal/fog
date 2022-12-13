@@ -17,11 +17,11 @@ import java.util.TreeMap;
 import java.util.UUID;
 
 public class OrderMapper {
-    public int createNewOrder(int carportWidth, int carportHeight, int carportLength, int carportSlope, int customerId, int totalPrice, int discountPrice, int status, DatabaseConnection connection) {
+    public int createNewOrder(int carportWidth, int carportLength, int shedWidth, int shedLength, int customerId, int totalPrice, int discountPrice, int status, DatabaseConnection connection) {
         int key = 0;
         try {
             Statement statement = connection.connect().createStatement();
-            statement.executeUpdate("INSERT INTO orders (carportWidth, carportHeight, carportLength, carportSlope, customer_id, totalPrice, discountPrice, status) VALUES ('"+carportWidth+"', '"+carportHeight+"', '"+carportLength+"', '"+carportSlope+"','"+customerId+"', '"+totalPrice+"', '"+discountPrice+"', '"+status+"')", Statement.RETURN_GENERATED_KEYS);
+            statement.executeUpdate("INSERT INTO orders (carportWidth, carportLength, shedWidth, shedLength, customer_id, totalPrice, discountPrice, status) VALUES ('"+carportWidth+"', '"+carportLength+"', '"+shedWidth+"', '"+shedLength+"', '"+customerId+"', '"+totalPrice+"', '"+discountPrice+"', '"+status+"')", Statement.RETURN_GENERATED_KEYS);
             ResultSet rs = statement.getGeneratedKeys();
             if (rs != null && rs.next()) {
                 key = rs.getInt(1);
@@ -64,24 +64,6 @@ public class OrderMapper {
         }
     }
 
-    public int getHeight(UUID id, DatabaseConnection connection) {
-        try {
-            int height = 0;
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM orders WHERE id = ?");
-            statement.setString(1, String.valueOf(id));
-
-            ResultSet set = statement.executeQuery();
-            if (set.next()) {
-                height = set.getInt("carportHeight");
-            }
-            return height;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
-        }
-    }
-
     public int getLength(UUID id, DatabaseConnection connection) {
         try {
             int length = 0;
@@ -93,24 +75,6 @@ public class OrderMapper {
                 length = set.getInt("carportLength");
             }
             return length;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
-        }
-    }
-
-    public int getSlope(UUID id, DatabaseConnection connection) {
-        try {
-            int slope = 0;
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM orders WHERE id = ?");
-            statement.setString(1, String.valueOf(id));
-
-            ResultSet set = statement.executeQuery();
-            if (set.next()) {
-                slope = set.getInt("carportSlope");
-            }
-            return slope;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
@@ -213,7 +177,7 @@ public class OrderMapper {
 
             ResultSet set = statement.executeQuery();
             while (set.next()) {
-                orders.put(set.getInt("id"), new Order(set.getInt("id"), set.getInt("carportWidth"), set.getInt("carportHeight"), set.getInt("carportLength"), set.getInt("carportSlope"), set.getInt("totalPrice"), set.getInt("discountPrice"), set.getInt("status")));
+                orders.put(set.getInt("id"), new Order(set.getInt("id"), set.getInt("carportWidth"), set.getInt("carportLength"), set.getInt("shedWidth"), set.getInt("shedLength"), set.getInt("totalPrice"), set.getInt("discountPrice"), set.getInt("status")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -230,7 +194,7 @@ public class OrderMapper {
 
             ResultSet set = statement.executeQuery();
             while (set.next()) {
-                orders.put(set.getInt("id"), new Order(set.getInt("id"), set.getInt("carportWidth"), set.getInt("carportLength"), set.getInt("carportHeight"), set.getInt("carportSlope"), set.getInt("totalPrice"), set.getInt("discountPrice"), set.getInt("status")));
+                orders.put(set.getInt("id"), new Order(set.getInt("id"), set.getInt("carportWidth"), set.getInt("carportLength"), set.getInt("shedWidth"), set.getInt("shedLength"), set.getInt("totalPrice"), set.getInt("discountPrice"), set.getInt("status")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -250,10 +214,10 @@ public class OrderMapper {
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 order.setId(set.getInt("id"));
-                order.setWidth(set.getInt("carportWidth"));
-                order.setHeight(set.getInt("carportHeight"));
-                order.setLength(set.getInt("carportLength"));
-                order.setSlope(set.getInt("carportSlope"));
+                order.setCarportWidth(set.getInt("carportWidth"));
+                order.setCarportLength(set.getInt("carportLength"));
+                order.setShedWidth(set.getInt("shedWidth"));
+                order.setShedLength(set.getInt("shedLength"));
                 order.setCustomer(customerFacade.getCustomerById(set.getInt("customer_id")));
                 order.setTotalPrice(set.getInt("totalPrice"));
                 order.setDiscountPrice(set.getInt("discountPrice"));
@@ -276,8 +240,7 @@ public class OrderMapper {
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 product.setId(set.getInt("id"));
-                product.setWidth(set.getInt("width"));
-                product.setHeight(set.getInt("height"));
+                product.setDimensions(set.getString("dimensions"));
                 product.setLength(set.getInt("length"));
                 product.setPrice(set.getInt("price"));
                 product.setCategory(set.getString("category"));

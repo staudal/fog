@@ -14,8 +14,8 @@ public class OrderFacade {
     DatabaseConnection connection = new DatabaseConnection();
     OrderMapper orderMapper = new OrderMapper();
 
-    public int createNewOrder(int carportWidth, int carportHeight, int carportLength, int carportSlope, int customerId, int totalPrice, int discountPrice, int status) {
-        return orderMapper.createNewOrder(carportWidth, carportHeight, carportLength, carportSlope, customerId, totalPrice, discountPrice, status, connection);
+    public int createNewOrder(int carportWidth, int carportLength, int shedWidth, int shedLength, int customerId, int totalPrice, int discountPrice, int status) {
+        return orderMapper.createNewOrder(carportWidth, carportLength, shedWidth, shedLength, customerId, totalPrice, discountPrice, status, connection);
     }
 
     public void createOrderLines(int orderId, int productId, int quantity) {
@@ -46,16 +46,8 @@ public class OrderFacade {
         return orderMapper.getWidth(id, connection);
     }
 
-    public int getHeight(UUID id) {
-        return orderMapper.getHeight(id, connection);
-    }
-
     public int getLength(UUID id) {
         return orderMapper.getLength(id, connection);
-    }
-
-    public int getSlope(UUID id) {
-        return orderMapper.getSlope(id, connection);
     }
 
     public int getTotalPrice(UUID id) {

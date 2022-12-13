@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class Order {
     private int id;
-    private int width;
-    private int length;
-    private int height;
-    private int slope;
+    private int carportWidth;
+    private int carportLength;
+    private int shedWidth;
+    private int shedLength;
     private int totalPrice;
     private int discountPrice;
     private int status;
@@ -18,24 +18,24 @@ public class Order {
 
     }
 
-    public Order(int id, int width, int length, int height, int slope, int totalPrice, int discountPrice, int status) {
+    public Order(int id, int carportWidth, int carportLength, int shedWidth, int shedLength, int totalPrice, int discountPrice, int status) {
         this.id = id;
-        this.width = width;
-        this.length = length;
-        this.height = height;
-        this.slope = slope;
+        this.carportWidth = carportWidth;
+        this.carportLength = carportLength;
+        this.shedWidth = shedWidth;
+        this.shedLength = shedLength;
         this.totalPrice = totalPrice;
         this.discountPrice = discountPrice;
         this.status = status;
     }
 
     // ONLY USED FOR PARTS LIST
-    public Order(int id, int width, int length, int height, int slope, int totalPrice, int discountPrice, int status, ArrayList<Product> partsList) {
+    public Order(int id, int carportWidth, int carportLength, int shedWidth, int shedLength, int totalPrice, int discountPrice, int status, ArrayList<Product> partsList) {
         this.id = id;
-        this.width = width;
-        this.length = length;
-        this.height = height;
-        this.slope = slope;
+        this.carportWidth = carportWidth;
+        this.carportLength = carportLength;
+        this.shedWidth = shedWidth;
+        this.shedLength = shedLength;
         this.totalPrice = totalPrice;
         this.discountPrice = discountPrice;
         this.status = status;
@@ -74,36 +74,36 @@ public class Order {
         this.id = id;
     }
 
-    public int getSlope() {
-        return slope;
+    public int getCarportWidth() {
+        return carportWidth;
     }
 
-    public void setSlope(int slope) {
-        this.slope = slope;
+    public void setCarportWidth(int carportWidth) {
+        this.carportWidth = carportWidth;
     }
 
-    public int getWidth() {
-        return width;
+    public int getCarportLength() {
+        return carportLength;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
+    public void setCarportLength(int carportLength) {
+        this.carportLength = carportLength;
     }
 
-    public int getLength() {
-        return length;
+    public int getShedWidth() {
+        return shedWidth;
     }
 
-    public void setLength(int length) {
-        this.length = length;
+    public void setShedWidth(int shedWidth) {
+        this.shedWidth = shedWidth;
     }
 
-    public int getHeight() {
-        return height;
+    public int getShedLength() {
+        return shedLength;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
+    public void setShedLength(int shedLength) {
+        this.shedLength = shedLength;
     }
 
     public int getStatus() {

@@ -56,55 +56,76 @@
             </c:if>
         </div>
     </section>
-    <section class="d-flex container flex-column justify-content-between align-items-center pt-4">
-        <div class="w-100 bg-light justify-content-center rounded p-3 border">
-            <table class="table table-bordered mb-0">
-                <thead>
+    <c:if test="${requestScope.order.getShedWidth() != 0}">
+        <section class="d-flex container flex-column justify-content-between align-items-center pt-4">
+            <div class="w-100 bg-light justify-content-center rounded p-3 border">
+                <table class="table table-bordered mb-0">
+                    <thead>
                     <tr>
                         <th colspan="4" class="text-center table-primary">Carport</th>
                     </tr>
-                </thead>
-                <thead>
+                    </thead>
+                    <thead>
                     <tr>
                         <th>Bredde</th>
                         <th>Længde</th>
-                        <th>Højde</th>
-                        <th>Hældning</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     <tr>
-                        <td>${requestScope.order.getWidth()} cm</td>
-                        <td>${requestScope.order.getLength()} cm</td>
-                        <td>${requestScope.order.getHeight()} cm</td>
-                        <td>${requestScope.order.getSlope()}°</td>
+                        <td>${requestScope.order.getCarportWidth()} cm</td>
+                        <td>${requestScope.order.getCarportLength()} cm</td>
                     </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
+                    </tbody>
+                </table>
+                <table class="table table-bordered mt-3 mb-0">
+                    <thead>
+                    <tr>
+                        <th colspan="4" class="text-center table-primary">Skur</th>
+                    </tr>
+                    </thead>
+                    <thead>
+                    <tr>
+                        <th>Bredde</th>
+                        <th>Længde</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>${requestScope.order.getShedWidth()} cm</td>
+                        <td>${requestScope.order.getShedLength()} cm</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </c:if>
     <c:if test="${requestScope.order.getStatus() == 3}">
         <section class="d-flex container flex-column justify-content-between align-items-center pt-4">
             <div class="w-100 bg-light justify-content-center rounded p-3 border">
                 <table class="table table-bordered mb-0">
                     <thead>
                     <tr>
-                        <th colspan="3" class="text-center table-primary">Stykliste</th>
+                        <th colspan="7" class="text-center table-primary">Stykliste</th>
                     </tr>
                     </thead>
                     <thead>
                     <tr>
-                        <th>Vare</th>
+                        <th>Varetype</th>
+                        <th>Dimensions</th>
                         <th>Længde</th>
                         <th>Antal</th>
+                        <th>Note</th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${requestScope.products}" var="product">
                         <tr>
-                            <td>${product.getName()}</td>
-                            <td>${product.getLength()}</td>
+                            <td>${product.getCategory()}</td>
+                            <td>${product.getDimensions()}</td>
+                            <td>${product.getLength()} cm</td>
                             <td>${product.getQuantity()}</td>
+                            <td>${product.getDescription()}</td>
                         </tr>
                     </c:forEach>
                     </tbody>

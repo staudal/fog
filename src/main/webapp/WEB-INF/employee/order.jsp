@@ -46,16 +46,31 @@
                 <tr>
                     <th>Bredde</th>
                     <th>Længde</th>
-                    <th>Højde</th>
-                    <th>Hældning</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>${requestScope.order.getWidth()} cm</td>
-                    <td>${requestScope.order.getLength()} cm</td>
-                    <td>${requestScope.order.getHeight()} cm</td>
-                    <td>${requestScope.order.getSlope()}°</td>
+                    <td>${requestScope.order.getCarportWidth()} cm</td>
+                    <td>${requestScope.order.getCarportLength()} cm</td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="table table-bordered mt-3 mb-0">
+                <thead>
+                <tr>
+                    <th colspan="4" class="text-center table-primary">Skur</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr>
+                    <th>Bredde</th>
+                    <th>Længde</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>${requestScope.order.getShedWidth()} cm</td>
+                    <td>${requestScope.order.getShedLength()} cm</td>
                 </tr>
                 </tbody>
             </table>
@@ -66,14 +81,13 @@
             <table class="table table-bordered mb-0">
                 <thead>
                 <tr>
-                    <th colspan="8" class="text-center table-primary">Stykliste</th>
+                    <th colspan="7" class="text-center table-primary">Stykliste</th>
                 </tr>
                 </thead>
                 <thead>
                 <tr>
                     <th>Varetype</th>
-                    <th>Bredde</th>
-                    <th>Højde</th>
+                    <th>Dimensions</th>
                     <th>Længde</th>
                     <th>Antal</th>
                     <th>Pris pr. stk</th>
@@ -85,8 +99,7 @@
                     <c:forEach items="${requestScope.products}" var="product">
                         <tr>
                             <td>${product.getCategory()}</td>
-                            <td>${product.getWidth()}</td>
-                            <td>${product.getHeight()}</td>
+                            <td>${product.getDimensions()}</td>
                             <td>${product.getLength()} cm</td>
                             <td>${product.getQuantity()}</td>
                             <td>${product.getPrice()} DKK</td>

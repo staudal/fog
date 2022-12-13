@@ -14,22 +14,81 @@
             <div class="gap-4 w-100" style="max-width: 600px">
                 <div class="d-flex flex-column gap-3">
                     <div class="position-relative">
-                        <label for="width" class="form-label">Bredde af carport <em>(max 600 cm)</em></label>
-                        <div class="w-100">
-                            <input id="width" type="text" class="form-control ${requestScope.widthErrorClass}" name="carportWidth" value="${requestScope.carportWidth}" required>
-                        </div>
+                        <label for="carportWidth" class="form-label">Bredde af carport</label>
+                        <select class="form-select" id="carportWidth" required name="carportWidth">
+                            <option selected disabled value="0">Vælg bredde</option>
+                            <option value="240">240 cm</option>
+                            <option value="270">270 cm</option>
+                            <option value="300">300 cm</option>
+                            <option value="330">330 cm</option>
+                            <option value="360">360 cm</option>
+                            <option value="390">390 cm</option>
+                            <option value="420">420 cm</option>
+                            <option value="450">450 cm</option>
+                            <option value="480">480 cm</option>
+                            <option value="510">510 cm</option>
+                            <option value="540">540 cm</option>
+                            <option value="570">570 cm</option>
+                            <option value="600">600 cm</option>
+                        </select>
                     </div>
                     <div class="position-relative">
-                        <label for="length" class="form-label">Længde af carport <em>(max 800 cm)</em></label>
-                        <div class="w-100">
-                            <input id="length" type="text" class="form-control ${requestScope.lengthErrorClass}" value="${requestScope.carportLength}" name="carportLength" required>
-                        </div>
+                        <label for="carportLength" class="form-label">Længde af carport</label>
+                        <select class="form-select" id="carportLength" required name="carportLength">
+                            <option selected disabled value="0">Vælg længde</option>
+                            <option value="240">240 cm</option>
+                            <option value="270">270 cm</option>
+                            <option value="300">300 cm</option>
+                            <option value="330">330 cm</option>
+                            <option value="360">360 cm</option>
+                            <option value="390">390 cm</option>
+                            <option value="420">420 cm</option>
+                            <option value="450">450 cm</option>
+                            <option value="480">480 cm</option>
+                            <option value="510">510 cm</option>
+                            <option value="540">540 cm</option>
+                            <option value="570">570 cm</option>
+                            <option value="600">600 cm</option>
+                            <option value="600">630 cm</option>
+                            <option value="600">660 cm</option>
+                            <option value="600">690 cm</option>
+                            <option value="600">720 cm</option>
+                            <option value="600">750 cm</option>
+                            <option value="600">780 cm</option>
+                        </select>
                     </div>
                     <div class="position-relative">
-                        <label for="height" class="form-label">Højde af carport <em>(max 390 cm)</em></label>
-                        <div class="w-100">
-                            <input id="height" type="text" class="form-control ${requestScope.heightErrorClass}" value="${requestScope.carportHeight}" name="carportHeight" required>
-                        </div>
+                        <label for="shedWidth" class="form-label">Bredde af skur (max carportens bredde - 70 cm)</label>
+                        <select class="form-select" id="shedWidth" name="shedWidth">
+                            <option selected disabled value="0">Intet skur</option>
+                            <option value="1">Hele carportens bredde</option>
+                            <option value="2">Halvdelen af carportens bredde</option>
+                        </select>
+                    </div>
+                    <div class="position-relative">
+                        <label for="shedLength" class="form-label">Længde af skur (max carportens længde - 200 cm)</label>
+                        <select class="form-select" id="shedLength" name="shedLength">
+                            <option selected disabled value="">Intet skur</option>
+                            <option value="150">150 cm</option>
+                            <option value="180">180 cm</option>
+                            <option value="210">210 cm</option>
+                            <option value="240">240 cm</option>
+                            <option value="270">270 cm</option>
+                            <option value="300">300 cm</option>
+                            <option value="330">330 cm</option>
+                            <option value="360">360 cm</option>
+                            <option value="390">390 cm</option>
+                            <option value="420">420 cm</option>
+                            <option value="450">450 cm</option>
+                            <option value="480">480 cm</option>
+                            <option value="510">510 cm</option>
+                            <option value="540">540 cm</option>
+                            <option value="570">570 cm</option>
+                            <option value="600">600 cm</option>
+                            <option value="630">630 cm</option>
+                            <option value="660">660 cm</option>
+                            <option value="690">690 cm</option>
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Modtag tilbud</button>
                 </div>

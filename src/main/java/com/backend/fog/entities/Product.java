@@ -2,8 +2,7 @@ package com.backend.fog.entities;
 
 public class Product {
     private int id;
-    private int width;
-    private int height;
+    private String dimensions;
     private int length;
     private int price;
     private String category;
@@ -13,20 +12,18 @@ public class Product {
     public Product() {
     }
 
-    public Product(int id, int width, int height, int length, int price, String category, String description) {
+    public Product(int id, String dimensions, int length, int price, String category, String description) {
         this.id = id;
-        this.width = width;
-        this.height = height;
+        this.dimensions = dimensions;
         this.length = length;
         this.price = price;
         this.category = category;
         this.description = description;
     }
 
-    public Product(int id, int width, int height, int length, int price, String category, String description, int quantity) {
+    public Product(int id, String dimensions, int length, int price, String category, String description, int quantity) {
         this.id = id;
-        this.width = width;
-        this.height = height;
+        this.dimensions = dimensions;
         this.length = length;
         this.price = price;
         this.category = category;
@@ -42,20 +39,12 @@ public class Product {
         this.id = id;
     }
 
-    public int getWidth() {
-        return width;
+    public String getDimensions() {
+        return dimensions;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
+    public void setDimensions(String dimensions) {
+        this.dimensions = dimensions;
     }
 
     public int getLength() {

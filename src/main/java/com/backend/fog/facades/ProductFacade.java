@@ -8,35 +8,87 @@ public class ProductFacade {
     DatabaseConnection connection = new DatabaseConnection();
     ProductMapper productMapper = new ProductMapper();
 
-    public Product getPole(int carportHeight) {
-        return productMapper.getPole(carportHeight, connection);
+    public Product getPole() {
+        return productMapper.getPole(connection);
     }
-
-    public Product getSupportBeamCloseTo(int length) {
-        return productMapper.getSupportBeamCloseTo(length, connection);
+    public Product getBeam(int length) {
+        return productMapper.getBeam(length, connection);
     }
-
-    public Product getSupportBeam(int carportLength) {
-        return productMapper.getSupportBeam(carportLength, connection);
-    }
-
     public Product getRafter(int carportWidth) {
         return productMapper.getRafter(carportWidth, connection);
     }
-
-    public Product getFrontBackUpperFascia(int carportWidth) {
-        return productMapper.getFrontBackUpperFascia(carportWidth, connection);
+    public Product getLowerSideFascia(int carportLength) {
+        return productMapper.getLowerSideFascia(carportLength, connection);
+    }
+    public Product getUpperSideFascia(int carportLength) {
+        return productMapper.getUpperSideFascia(carportLength, connection);
+    }
+    public Product getLowerFrontBackFascia(int carportWidth) {
+        return productMapper.getLowerFrontBackFascia(carportWidth, connection);
+    }
+    public Product getUpperFrontBackFascia(int carportWidth) {
+        return productMapper.getUpperFrontBackFascia(carportWidth, connection);
+    }
+    public Product getRoof(int carportLength) {
+        return productMapper.getRoof(carportLength, connection);
+    }
+    public Product getCarriageBolt() {
+        return productMapper.getCarriageBolt(connection);
+    }
+    public Product getSquareWasher() {
+        return productMapper.getSquareWasher(connection);
+    }
+    public Product getWindBracingStrap() {
+        return productMapper.getWindBracingStrap(connection);
+    }
+    public Product getRafterConnectorLeft() {
+        return productMapper.getRafterConnectorLeft(connection);
+    }
+    public Product getRafterConnectorRight() {
+        return productMapper.getRafterConnectorRight(connection);
+    }
+    public Product getConnectorScrews() {
+        return productMapper.getConnectorScrews(connection);
+    }
+    public Product getFasciaScrews() {
+        return productMapper.getFasciaScrews(connection);
+    }
+    public Product getTrapezoidScrews() {
+        return productMapper.getTrapezoidScrews(connection);
     }
 
-    public Product getFrontBackLowerFascia(int carportWidth) {
-        return productMapper.getFrontBackLowerFascia(carportWidth, connection);
+    // SHED
+    public Product getShedDoorZ() {
+        return productMapper.getShedDoorZ(connection);
     }
-
-    public Product getSideUpperFascia(int carportLength) {
-        return productMapper.getSideUpperFascia(carportLength, connection);
+    public Product getBeamForShed(int shedLength) {
+        return productMapper.getBeamForShed(shedLength, connection);
     }
-
-    public Product getSideLowerFascia(int carportLength) {
-        return productMapper.getSideLowerFascia(carportLength, connection);
+    public Product getPoleForShed(int shedWidth) {
+        return productMapper.getPoleForShed(shedWidth, connection);
+    }
+    public Product getShedJoistSide(int shedLength) {
+        return productMapper.getShedJoistSide(shedLength, connection);
+    }
+    public Product getShedJoistFrontBack(int carportWidth) {
+        return productMapper.getShedJoistFrontBack(carportWidth, connection);
+    }
+    public Product getCladding() {
+        return productMapper.getCladding(connection);
+    }
+    public Product getShortCladdingScrews() {
+        return productMapper.getShortCladdingScrews(connection);
+    }
+    public Product getLongCladdingScrews() {
+        return productMapper.getLongCladdingScrews(connection);
+    }
+    public Product getDoorHinge() {
+        return productMapper.getDoorHinge(connection);
+    }
+    public Product getDoorHandle() {
+        return productMapper.getDoorHandle(connection);
+    }
+    public Product getJoistHinge() {
+        return productMapper.getJoistHinge(connection);
     }
 }
