@@ -227,6 +227,11 @@
             </table>
         </div>
     </section>
+    <section class="d-flex container flex-column justify-content-between align-items-center pt-4">
+        <div class="w-100 bg-light justify-content-center rounded p-3 border">
+            ${requestScope.svg}
+        </div>
+    </section>
     <form class="mb-0" method="post">
         <section class="d-flex container justify-content-between align-items-stretch pt-4 gap-4">
             <div class="bg-light w-100 p-3 rounded border">

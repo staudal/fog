@@ -273,6 +273,16 @@ public class OrderMapper {
         return products;
     }
 
+    public ArrayList<Product> getRafters(ArrayList<Product> products, DatabaseConnection connection) {
+        ArrayList<Product> rafters = new ArrayList<>();
+        for (Product product : products) {
+            if (product.getCategory().equals("Spær")) {
+                rafters.add(product);
+            }
+        }
+        return rafters;
+    }
+
     public void removeCustomerOrder(int orderId, DatabaseConnection connection) {
         try {
             PreparedStatement statement1 = connection.connect().prepareStatement("DELETE FROM order_line WHERE orders_id = ?");

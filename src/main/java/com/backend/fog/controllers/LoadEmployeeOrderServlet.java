@@ -3,6 +3,7 @@ package com.backend.fog.controllers;
 import com.backend.fog.entities.Order;
 import com.backend.fog.entities.Product;
 import com.backend.fog.facades.OrderFacade;
+import com.backend.fog.logics.SVG;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,11 +12,16 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 @WebServlet(name = "LoadEmployeeOrderServlet", value = "/LoadEmployeeOrderServlet")
 public class LoadEmployeeOrderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        Locale.setDefault(new Locale("US"));
+
         int orderId = Integer.parseInt(request.getParameter("orderId"));
         OrderFacade orderFacade = new OrderFacade();
 
@@ -77,6 +83,14 @@ public class LoadEmployeeOrderServlet extends HttpServlet {
             screwsShedPrice += product.getPrice() * product.getQuantity();
         }
 
+        // Drawing the SVG drawing
+        SVG svg = new SVG(0, 0, 100, 100, "0 0 855 690");
+        ArrayList<Product> rafters = orderFacade.getRafters(orderFacade.getProductsFromOrderLine(orderId));
+        for (Product rafter : rafters) {
+            svg.addRect(0, 0, rafter.getLength(), 4.57);
+        }
+
+        request.setAttribute("svg", svg);
         request.setAttribute("order", order);
         request.setAttribute("woodsCarport", woodsCarport);
         request.setAttribute("woodsShed", woodsShed);

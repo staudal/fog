@@ -42,6 +42,10 @@ public class OrderFacade {
         return orderMapper.getProductsFromOrderLine(orderId, connection);
     }
 
+    public ArrayList<Product> getRafters(ArrayList<Product> products) {
+        return orderMapper.getRafters(products, connection);
+    }
+
     public int getWidth(UUID id) {
         return orderMapper.getWidth(id, connection);
     }
