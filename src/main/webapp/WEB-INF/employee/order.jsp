@@ -228,7 +228,7 @@
         </div>
     </section>
     <section class="d-flex container flex-column justify-content-between align-items-center pt-4">
-        <div class="w-100 bg-light justify-content-center rounded p-3 border">
+        <div class="w-100 d-flex bg-light justify-content-center rounded p-3 border">
             ${requestScope.svg}
         </div>
     </section>
@@ -256,22 +256,22 @@
         </section>
 
         <c:if test="${requestScope.order.getStatus() == 1}">
-            <section class="container pt-4">
+            <section class="container pt-4 pb-4">
                 <div class="row">
                     <div class="col">
-                        <button class="w-100 btn btn-primary mb-2" formaction="UpdateOrderStatusServlet" type="submit" name="orderId" value="${requestScope.order.getId()}">Afsend tilbud</button>
+                        <button class="w-100 btn btn-primary mb-0" formaction="UpdateOrderStatusServlet" type="submit" name="orderId" value="${requestScope.order.getId()}">Afsend tilbud</button>
                     </div>
                     <div class="col">
-                        <button class="w-100 btn btn-danger" formaction="RemoveEmployeeOrderServlet" type="submit" name="orderId" value="${requestScope.order.getId()}" formnovalidate>Annuller ordre</button>
+                        <button class="w-100 btn btn-danger mb-0" formaction="RemoveEmployeeOrderServlet" type="submit" name="orderId" value="${requestScope.order.getId()}" formnovalidate>Annuller ordre</button>
                     </div>
                 </div>
             </section>
         </c:if>
         <c:if test="${requestScope.order.getStatus() == 2}">
-            <section class="container pt-4">
+            <section class="container pt-4 pb-4">
                 <div class="row">
                     <div class="col">
-                        <button class="w-100 btn btn-primary mb-2" formaction="ManuallyPayForOrderServlet" type="submit" name="orderId" value="${requestScope.order.getId()}">Kunde har betalt kontant/bankoverførsel</button>
+                        <button class="w-100 btn btn-primary mb-0" formaction="ManuallyPayForOrderServlet" type="submit" name="orderId" value="${requestScope.order.getId()}">Kunde har betalt kontant/bankoverførsel</button>
                     </div>
                     <div class="col">
                         <button class="w-100 btn btn-danger" formaction="RemoveEmployeeOrderServlet" type="submit" name="orderId" value="${requestScope.order.getId()}" formnovalidate>Annuller ordre</button>
@@ -280,10 +280,10 @@
             </section>
         </c:if>
         <c:if test="${requestScope.order.getStatus() == 3}">
-            <section class="container pt-4">
+            <section class="container pt-4 pb-4">
                 <div class="row">
                     <div class="col">
-                        <button class="w-100 btn btn-danger" formaction="RemoveEmployeeOrderServlet" type="submit" name="orderId" value="${requestScope.order.getId()}" formnovalidate>Fjern ordre fra systemet</button>
+                        <button class="w-100 btn btn-danger mb-0" formaction="RemoveEmployeeOrderServlet" type="submit" name="orderId" value="${requestScope.order.getId()}" formnovalidate>Fjern ordre fra systemet</button>
                     </div>
                 </div>
             </section>

@@ -42,10 +42,6 @@ public class OrderFacade {
         return orderMapper.getProductsFromOrderLine(orderId, connection);
     }
 
-    public ArrayList<Product> getRafters(ArrayList<Product> products) {
-        return orderMapper.getRafters(products, connection);
-    }
-
     public int getWidth(UUID id) {
         return orderMapper.getWidth(id, connection);
     }
@@ -80,5 +76,21 @@ public class OrderFacade {
 
     public void updateStatus(int status, int orderId) {
         orderMapper.updateStatus(status, orderId, connection);
+    }
+
+    public Product getRafter(ArrayList<Product> products) {
+        return orderMapper.getRafter(products);
+    }
+
+    public Product getBeam(ArrayList<Product> products) {
+        return orderMapper.getBeam(products);
+    }
+
+    public Product getPole(ArrayList<Product> products) {
+        return orderMapper.getPole(products);
+    }
+
+    public Product getWindBracer(ArrayList<Product> products) {
+        return orderMapper.getWindBracer(products);
     }
 }

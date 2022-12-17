@@ -24,9 +24,9 @@ public class Calculator {
         // NOTE: IF THE CARPORT IS LESS THAN OR EQUAL TO 600 CM LONG (LONGEST BEAM AVAILABLE) THEN WE ONLY NEED TWO BEAMS
         // NOTE: IF THE CARPORT IS LONGER THAN 600 CM, WE NEED 4 BEAMS
         int beams = 0;
-        if (length >= 0 && length <= 600) {
+        if (length >= 0 && length <= 720) {
             beams = 2;
-        } else if (length > 600 && length <= 800) {
+        } else if (length > 720 && length <= 800) {
             beams = 4;
         }
         return beams;

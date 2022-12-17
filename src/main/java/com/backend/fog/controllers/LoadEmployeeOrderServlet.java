@@ -3,7 +3,8 @@ package com.backend.fog.controllers;
 import com.backend.fog.entities.Order;
 import com.backend.fog.entities.Product;
 import com.backend.fog.facades.OrderFacade;
-import com.backend.fog.logics.SVG;
+import com.backend.fog.logics.Drawer;
+import com.backend.fog.services.SVG;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -83,11 +84,30 @@ public class LoadEmployeeOrderServlet extends HttpServlet {
             screwsShedPrice += product.getPrice() * product.getQuantity();
         }
 
+
         // Drawing the SVG drawing
-        SVG svg = new SVG(0, 0, 100, 100, "0 0 855 690");
-        ArrayList<Product> rafters = orderFacade.getRafters(orderFacade.getProductsFromOrderLine(orderId));
-        for (Product rafter : rafters) {
-            svg.addRect(0, 0, rafter.getLength(), 4.57);
+        String viewbox = String.format("%d %d %d %d", 0, 0, order.getCarportLength(), order.getCarportWidth());
+        SVG svg = new SVG(0, 0, order.getCarportWidth(), order.getCarportLength(), viewbox);
+        Drawer drawer = new Drawer(woodsCarport, screwsCarport, woodsShed, screwsShed, orderFacade, order.getCarportLength(), order.getCarportWidth(), order.getShedLength(), order.getShedWidth());
+
+        // half size shed
+        if ((order.getCarportWidth() - 70) / 2 == order.getShedWidth()) {
+            drawer.drawShedBackground(svg);
+            drawer.drawShedPoles(svg, false);
+            drawer.drawWindBracers(svg);
+            drawer.drawPoles(svg);
+            drawer.drawBeams(svg);
+            drawer.drawRafters(svg);
+        }
+
+        // full size shed
+        else {
+            drawer.drawShedBackground(svg);
+            drawer.drawShedPoles(svg, true);
+            drawer.drawWindBracers(svg);
+            drawer.drawPoles(svg);
+            drawer.drawBeams(svg);
+            drawer.drawRafters(svg);
         }
 
         request.setAttribute("svg", svg);

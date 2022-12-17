@@ -232,7 +232,6 @@ public class OrderMapper {
     }
 
     public Product getProductFromId(int productId, int amount, DatabaseConnection connection) {
-        ProductFacade productFacade = new ProductFacade();
         Product product = new Product();
         try {
             PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM products WHERE id = ?");
@@ -271,16 +270,6 @@ public class OrderMapper {
             connection.disconnect();
         }
         return products;
-    }
-
-    public ArrayList<Product> getRafters(ArrayList<Product> products, DatabaseConnection connection) {
-        ArrayList<Product> rafters = new ArrayList<>();
-        for (Product product : products) {
-            if (product.getCategory().equals("Spær")) {
-                rafters.add(product);
-            }
-        }
-        return rafters;
     }
 
     public void removeCustomerOrder(int orderId, DatabaseConnection connection) {
@@ -336,5 +325,45 @@ public class OrderMapper {
         } finally {
             connection.disconnect();
         }
+    }
+
+    public Product getRafter(ArrayList<Product> products) {
+        Product product = new Product();
+        for (Product rafter : products) {
+            if (rafter.getCategory().equals("Spær")) {
+                product = new Product(rafter.getId(), rafter.getName(), rafter.getLength(), rafter.getPrice(), rafter.getCategory(), rafter.getDescription(), rafter.getQuantity());
+            }
+        }
+        return product;
+    }
+
+    public Product getBeam(ArrayList<Product> products) {
+        Product product = new Product();
+        for (Product rafter : products) {
+            if (rafter.getCategory().equals("Rem")) {
+                product = new Product(rafter.getId(), rafter.getName(), rafter.getLength(), rafter.getPrice(), rafter.getCategory(), rafter.getDescription(), rafter.getQuantity());
+            }
+        }
+        return product;
+    }
+
+    public Product getPole(ArrayList<Product> products) {
+        Product product = new Product();
+        for (Product rafter : products) {
+            if (rafter.getCategory().equals("Stolpe")) {
+                product = new Product(rafter.getId(), rafter.getName(), rafter.getLength(), rafter.getPrice(), rafter.getCategory(), rafter.getDescription(), rafter.getQuantity());
+            }
+        }
+        return product;
+    }
+
+    public Product getWindBracer(ArrayList<Product> products) {
+        Product product = new Product();
+        for (Product rafter : products) {
+            if (rafter.getCategory().equals("Hulbånd")) {
+                product = new Product(rafter.getId(), rafter.getName(), rafter.getLength(), rafter.getPrice(), rafter.getCategory(), rafter.getDescription(), rafter.getQuantity());
+            }
+        }
+        return product;
     }
 }

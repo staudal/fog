@@ -24,8 +24,14 @@ public class BuilderServlet extends HttpServlet {
         // Defining the order and adding it to the database
         int carportWidth = Integer.parseInt(request.getParameter("carportWidth"));
         int carportLength = Integer.parseInt(request.getParameter("carportLength"));
-        int shedWidth = Integer.parseInt(request.getParameter("shedWidth"));
-        int shedLength = Integer.parseInt(request.getParameter("shedLength"));
+        int shedWidth = 0;
+        int shedLength = 0;
+        if (request.getParameter("shedWidth") != null) {
+            shedWidth = Integer.parseInt(request.getParameter("shedWidth"));
+        }
+        if (request.getParameter("shedLength") != null) {
+            shedLength = Integer.parseInt(request.getParameter("shedLength"));
+        }
         int customerId = customer.getId();
         int discountPrice = 0;
         int status = 1;
@@ -184,7 +190,7 @@ public class BuilderServlet extends HttpServlet {
 
             // Adding info to database (shed)
             orderFacade.createOrderLines(orderId, zForShedDoor.getId(), 1);
-            orderFacade.createOrderLines(orderId, beamForShed.getId(), 1);
+            orderFacade.createOrderLines(orderId, beamForShed.getId(), 2);
             orderFacade.createOrderLines(orderId, poleForShed.getId(), calculator.shedPoleNumber(shedWidth));
             orderFacade.createOrderLines(orderId, shedJoistSide.getId(), calculator.shedJoistSideNumber());
             orderFacade.createOrderLines(orderId, shedJoistFrontBack.getId(), calculator.shedJoistFrontBackNumber(shedWidth));
