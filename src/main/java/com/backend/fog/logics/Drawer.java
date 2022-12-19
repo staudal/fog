@@ -38,11 +38,11 @@ public class Drawer {
         // pole position details
         double leftX = 100;
         double rightX = carportLength - 30;
-        double upperY = 35 - (poleSize / 4);
-        double lowerY = (carportWidth - 35 + (poleSize / 4));
-        double middleX = (carportLength / 2) + (100 - 30) / 2.0;
-        double middleLeftX = ((carportLength - 100 - 30) / 3) + leftX;
-        double middleRightX = carportLength - ((carportLength - 100 - 30) / 3) - 30;
+        double upperY = 35;
+        double lowerY = (carportWidth - 35) - poleSize;
+        double middleX = (carportLength / 2.0) + (100 - 30) / 2.0;
+        double middleLeftX = ((carportLength - 100 - 30) / 3.0) + leftX;
+        double middleRightX = carportLength - ((carportLength - 100 - 30) / 3.0) - 30;
 
         // carport length affected: 0 - 440 cm
         if (poleQuantity == 4) {
@@ -89,7 +89,7 @@ public class Drawer {
         double beamQuantity = beam.getQuantity();
         double beamWidth = 4.7;
         double upperY = 35;
-        double lowerY = carportWidth - (35 - beamWidth);
+        double lowerY = carportWidth - (35 + beamWidth);
 
         // carport length affected: 0 - 720
         if (beamQuantity == 2) {
@@ -110,17 +110,17 @@ public class Drawer {
         double x1 = 100 + (poleSize / 2);
         double y1 = 35 + (poleSize / 4);
         double x2 = carportLength - 30 + (poleSize / 2);
-        double y2 = carportWidth - 35 + (poleSize / 4) * 3;
+        double y2 = (carportWidth - 35) - (poleSize) + (poleSize / 4) + (poleSize / 2);
         svg.addWindBracer(x1, y1, x2, y2);
         svg.addWindBracer(x2, y1, x1, y2);
     }
     public void drawShedPoles(SVG svg, boolean fullSizeShed) {
         double poleSize = 9.7;
-        double leftX = carportLength - shedLength - 30;
+        double leftX = carportLength - shedLength - 30 + poleSize;
         double rightX = carportLength - 30;
-        double lowerY = carportWidth - 35 + (poleSize / 4);
-        double middleY = carportWidth - 35 - (shedWidth / 2) - (poleSize / 4);
-        double upperY = carportWidth - 35 - shedWidth - (poleSize / 4);
+        double upperY = 35;
+        double middleY = carportWidth - 35 - (shedWidth / 2.0) - (poleSize / 4);
+        double lowerY = (carportWidth - 35) - poleSize;
 
         if (fullSizeShed) {
             svg.addShedPole(leftX, upperY); // upper shed pole
@@ -128,15 +128,107 @@ public class Drawer {
             svg.addShedPole(leftX, lowerY); // lower shed pole
             svg.addShedPole(rightX, middleY); // middle-right shed pole
         } else {
+            lowerY = carportWidth - 35 - shedWidth - poleSize;
             svg.addShedPole(leftX, upperY); // upper left shed pole
             svg.addShedPole(leftX, lowerY); // lower left shed pole
-            svg.addShedPole(rightX, upperY); // upper right shed pole
+            svg.addShedPole(rightX, lowerY); // lower right shed pole
         }
     }
     public void drawShedBackground(SVG svg) {
         double poleSize = 9.7;
-        double leftX = carportLength - shedLength - 30;
-        double upperY = carportWidth - 35 - shedWidth - (poleSize / 4);
-        svg.addShedBackground(leftX, upperY, shedLength + poleSize, shedWidth + (poleSize * 1.5));
+        double leftX = carportLength - shedLength - 30 + poleSize;
+        double upperY = 35;
+
+        if ((carportWidth - 70) / 2 == shedWidth) {
+            svg.addShedBackground(leftX, upperY, shedLength, shedWidth);
+        } else {
+            svg.addShedBackground(leftX, upperY, shedLength, shedWidth);
+        }
+    }
+    public void drawCarportWidth(SVG svg) {
+        svg.addMeasurementLine(40, 100, 40, 100 + carportWidth); // main line
+
+        svg.addDecoLine(0, 99, 200 + carportLength, 99); // upper deco
+        svg.addMeasurementLine(35, 99, 45 ,99); // upper measurement
+
+        svg.addDecoLine(0, 101 + carportWidth, 200 + carportLength, 101 + carportWidth); // lower deco
+        svg.addMeasurementLine(35, 101 + carportWidth, 45, 101 + carportWidth); // lower measurement
+
+        svg.addText((200 + carportWidth) / 2.0, -25, "90deg", String.format("%s cm", carportWidth)); // text
+    }
+    public void drawShedWidth(SVG svg) {
+        int overlap = 35;
+        svg.addMeasurementLine(80, 100 + overlap, 80, 100 + carportWidth - overlap); // main line
+
+        svg.addDecoLine(0, 99 + overlap, 200 + carportLength, 99 + overlap); // upper deco
+        svg.addMeasurementLine(75, 99 + overlap, 85 ,99 + overlap); // upper measurement
+
+        svg.addDecoLine(0, 101 + carportWidth - overlap, 200 + carportLength, 101 + carportWidth - overlap); // lower deco
+        svg.addMeasurementLine(75, 101 + carportWidth - overlap, 85, 101 + carportWidth - overlap); // lower measurement
+
+        svg.addText((200 + carportWidth) / 2.0, -65, "90deg", String.format("%s cm", carportWidth - 70)); // text
+
+        if ((carportWidth - 70) / 2 == shedWidth) {
+            double leftX = 100 + carportLength - 30 - shedLength + 9.7;
+            double x = 100 + carportLength + 15;
+            double y1 = 100 + 35;
+            double y2 = y1 + shedWidth;
+            svg.addMeasurementLine(x, y1, x, y2);
+            svg.addDecoLine(0, y1 - 1, 200 + carportLength, y1 - 1);
+            svg.addDecoLine(leftX, y2 + 1, 200 + carportLength, y2 + 1);
+            svg.addMeasurementLine(x - 5, y1 - 1, x + 5, y1 - 1);
+            svg.addMeasurementLine(x - 5, y2 + 1, x + 5, y2 + 1);
+            svg.addText(-((y1 + y2) / 2), x + 15, "270deg", String.format("%s cm", shedWidth));
+        }
+    }
+    public void drawCarportLength(SVG svg) {
+        svg.addMeasurementLine(100, 120 + carportWidth, 100 + carportLength, 120 + carportWidth); // main line
+
+        svg.addDecoLine(99, 0, 99, 200 + carportWidth); // left deco
+        svg.addMeasurementLine(99, 115 + carportWidth, 99, 125 + carportWidth);
+
+        svg.addDecoLine(101 + carportLength, 0, 101 + carportLength, 200 + carportWidth);
+        svg.addMeasurementLine(101 + carportLength, 115 + carportWidth, 101 + carportLength, 125 + carportWidth);
+
+        svg.addText((200 + carportLength) / 2.0, 135 + carportWidth, "0", String.format("%s cm", carportLength));
+
+//        drawer.drawMeasurementLine(svg, 100, 120 + order.getCarportWidth(), order.getCarportLength() + 100, 120 + order.getCarportWidth()); // main line
+//        drawer.drawMeasurementLine(svg, 101, 115 + order.getCarportWidth(), 101, 125 + order.getCarportWidth()); // left deco
+//        drawer.drawMeasurementLine(svg, 99 + order.getCarportLength(), 115 + order.getCarportWidth(), 99 + order.getCarportLength(), 125 + order.getCarportWidth()); // right deco
+//        drawer.drawText(svg, (200 + order.getCarportLength()) / 2.0, (140 + order.getCarportWidth()), "0", String.format("%s cm", order.getCarportLength()));
+    }
+    public void drawShedLength(SVG svg) {
+        double poleSize = 9.7;
+        double leftX = 100 + carportLength - 30 - shedLength + poleSize;
+        double rightX = 100 + carportLength - 30 + poleSize;
+        svg.addMeasurementLine(leftX, 80, rightX, 80); // main line
+
+        svg.addDecoLine(leftX - 1, 0, leftX - 1, 200 + carportWidth);
+        svg.addMeasurementLine(leftX - 1, 75, leftX - 1, 85); // left measurement
+
+        svg.addDecoLine(rightX + 1, 0, rightX + 1, 200 + carportWidth);
+        svg.addMeasurementLine(rightX + 1, 75, rightX + 1, 85);
+
+        svg.addText((rightX + leftX) / 2, 65, "0", String.format("%s cm", (int)(rightX - leftX)));
+    }
+    public void drawRafterWidth(SVG svg) {
+        Product rafter = orderFacade.getRafter(woodsCarport);
+        double rafterQuantity = rafter.getQuantity() - 1;
+        double rafterWidth = 4.7;
+        double buffer = rafterWidth / rafterQuantity;
+        double rafterSpacing = (carportLength / rafterQuantity) - buffer - rafterWidth;
+        double rafterSpacingText = Math.round(rafterSpacing * 100.0) / 100.0;
+
+        double leftX = 100 + rafterWidth * 2 + rafterSpacing;
+        double rightX = leftX + rafterSpacing;
+        double y = 80;
+
+        svg.addMeasurementLine(leftX, y, rightX, y); // main line
+        svg.addDecoLine(leftX + 1, 0, leftX + 1, 200 + carportWidth);
+        svg.addDecoLine(rightX - 1, 0, rightX - 1, 200 + carportWidth);
+        svg.addMeasurementLine(leftX + 1, y - 5, leftX + 1, y + 5);
+        svg.addMeasurementLine(rightX - 1, y - 5, rightX - 1, y + 5);
+
+        svg.addText((rightX + leftX) / 2, 65, "0", String.format("%s cm", rafterSpacingText));
     }
 }

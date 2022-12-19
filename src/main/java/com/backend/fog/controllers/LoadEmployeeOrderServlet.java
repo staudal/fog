@@ -86,29 +86,38 @@ public class LoadEmployeeOrderServlet extends HttpServlet {
 
 
         // Drawing the SVG drawing
-        String viewbox = String.format("%d %d %d %d", 0, 0, order.getCarportLength(), order.getCarportWidth());
-        SVG svg = new SVG(0, 0, order.getCarportWidth(), order.getCarportLength(), viewbox);
+        String viewbox = String.format("%d %d %d %d", 0, 0, order.getCarportLength() + 200, order.getCarportWidth() + 200);
+        String innerViewbox = String.format("%d %d %d %d", 0, 0, order.getCarportLength(), order.getCarportWidth());
         Drawer drawer = new Drawer(woodsCarport, screwsCarport, woodsShed, screwsShed, orderFacade, order.getCarportLength(), order.getCarportWidth(), order.getShedLength(), order.getShedWidth());
+        SVG svg = new SVG(0, 0, order.getCarportWidth() + 200, order.getCarportLength() + 200, viewbox);
+        SVG innerSVG = new SVG(100, 100, order.getCarportWidth(), order.getCarportLength(), innerViewbox);
 
-        // half size shed
+        drawer.drawShedWidth(svg);
+        drawer.drawCarportWidth(svg);
+        drawer.drawCarportLength(svg);
+        drawer.drawShedLength(svg);
+        drawer.drawRafterWidth(svg);
+
         if ((order.getCarportWidth() - 70) / 2 == order.getShedWidth()) {
-            drawer.drawShedBackground(svg);
-            drawer.drawShedPoles(svg, false);
-            drawer.drawWindBracers(svg);
-            drawer.drawPoles(svg);
-            drawer.drawBeams(svg);
-            drawer.drawRafters(svg);
+            drawer.drawShedBackground(innerSVG);
+            drawer.drawShedPoles(innerSVG, false);
+            drawer.drawWindBracers(innerSVG);
+            drawer.drawPoles(innerSVG);
+            drawer.drawBeams(innerSVG);
+            drawer.drawRafters(innerSVG);
         }
 
         // full size shed
         else {
-            drawer.drawShedBackground(svg);
-            drawer.drawShedPoles(svg, true);
-            drawer.drawWindBracers(svg);
-            drawer.drawPoles(svg);
-            drawer.drawBeams(svg);
-            drawer.drawRafters(svg);
+            drawer.drawShedBackground(innerSVG);
+            drawer.drawShedPoles(innerSVG, true);
+            drawer.drawWindBracers(innerSVG);
+            drawer.drawPoles(innerSVG);
+            drawer.drawBeams(innerSVG);
+            drawer.drawRafters(innerSVG);
         }
+
+        svg.addInnerSVG(innerSVG);
 
         request.setAttribute("svg", svg);
         request.setAttribute("order", order);

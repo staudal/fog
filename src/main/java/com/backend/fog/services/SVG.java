@@ -14,6 +14,10 @@ public class SVG {
     private final static String BEAM_TEMPLATE = "<rect x=\"%f\" y=\"%f\" height=\"%f\" width=\"%f\" style=\"stroke: #000; fill: #63462D; stroke-width: 1\" />";
     private final static String WIND_BRACER_TEMPLATE = "<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" style=\"stroke: #ccc; stroke-width: 4; stroke-dasharray: 8;\" />";
     private final static String SHED_BACKGROUND_TEMPLATE = "<rect x=\"%f\" y=\"%f\" height=\"%f\" width=\"%f\" style=\"stroke: #a9a9a9; fill: #a9a9a9; stroke-width: 1\" />";
+    private final static String CARPORT_BACKGROUND_TEMPLATE = "<rect x=\"%f\" y=\"%f\" height=\"%f\" width=\"%f\" style=\"stroke: #000; fill: #fff; stroke-width: 1\" />";
+    private final static String MEASUREMENT_LINE_TEMPLATE = "<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" style=\"stroke: #000; stroke-width: 2;\" />";
+    private final static String DECO_LINE_TEMPLATE = "<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" style=\"stroke: #ddd; stroke-width: 2; stroke-dasharray: 8;\" />";
+    private final static String TEXT_TEMPLATE = "<text x=\"%f\" y=\"%f\" dominant-baseline=\"middle\" text-anchor=\"middle\" style=\"transform:rotate(%s); font-size:13px;\">%s</text>";
 
     public SVG(int x, int y, int height, int width, String viewbox) {
         svgString.append(String.format(HEADER_TEMPLATE, x, y, height, width, viewbox));
@@ -49,6 +53,26 @@ public class SVG {
 
     public void addShedBackground(double x, double y, double width, double height) {
         svgString.append(String.format(SHED_BACKGROUND_TEMPLATE, x, y, height, width));
+    }
+
+    public void addInnerSVG(SVG svg) {
+        svgString.append(svg);
+    }
+
+    public void addCarportBackground(double x, double y, double width, double height) {
+        svgString.append(String.format(CARPORT_BACKGROUND_TEMPLATE, x, y, height, width));
+    }
+
+    public void addMeasurementLine(double x1, double y1, double x2, double y2) {
+        svgString.append(String.format(MEASUREMENT_LINE_TEMPLATE, x1, y1, x2, y2));
+    }
+
+    public void addText(double x, double y, String rotation, String text) {
+        svgString.append(String.format(TEXT_TEMPLATE, x, y, rotation, text));
+    }
+
+    public void addDecoLine(double x1, double y1, double x2, double y2) {
+        svgString.append(String.format(DECO_LINE_TEMPLATE, x1, y1, x2, y2));
     }
 
     @Override
