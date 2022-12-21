@@ -22,16 +22,18 @@ public class BuilderServlet extends HttpServlet {
         Calculator calculator = new Calculator();
 
         // Defining the order and adding it to the database
-        int carportWidth = Integer.parseInt(request.getParameter("carportWidth"));
-        int carportLength = Integer.parseInt(request.getParameter("carportLength"));
-        int shedWidth = 0;
-        int shedLength = 0;
-        if (request.getParameter("shedWidth") != null) {
-            shedWidth = Integer.parseInt(request.getParameter("shedWidth"));
+        int carportWidth = 0;
+        int carportLength = 0;
+        if (request.getParameter("carportWidth") != null && request.getParameter("carportLength") != null) {
+            carportWidth = Integer.parseInt(request.getParameter("carportWidth"));
+            carportLength = Integer.parseInt(request.getParameter("carportLength"));
+        } else {
+            request.getRequestDispatcher("WEB-INF/customer/builder.jsp").forward(request, response);
         }
-        if (request.getParameter("shedLength") != null) {
-            shedLength = Integer.parseInt(request.getParameter("shedLength"));
-        }
+
+        int shedWidth = Integer.parseInt(request.getParameter("shedWidth"));
+        int shedLength = Integer.parseInt(request.getParameter("shedLength"));
+
         int customerId = customer.getId();
         int discountPrice = 0;
         int status = 1;

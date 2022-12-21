@@ -290,6 +290,7 @@ public class Drawer {
             drawCarportWidth(svg);
             drawRafterWidth(svg);
             drawShedWidth(svg);
+            drawShedLength(svg);
         }
 
         svg.addInnerSVG(innerSVG);

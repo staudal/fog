@@ -68,7 +68,7 @@
                     <div class="position-relative">
                         <label for="shedLength" class="form-label">Længde af skur</label>
                         <select class="form-select" id="shedLength" name="shedLength">
-                            <option selected value="">Intet skur</option>
+                            <option selected value="0">Intet skur</option>
                             <option value="150">150 cm</option>
                             <option value="180">180 cm</option>
                             <option value="210">210 cm</option>
