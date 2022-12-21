@@ -93,4 +93,20 @@ public class OrderFacade {
     public Product getWindBracer(ArrayList<Product> products) {
         return orderMapper.getWindBracer(products);
     }
+
+    public ArrayList<Product> getCarportWoods(ArrayList<Product> allProducts) {
+        return orderMapper.getCarportWoods(allProducts);
+    }
+
+    public ArrayList<Product> getShedWoods(ArrayList<Product> allProducts) {
+        return orderMapper.getShedWoods(allProducts);
+    }
+
+    public ArrayList<Product> getCarportScrews(ArrayList<Product> allProducts) {
+        return orderMapper.getCarportScrews(allProducts);
+    }
+
+    public ArrayList<Product> getShedScrews(ArrayList<Product> allProducts) {
+        return orderMapper.getShedScrews(allProducts);
+    }
 }

@@ -1,4 +1,4 @@
-package com.backend.fog.controllers;
+package com.backend.fog.controllers.employee;
 
 import com.backend.fog.facades.CustomerFacade;
 import com.backend.fog.facades.OrderFacade;

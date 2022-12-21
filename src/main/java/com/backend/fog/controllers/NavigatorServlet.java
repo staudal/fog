@@ -43,8 +43,6 @@ public class NavigatorServlet extends HttpServlet {
         } else if (route.equals("employeeCustomers")) {
             request.getSession().setAttribute("customers", customerFacade.getAllCustomers());
             request.getRequestDispatcher("WEB-INF/employee/customers.jsp").forward(request, response);
-        } else if (route.equals("employeeProducts")) {
-            request.getRequestDispatcher("WEB-INF/employee/products.jsp").forward(request, response);
         }
     }
 }

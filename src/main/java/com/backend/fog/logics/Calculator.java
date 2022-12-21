@@ -1,5 +1,9 @@
 package com.backend.fog.logics;
 
+import com.backend.fog.entities.Product;
+
+import java.util.ArrayList;
+
 public class Calculator {
 
     // NO SHED, WOODS AND ROOF
@@ -212,5 +216,13 @@ public class Calculator {
     }
     public int joistHingePrice(int shedWidth, int price) {
         return joistHingeNumber(shedWidth) * price;
+    }
+
+    public int calculatePartsPrice(ArrayList<Product> products) {
+        int price = 0;
+        for (Product product : products) {
+            price += product.getPrice() * product.getQuantity();
+        }
+        return price;
     }
 }

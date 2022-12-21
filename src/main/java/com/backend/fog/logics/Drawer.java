@@ -1,5 +1,6 @@
 package com.backend.fog.logics;
 
+import com.backend.fog.entities.Order;
 import com.backend.fog.entities.Product;
 import com.backend.fog.facades.OrderFacade;
 import com.backend.fog.services.SVG;
@@ -230,5 +231,68 @@ public class Drawer {
         svg.addMeasurementLine(rightX - 1, y - 5, rightX - 1, y + 5);
 
         svg.addText((rightX + leftX) / 2, 65, "0", String.format("%s cm", rafterSpacingText));
+    }
+
+    public SVG createCarportDrawing() {
+        String viewbox = String.format("%d %d %d %d", 0, 0, carportLength + 200, carportWidth + 200);
+        String innerViewbox = String.format("%d %d %d %d", 0, 0, carportLength, carportWidth);
+
+        SVG svg = new SVG(0, 0, carportWidth + 200, carportLength + 200, viewbox);
+        SVG innerSVG = new SVG(100, 100, carportWidth, carportLength, innerViewbox);
+
+        boolean fullSizeShed = carportWidth - 70 == shedWidth;
+        boolean halfSizeShed = (carportWidth - 70) / 2 == shedWidth;
+
+        // no shed
+        if (shedWidth == 0) {
+            // the carport parts
+            drawWindBracers(innerSVG);
+            drawPoles(innerSVG);
+            drawBeams(innerSVG);
+            drawRafters(innerSVG);
+            // the measurement parts
+            drawCarportLength(svg);
+            drawCarportWidth(svg);
+            drawRafterWidth(svg);
+            drawShedWidth(svg);
+        }
+
+        // half-size shed
+        if (halfSizeShed) {
+            // the shed parts
+            drawShedBackground(innerSVG);
+            drawShedPoles(innerSVG, false);
+            // the carport parts
+            drawWindBracers(innerSVG);
+            drawPoles(innerSVG);
+            drawBeams(innerSVG);
+            drawRafters(innerSVG);
+            // the measurement parts
+            drawCarportLength(svg);
+            drawCarportWidth(svg);
+            drawRafterWidth(svg);
+            drawShedWidth(svg);
+            drawShedLength(svg);
+        }
+
+        // full-size shed
+        if (fullSizeShed) {
+            // the shed parts
+            drawShedBackground(innerSVG);
+            drawShedPoles(innerSVG, true);
+            // the carport parts
+            drawWindBracers(innerSVG);
+            drawPoles(innerSVG);
+            drawBeams(innerSVG);
+            drawRafters(innerSVG);
+            // the measurement parts
+            drawCarportLength(svg);
+            drawCarportWidth(svg);
+            drawRafterWidth(svg);
+            drawShedWidth(svg);
+        }
+
+        svg.addInnerSVG(innerSVG);
+        return svg;
     }
 }

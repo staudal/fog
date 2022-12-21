@@ -12,7 +12,6 @@
         <div class="container-fluid container d-flex justify-content-between align-items-center">
             <button class="btn fs-4 fw-bold text-light" name="route" value="employeeOverview" type="submit">Fog</button>
             <div class="d-flex">
-                <button class="btn text-light nav-link" name="route" value="employeeProducts">Produkter</button>
                 <button class="btn text-light nav-link" name="route" value="employeeOrders">Ordre</button>
                 <button class="btn text-light nav-link" name="route" value="employeeCustomers">Kunder</button>
             </div>

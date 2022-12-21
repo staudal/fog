@@ -100,6 +100,31 @@
             </div>
         </section>
     </c:if>
+    <c:if test="${requestScope.order.getShedWidth() == 0}">
+        <section class="d-flex container flex-column justify-content-between align-items-center pt-4">
+            <div class="w-100 bg-light justify-content-center rounded p-3 border">
+                <table class="table table-bordered mb-0">
+                    <thead>
+                    <tr>
+                        <th colspan="4" class="text-center table-primary">Carport</th>
+                    </tr>
+                    </thead>
+                    <thead>
+                    <tr>
+                        <th>Bredde</th>
+                        <th>Længde</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>${requestScope.order.getCarportWidth()} cm</td>
+                        <td>${requestScope.order.getCarportLength()} cm</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </c:if>
     <c:if test="${requestScope.order.getStatus() == 3}">
         <section class="d-flex container flex-column justify-content-between align-items-center pt-4">
             <div class="w-100 bg-light justify-content-center rounded p-3 border">
@@ -156,113 +181,129 @@
                     </tbody>
                 </table>
 
-                <!-- skur -->
-                <table class="table table-bordered border-dark table-striped">
-                    <thead class="table-dark text-center fw-bold"><tr><td colspan="5">Skur</td></tr></thead>
-                    <thead class="table-primary border-dark text-center fw-bold">
-                    <tr>
-                        <td colspan="5">Træ (skur)</td>
-                    </tr>
-                    </thead>
-                    <thead class="table-primary border-dark fw-bold">
-                    <tr>
-                        <td>Antal</td>
-                        <td>Vare</td>
-                        <td>Længde</td>
-                        <td>Beskrivelse</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${requestScope.woodsShed}" var="wood">
+                <c:if test="${requestScope.order.getShedWidth() != 0}">
+                    <!-- skur -->
+                    <table class="table table-bordered border-dark table-striped mb-0">
+                        <thead class="table-dark text-center fw-bold"><tr><td colspan="5">Skur</td></tr></thead>
+                        <thead class="table-primary border-dark text-center fw-bold">
                         <tr>
-                            <td>${wood.getQuantity()}x</td>
-                            <td>${wood.getName()}</td>
-                            <td>${wood.getLength()} cm</td>
-                            <td>${wood.getDescription()}</td>
+                            <td colspan="5">Træ (skur)</td>
                         </tr>
-                    </c:forEach>
-                    </tbody>
-                    <thead class="table-primary border-dark text-center fw-bold">
-                    <tr>
-                        <td colspan="5">Beslag & skruer (skur)</td>
-                    </tr>
-                    </thead>
-                    <thead class="table-primary border-dark fw-bold">
-                    <tr>
-                        <td>Antal</td>
-                        <td>Vare</td>
-                        <td>Længde</td>
-                        <td>Beskrivelse</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${requestScope.screwsShed}" var="screw">
+                        </thead>
+                        <thead class="table-primary border-dark fw-bold">
                         <tr>
-                            <td>${screw.getQuantity()}x</td>
-                            <td>${screw.getName()}</td>
-                            <td class="table-dark"></td>
-                            <td>${screw.getDescription()}</td>
+                            <td>Antal</td>
+                            <td>Vare</td>
+                            <td>Længde</td>
+                            <td>Beskrivelse</td>
                         </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${requestScope.woodsShed}" var="wood">
+                            <tr>
+                                <td>${wood.getQuantity()}x</td>
+                                <td>${wood.getName()}</td>
+                                <td>${wood.getLength()} cm</td>
+                                <td>${wood.getDescription()}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                        <thead class="table-primary border-dark text-center fw-bold">
+                        <tr>
+                            <td colspan="5">Beslag & skruer (skur)</td>
+                        </tr>
+                        </thead>
+                        <thead class="table-primary border-dark fw-bold">
+                        <tr>
+                            <td>Antal</td>
+                            <td>Vare</td>
+                            <td>Længde</td>
+                            <td>Beskrivelse</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${requestScope.screwsShed}" var="screw">
+                            <tr>
+                                <td>${screw.getQuantity()}x</td>
+                                <td>${screw.getName()}</td>
+                                <td class="table-dark"></td>
+                                <td>${screw.getDescription()}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </c:if>
+            </div>
+        </section>
+        <section class="d-flex container flex-column justify-content-between align-items-center pt-4 pb-4">
+            <div class="w-100 d-flex bg-light justify-content-center rounded p-3 border">
+                    ${requestScope.svg}
             </div>
         </section>
     </c:if>
+
     <c:if test="${requestScope.order.getStatus() == 1}">
-        <section class="container pt-4 gap-4">
+        <section class="container pt-4 pb-4 gap-4">
             <div class="row">
-                <div class="col"><button class="btn btn-primary w-100" disabled>Gå til betaling</button></div>
-                <div class="col"><form action="RemoveCustomerOrderServlet" method="post" class="mb-0 w-100">
-                    <button class="w-100 btn btn-danger" type="submit" name="orderId" value="${requestScope.order.getId()}">Annuller ordre</button>
-                </form></div>
+                <div class="col">
+                    <button class="btn btn-primary w-100" disabled>Gå til betaling</button>
+                </div>
+                <div class="col">
+                    <form action="RemoveCustomerOrderServlet" method="post" class="mb-0 w-100">
+                        <button class="w-100 btn btn-danger" type="submit" name="orderId" value="${requestScope.order.getId()}">Annuller ordre</button>
+                    </form>
+                </div>
             </div>
         </section>
     </c:if>
     <c:if test="${requestScope.order.getStatus() == 2}">
-        <section class="container pt-4 gap-4">
+        <section class="container pt-4 pb-4 gap-4">
             <div class="row">
-                <div class="col"><form action="PayForOrderServlet" method="post" class="mb-0">
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        Gå til betaling
-                    </button>
+                <div class="col">
+                    <form action="PayForOrderServlet" method="post" class="mb-0">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Gå til betaling
+                        </button>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="cardNumber" class="form-label">Kortnummer</label>
-                                        <input type="text" class="form-control" id="cardNumber" placeholder="1234-5678-8473-2843" required>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <label for="expirationDate" class="form-label">Udløbsdato</label>
-                                            <input type="text" id="expirationDate" class="form-control" placeholder="07/26" required>
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="cardNumber" class="form-label">Kortnummer</label>
+                                            <input type="text" class="form-control" id="cardNumber" placeholder="1234-5678-8473-2843" required>
                                         </div>
-                                        <div class="col">
-                                            <label for="pin" class="form-label">PIN</label>
-                                            <input type="text" id="pin" class="form-control" placeholder="374" required>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="expirationDate" class="form-label">Udløbsdato</label>
+                                                <input type="text" id="expirationDate" class="form-control" placeholder="07/26" required>
+                                            </div>
+                                            <div class="col">
+                                                <label for="pin" class="form-label">PIN</label>
+                                                <input type="text" id="pin" class="form-control" placeholder="374" required>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Luk vindue</button>
-                                    <button type="submit" class="btn btn-primary" name="orderId" value="${requestScope.order.getId()}">Betal ordre</button>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Luk vindue</button>
+                                        <button type="submit" class="btn btn-primary" name="orderId" value="${requestScope.order.getId()}">Betal ordre</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form></div>
-                <div class="col"><form action="RemoveCustomerOrderServlet" method="post" class="mb-0">
-                    <button class="w-100 btn btn-danger" type="submit" name="orderId" value="${requestScope.order.getId()}">Annuller ordre</button>
-                </form></div>
+                    </form>
+                </div>
+                <div class="col">
+                    <form action="RemoveCustomerOrderServlet" method="post" class="mb-0">
+                        <button class="w-100 btn btn-danger" type="submit" name="orderId" value="${requestScope.order.getId()}">Annuller ordre</button>
+                    </form>
+                </div>
             </div>
         </section>
     </c:if>

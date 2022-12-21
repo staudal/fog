@@ -58,17 +58,17 @@
                         </select>
                     </div>
                     <div class="position-relative">
-                        <label for="shedWidth" class="form-label">Bredde af skur (max carportens bredde - 70 cm)</label>
+                        <label for="shedWidth" class="form-label">Bredde af skur</label>
                         <select class="form-select" id="shedWidth" name="shedWidth">
-                            <option selected disabled value="0">Intet skur</option>
+                            <option selected value="0">Intet skur</option>
                             <option value="1">Hele carportens bredde</option>
                             <option value="2">Halvdelen af carportens bredde</option>
                         </select>
                     </div>
                     <div class="position-relative">
-                        <label for="shedLength" class="form-label">Længde af skur (max carportens længde - 200 cm)</label>
+                        <label for="shedLength" class="form-label">Længde af skur</label>
                         <select class="form-select" id="shedLength" name="shedLength">
-                            <option selected disabled value="">Intet skur</option>
+                            <option selected value="">Intet skur</option>
                             <option value="150">150 cm</option>
                             <option value="180">180 cm</option>
                             <option value="210">210 cm</option>

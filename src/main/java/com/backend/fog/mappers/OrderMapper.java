@@ -366,4 +366,44 @@ public class OrderMapper {
         }
         return product;
     }
+
+    public ArrayList<Product> getCarportWoods(ArrayList<Product> allProducts) {
+        ArrayList<Product> carportWoods = new ArrayList<>();
+        for (Product product : allProducts) {
+            if (product.getKind() == 1 && product.getUse() == 0) {
+                carportWoods.add(product);
+            }
+        }
+        return carportWoods;
+    }
+
+    public ArrayList<Product> getShedWoods(ArrayList<Product> allProducts) {
+        ArrayList<Product> shedWoods = new ArrayList<>();
+        for (Product product : allProducts) {
+            if (product.getKind() == 1 && product.getUse() == 1) {
+                shedWoods.add(product);
+            }
+        }
+        return shedWoods;
+    }
+
+    public ArrayList<Product> getCarportScrews(ArrayList<Product> allProducts) {
+        ArrayList<Product> carportScrews = new ArrayList<>();
+        for (Product product : allProducts) {
+            if (product.getKind() == 0 && product.getUse() == 0) {
+                carportScrews.add(product);
+            }
+        }
+        return carportScrews;
+    }
+
+    public ArrayList<Product> getShedScrews(ArrayList<Product> allProducts) {
+        ArrayList<Product> shedScrews = new ArrayList<>();
+        for (Product product : allProducts) {
+            if (product.getKind() == 0 && product.getUse() == 1) {
+                shedScrews.add(product);
+            }
+        }
+        return shedScrews;
+    }
 }
