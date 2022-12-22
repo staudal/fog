@@ -7,19 +7,19 @@ public class ErrorHandler {
 
     public String emailNotFound() {
         return "<div class=\"invalid-tooltip\">\n" +
-                "        Email doesn't exist. Try again.\n" +
+                "        Email eksisterer ikke. Prøv igen.\n" +
                 "      </div>";
     }
 
     public String wrongPassword() {
         return "<div class=\"invalid-tooltip\">\n" +
-                "        Incorrect password. Try again.\n" +
+                "        Forkert adgangskode. Prøv igen.\n" +
                 "      </div>";
     }
 
     public String emailAreadyExists() {
         return "<div class=\"invalid-tooltip\">\n" +
-                "        Email already exists. Try again.\n" +
+                "        Email eksisterer allerede. Prøv igen.\n" +
                 "      </div>";
     }
 
@@ -29,15 +29,33 @@ public class ErrorHandler {
                 "      </div>";
     }
 
-    public String widthTooWide() {
-        return "<div class=\"invalid-tooltip position-relative\">\n" +
-                "        Carporten kan maksimalt være 600 cm bred.\n" +
+    public String widthNotDefined() {
+        return "<div class=\"invalid-tooltip\">\n" +
+                "        Angiv venligst en bredde på carporten.\n" +
                 "      </div>";
     }
 
-    public String heightTooHigh() {
-        return "<div class=\"invalid-tooltip position-relative\">\n" +
-                "        Carporten kan maksimalt være 390 cm høj.\n" +
+    public String lengthNotDefined() {
+        return "<div class=\"invalid-tooltip\">\n" +
+                "        Angiv venligst en længde på carporten.\n" +
+                "      </div>";
+    }
+
+    public String proportionsErrorMessage() {
+        return "<div class=\"invalid-tooltip\">\n" +
+                "        Skuret kan ikke være længere end carporten.\n" +
+                "      </div>";
+    }
+
+    public String shedWidthUndefined() {
+        return "<div class=\"invalid-tooltip\">\n" +
+                "        Angiv venligst både skurets længde og bredde.\n" +
+                "      </div>";
+    }
+
+    public String shedLengthUndefined() {
+        return "<div class=\"invalid-tooltip\">\n" +
+                "        Angiv venligst både skurets længde og bredde.\n" +
                 "      </div>";
     }
 }

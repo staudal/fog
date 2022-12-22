@@ -9,9 +9,9 @@
     </section>
     <%--  HERO END  --%>
     <form action="LoadCustomerOrderServlet" method="post" class="mb-0 mt-4 mb-4">
-        <div class="container vh-100">
-            <div class="row vh-100 gap-4">
-                <div class="col vh-100 border p-4 bg-light rounded">
+        <div class="container">
+            <div class="row gap-4">
+                <div class="col border p-4 bg-light rounded">
                     <h2 class="text-center fs-4 mb-4">Afventer tilbud</h2>
                     <div class="d-flex flex-column gap-2">
                         <c:forEach items="${sessionScope.orders.values()}" var="order">
@@ -21,7 +21,7 @@
                         </c:forEach>
                     </div>
                 </div>
-                <div class="col vh-100 border p-4 bg-light rounded">
+                <div class="col border p-4 bg-light rounded">
                     <h2 class="text-center fs-4 mb-4">Tilbud modtaget</h2>
                     <div class="d-flex flex-column gap-2">
                         <c:forEach items="${sessionScope.orders.values()}" var="order">
@@ -31,7 +31,7 @@
                         </c:forEach>
                     </div>
                 </div>
-                <div class="col vh-100 border p-4 bg-light rounded">
+                <div class="col border p-4 bg-light rounded">
                     <h2 class="text-center fs-4 mb-4">Tilbud betalt</h2>
                     <div class="d-flex flex-column gap-2">
                         <c:forEach items="${sessionScope.orders.values()}" var="order">

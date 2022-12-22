@@ -21,29 +21,72 @@ public class BuilderServlet extends HttpServlet {
         ProductFacade productFacade = new ProductFacade();
         Calculator calculator = new Calculator();
 
-        // Defining the order and adding it to the database
         int carportWidth = 0;
         int carportLength = 0;
-        if (request.getParameter("carportWidth") != null && request.getParameter("carportLength") != null) {
-            carportWidth = Integer.parseInt(request.getParameter("carportWidth"));
-            carportLength = Integer.parseInt(request.getParameter("carportLength"));
-        } else {
-            request.getRequestDispatcher("WEB-INF/customer/builder.jsp").forward(request, response);
-        }
-
         int shedWidth = Integer.parseInt(request.getParameter("shedWidth"));
         int shedLength = Integer.parseInt(request.getParameter("shedLength"));
-
         int customerId = customer.getId();
         int discountPrice = 0;
         int status = 1;
 
-        if (shedWidth == 0 && shedLength != 0 || shedWidth != 0 && shedLength == 0) {
+        // DEFINING CARPORT DIMENSIONS: if width and length is not null
+        if (request.getParameter("carportWidth") != null && request.getParameter("carportLength") != null) {
+            carportWidth = Integer.parseInt(request.getParameter("carportWidth"));
+            carportLength = Integer.parseInt(request.getParameter("carportLength"));
+        }
+
+        // ERROR HANDLER: both width and length is undefined
+        if (request.getParameter("carportWidth") == null && request.getParameter("carportLength") == null) {
             ErrorHandler errorHandler = new ErrorHandler();
-            request.setAttribute("carportLength", carportLength);
             request.setAttribute("widthErrorClass", errorHandler.errorClass());
+            request.setAttribute("lengthErrorClass", errorHandler.errorClass());
+            request.setAttribute("widthErrorMessage", errorHandler.widthNotDefined());
+            request.setAttribute("lengthErrorMessage", errorHandler.lengthNotDefined());
             request.getRequestDispatcher("WEB-INF/customer/builder.jsp").forward(request, response);
-        } else if (shedWidth == 0) {
+        }
+
+        // ERROR HANDLER: only width is undefined
+        else if (request.getParameter("carportWidth") == null) {
+            ErrorHandler errorHandler = new ErrorHandler();
+            request.setAttribute("widthErrorClass", errorHandler.errorClass());
+            request.setAttribute("widthErrorMessage", errorHandler.widthNotDefined());
+            request.getRequestDispatcher("WEB-INF/customer/builder.jsp").forward(request, response);
+        }
+
+        // ERROR HANDLER: only length is undefined
+        else if (request.getParameter("carportLength") == null) {
+            ErrorHandler errorHandler = new ErrorHandler();
+            request.setAttribute("lengthErrorClass", errorHandler.errorClass());
+            request.setAttribute("lengthErrorMessage", errorHandler.lengthNotDefined());
+            request.getRequestDispatcher("WEB-INF/customer/builder.jsp").forward(request, response);
+        }
+
+        // ERROR HANDLER: if shed width is undefined but shed length isn't
+        else if (shedWidth == 0 && shedLength != 0) {
+            ErrorHandler errorHandler = new ErrorHandler();
+            request.setAttribute("shedWidthErrorClass", errorHandler.errorClass());
+            request.setAttribute("shedWidthErrorMessage", errorHandler.shedWidthUndefined());
+            request.getRequestDispatcher("WEB-INF/customer/builder.jsp").forward(request, response);
+        }
+
+        // ERROR HANDLER: if shed length is undefined but shed width isn't
+        else if (shedLength == 0 && shedWidth != 0) {
+            ErrorHandler errorHandler = new ErrorHandler();
+            request.setAttribute("proportionsErrorClass", errorHandler.errorClass());
+            request.setAttribute("shedLengthErrorMessage", errorHandler.shedLengthUndefined());
+            request.getRequestDispatcher("WEB-INF/customer/builder.jsp").forward(request, response);
+        }
+
+        // ERROR HANDLER: if shed length is longer than carport length
+        else if (carportLength < shedLength) {
+            ErrorHandler errorHandler = new ErrorHandler();
+            request.setAttribute("proportionsErrorClass", errorHandler.errorClass());
+            request.setAttribute("proportionsErrorMessage", errorHandler.proportionsErrorMessage());
+            request.getRequestDispatcher("WEB-INF/customer/builder.jsp").forward(request, response);
+        }
+
+        // ORDER CREATOR: if no shed is selected
+        else if (shedWidth == 0) {
             // Defining the products
             Product pole = productFacade.getPole();
             Product beam = productFacade.getBeam(carportLength);
@@ -103,7 +146,10 @@ public class BuilderServlet extends HttpServlet {
             // Loading orders into session scope to be displayed on the orders page
             request.getSession().setAttribute("orders", orderFacade.getCustomerOrders(customer.getId()));
             request.getRequestDispatcher("WEB-INF/customer/orders.jsp").forward(request, response);
-        } else {
+        }
+
+        // ORDER CREATOR: if a shed is selected
+        else {
             // Defining the products
             Product pole = productFacade.getPole();
             Product beam = productFacade.getBeam(carportLength);

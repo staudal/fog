@@ -22,6 +22,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -53,6 +55,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -101,6 +105,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -119,6 +125,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -148,6 +156,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -164,6 +174,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -180,6 +192,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -196,6 +210,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -212,6 +228,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -228,6 +246,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -244,6 +264,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -260,6 +282,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -278,6 +302,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -296,6 +322,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -312,6 +340,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -334,6 +364,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -350,6 +382,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -366,6 +400,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -382,6 +418,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -398,6 +436,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -414,6 +454,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -434,6 +476,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -452,6 +496,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -470,6 +516,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -488,6 +536,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }
@@ -506,6 +556,8 @@ public class ProductMapper {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return product;
     }

@@ -6,7 +6,7 @@
   <div class="d-flex justify-content-center align-items-center w-100" style="height: calc(100vh - 54px);">
     <div class="w-100 d-flex flex-column justify-content-center" style="max-width: 600px;">
       <h2 class="mb-4 text-center">Opret Fog-konto</h2>
-      <form class="mb-0 needs-validation d-flex flex-column" method="post" novalidate>
+      <form class="mb-0 needs-validation d-flex flex-column" method="post">
         <div class="mb-3 row position-relative">
           <label for="firstName" class="col-sm-2 col-form-label">Fornavn</label>
           <div class="col-sm-10">
@@ -33,7 +33,7 @@
           </div>
         </div>
         <button formaction="CreateAccountServlet" class="btn btn-primary w-100 text-light mb-2" type="submit">Opret konto</button>
-        <button formaction="Navigator" name="route" value="login" class="btn btn-light" type="submit">Gå til login i stedet</button>
+        <button formaction="Navigator" name="route" value="login" class="btn btn-light" type="submit" formnovalidate>Gå til login i stedet</button>
       </form>
     </div>
   </div>

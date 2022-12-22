@@ -148,6 +148,8 @@ public class OrderMapper {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            connection.disconnect();
         }
         return customer;
     }
@@ -225,8 +227,6 @@ public class OrderMapper {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
         }
         return order;
     }

@@ -8,8 +8,6 @@ public class Calculator {
 
     // NO SHED, WOODS AND ROOF
     public int poleNumber(int length) {
-        // NOTE: IF LENGTH OF CARPORT IS LONGER THAN 440 CM (100 + 30 + 310) THEN AN EXTRA POLE IS INSERTED
-        // AND IF CARPORT IS LONGER THAN 750 CM (100 + 30 + 310 + 310) THEN TWO EXTRA POLES ARE INSERTED
         int poles = 0;
         if (length >= 0 && length <= 440) {
             poles = 4;
@@ -25,8 +23,6 @@ public class Calculator {
     }
 
     public int beamNumber(int length) {
-        // NOTE: IF THE CARPORT IS LESS THAN OR EQUAL TO 600 CM LONG (LONGEST BEAM AVAILABLE) THEN WE ONLY NEED TWO BEAMS
-        // NOTE: IF THE CARPORT IS LONGER THAN 600 CM, WE NEED 4 BEAMS
         int beams = 0;
         if (length >= 0 && length <= 720) {
             beams = 2;
@@ -40,8 +36,6 @@ public class Calculator {
     }
 
     public int rafterNumber(int length) {
-        // NOTE: NUMBER OF RAFTER IS FOUND BY DIVIDING THE LENGTH WITH THE DESIRED LENGTH BETWEEN EACH RAFTER
-        // NOTE: FOR GOOD MEASUREMENT WE ARE ADDING 1 ADDITIONAL RAFTER SO THE CUSTOMER CAN DECIDE THE EXACT LENGTH BETWEEN EACH RAFTER
         return (length / 55) + 1;
     }
     public int rafterPrice(int length, int price) {
@@ -96,8 +90,9 @@ public class Calculator {
         if (length >= 0 && length <= 600) {
             roof = Math.floor((widthIncludingOverlap / 109) + 1);
         } else if (length > 600 & length <= 800) {
-            roof = Math.floor(((widthIncludingOverlap / 109) + 1) * 2);
+            roof = Math.floor(((widthIncludingOverlap / 109) + 1)) * 2;
         }
+
         return (int) roof;
     }
     public int roofPrice(int length, int width, int price) {
