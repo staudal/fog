@@ -17,14 +17,6 @@ public class Employee {
         this.password = password;
     }
 
-    public Employee(String firstName, String lastName, String email, String password) {
-        this.id = UUID.randomUUID();
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-    }
-
     public UUID getId() {
         return id;
     }

@@ -1,39 +1,53 @@
 package com.backend.fog.controllers;
 
-import com.backend.fog.entities.Customer;
 import com.backend.fog.entities.Employee;
 import com.backend.fog.errors.ErrorHandler;
 import com.backend.fog.facades.CustomerFacade;
 import com.backend.fog.facades.EmployeeFacade;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import com.backend.fog.persistence.DatabaseConnection;
+import com.backend.fog.services.ApplicationStart;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.UUID;
 
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")
 public class LoginServlet extends HttpServlet {
+
+    private DatabaseConnection databaseConnection;
+
+    @Override
+    public void init() {
+        this.databaseConnection = ApplicationStart.getConnectionPool();
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.setAttribute("user", null);
+
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String role = request.getParameter("role");
 
         // CUSTOMER
         if (role.equals("customer")) {
-            ErrorHandler errorHandler = new ErrorHandler();
-            CustomerFacade customerFacade = new CustomerFacade();
+            CustomerFacade customerFacade = new CustomerFacade(databaseConnection);
             // CHECKING IF EMAIL DOESN'T EXISTS
             if (!customerFacade.validateEmail(email)) {
-                request.setAttribute("emailErrorMessage", errorHandler.emailNotFound());
-                request.setAttribute("emailErrorClass", errorHandler.errorClass());
+                request.setAttribute("emailErrorMessage", ErrorHandler.emailNotFound());
+                request.setAttribute("emailErrorClass", ErrorHandler.errorClass());
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
             // CHECKING IF PASSWORD IS INCORRECT
             if (!customerFacade.validatePassword(email, password)) {
-                request.setAttribute("passwordErrorMessage", errorHandler.wrongPassword());
-                request.setAttribute("passwordErrorClass", errorHandler.errorClass());
+                request.setAttribute("passwordErrorMessage", ErrorHandler.wrongPassword());
+                request.setAttribute("passwordErrorClass", ErrorHandler.errorClass());
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
             // IF INFO IS CORRECT
@@ -45,18 +59,17 @@ public class LoginServlet extends HttpServlet {
 
         // EMPLOYEE
         if (role.equals("employee")) {
-            ErrorHandler errorHandler = new ErrorHandler();
-            EmployeeFacade employeeFacade = new EmployeeFacade();
+            EmployeeFacade employeeFacade = new EmployeeFacade(databaseConnection);
             // CHECKING IF EMAIL DOESN'T EXIST
             if (!employeeFacade.validateEmail(email)) {
-                request.setAttribute("emailErrorMessage", errorHandler.emailNotFound());
-                request.setAttribute("emailErrorClass", errorHandler.errorClass());
+                request.setAttribute("emailErrorMessage", ErrorHandler.emailNotFound());
+                request.setAttribute("emailErrorClass", ErrorHandler.errorClass());
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
             // CHECKING IF PASSWORD IS INCORRECT
             if (!employeeFacade.validatePassword(email, password)) {
-                request.setAttribute("passwordErrorMessage", errorHandler.wrongPassword());
-                request.setAttribute("passwordErrorClass", errorHandler.errorClass());
+                request.setAttribute("passwordErrorMessage", ErrorHandler.wrongPassword());
+                request.setAttribute("passwordErrorClass", ErrorHandler.errorClass());
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
             // IF INFO IS CORRECT

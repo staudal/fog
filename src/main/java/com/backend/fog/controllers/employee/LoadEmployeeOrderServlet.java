@@ -5,6 +5,8 @@ import com.backend.fog.entities.Product;
 import com.backend.fog.facades.OrderFacade;
 import com.backend.fog.logics.Calculator;
 import com.backend.fog.logics.Drawer;
+import com.backend.fog.persistence.DatabaseConnection;
+import com.backend.fog.services.ApplicationStart;
 import com.backend.fog.services.SVG;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,6 +20,14 @@ import java.util.Locale;
 
 @WebServlet(name = "LoadEmployeeOrderServlet", value = "/LoadEmployeeOrderServlet")
 public class LoadEmployeeOrderServlet extends HttpServlet {
+
+    private DatabaseConnection databaseConnection;
+
+    @Override
+    public void init() {
+        this.databaseConnection = ApplicationStart.getConnectionPool();
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -25,7 +35,7 @@ public class LoadEmployeeOrderServlet extends HttpServlet {
         Locale.setDefault(new Locale("US"));
 
         int orderId = Integer.parseInt(request.getParameter("orderId"));
-        OrderFacade orderFacade = new OrderFacade();
+        OrderFacade orderFacade = new OrderFacade(databaseConnection);
 
         // retrieving the order from the database using the orderID
         Order order = orderFacade.getOrder(orderId);

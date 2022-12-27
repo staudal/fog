@@ -6,6 +6,8 @@ import com.backend.fog.errors.ErrorHandler;
 import com.backend.fog.facades.OrderFacade;
 import com.backend.fog.facades.ProductFacade;
 import com.backend.fog.logics.Calculator;
+import com.backend.fog.persistence.DatabaseConnection;
+import com.backend.fog.services.ApplicationStart;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -14,11 +16,20 @@ import java.io.IOException;
 
 @WebServlet(name = "BuilderServlet", value = "/BuilderServlet")
 public class BuilderServlet extends HttpServlet {
+
+    private DatabaseConnection databaseConnection;
+
+    @Override
+    public void init() {
+        this.databaseConnection = ApplicationStart.getConnectionPool();
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         Customer customer = (Customer) request.getSession().getAttribute("customer");
-        OrderFacade orderFacade = new OrderFacade();
-        ProductFacade productFacade = new ProductFacade();
+        OrderFacade orderFacade = new OrderFacade(databaseConnection);
+        ProductFacade productFacade = new ProductFacade(databaseConnection);
         Calculator calculator = new Calculator();
 
         int carportWidth = 0;
@@ -37,51 +48,45 @@ public class BuilderServlet extends HttpServlet {
 
         // ERROR HANDLER: both width and length is undefined
         if (request.getParameter("carportWidth") == null && request.getParameter("carportLength") == null) {
-            ErrorHandler errorHandler = new ErrorHandler();
-            request.setAttribute("widthErrorClass", errorHandler.errorClass());
-            request.setAttribute("lengthErrorClass", errorHandler.errorClass());
-            request.setAttribute("widthErrorMessage", errorHandler.widthNotDefined());
-            request.setAttribute("lengthErrorMessage", errorHandler.lengthNotDefined());
+            request.setAttribute("widthErrorClass", ErrorHandler.errorClass());
+            request.setAttribute("lengthErrorClass", ErrorHandler.errorClass());
+            request.setAttribute("widthErrorMessage", ErrorHandler.widthNotDefined());
+            request.setAttribute("lengthErrorMessage", ErrorHandler.lengthNotDefined());
             request.getRequestDispatcher("WEB-INF/customer/builder.jsp").forward(request, response);
         }
 
         // ERROR HANDLER: only width is undefined
         else if (request.getParameter("carportWidth") == null) {
-            ErrorHandler errorHandler = new ErrorHandler();
-            request.setAttribute("widthErrorClass", errorHandler.errorClass());
-            request.setAttribute("widthErrorMessage", errorHandler.widthNotDefined());
+            request.setAttribute("widthErrorClass", ErrorHandler.errorClass());
+            request.setAttribute("widthErrorMessage", ErrorHandler.widthNotDefined());
             request.getRequestDispatcher("WEB-INF/customer/builder.jsp").forward(request, response);
         }
 
         // ERROR HANDLER: only length is undefined
         else if (request.getParameter("carportLength") == null) {
-            ErrorHandler errorHandler = new ErrorHandler();
-            request.setAttribute("lengthErrorClass", errorHandler.errorClass());
-            request.setAttribute("lengthErrorMessage", errorHandler.lengthNotDefined());
+            request.setAttribute("lengthErrorClass", ErrorHandler.errorClass());
+            request.setAttribute("lengthErrorMessage", ErrorHandler.lengthNotDefined());
             request.getRequestDispatcher("WEB-INF/customer/builder.jsp").forward(request, response);
         }
 
         // ERROR HANDLER: if shed width is undefined but shed length isn't
         else if (shedWidth == 0 && shedLength != 0) {
-            ErrorHandler errorHandler = new ErrorHandler();
-            request.setAttribute("shedWidthErrorClass", errorHandler.errorClass());
-            request.setAttribute("shedWidthErrorMessage", errorHandler.shedWidthUndefined());
+            request.setAttribute("shedWidthErrorClass", ErrorHandler.errorClass());
+            request.setAttribute("shedWidthErrorMessage", ErrorHandler.shedWidthUndefined());
             request.getRequestDispatcher("WEB-INF/customer/builder.jsp").forward(request, response);
         }
 
         // ERROR HANDLER: if shed length is undefined but shed width isn't
         else if (shedLength == 0 && shedWidth != 0) {
-            ErrorHandler errorHandler = new ErrorHandler();
-            request.setAttribute("proportionsErrorClass", errorHandler.errorClass());
-            request.setAttribute("shedLengthErrorMessage", errorHandler.shedLengthUndefined());
+            request.setAttribute("proportionsErrorClass", ErrorHandler.errorClass());
+            request.setAttribute("shedLengthErrorMessage", ErrorHandler.shedLengthUndefined());
             request.getRequestDispatcher("WEB-INF/customer/builder.jsp").forward(request, response);
         }
 
         // ERROR HANDLER: if shed length is longer than carport length
         else if (carportLength < shedLength) {
-            ErrorHandler errorHandler = new ErrorHandler();
-            request.setAttribute("proportionsErrorClass", errorHandler.errorClass());
-            request.setAttribute("proportionsErrorMessage", errorHandler.proportionsErrorMessage());
+            request.setAttribute("proportionsErrorClass", ErrorHandler.errorClass());
+            request.setAttribute("proportionsErrorMessage", ErrorHandler.proportionsErrorMessage());
             request.getRequestDispatcher("WEB-INF/customer/builder.jsp").forward(request, response);
         }
 
@@ -171,7 +176,7 @@ public class BuilderServlet extends HttpServlet {
             // Defining the products (shed)
             Product zForShedDoor = productFacade.getShedDoorZ();
             Product beamForShed = productFacade.getBeamForShed(shedLength);
-            Product poleForShed = productFacade.getPoleForShed(shedWidth);
+            Product poleForShed = productFacade.getPoleForShed();
             Product shedJoistSide = productFacade.getShedJoistSide(shedLength);
             Product shedJoistFrontBack = productFacade.getShedJoistFrontBack(carportWidth);
             Product cladding = productFacade.getCladding();

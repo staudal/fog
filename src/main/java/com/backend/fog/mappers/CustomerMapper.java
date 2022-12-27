@@ -1,200 +1,136 @@
 package com.backend.fog.mappers;
 
 import com.backend.fog.entities.Customer;
-import com.backend.fog.entities.Order;
 import com.backend.fog.facades.OrderFacade;
 import com.backend.fog.persistence.DatabaseConnection;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.UUID;
 
 public class CustomerMapper {
-    public int createNewCustomer(String firstName, String lastName, String email, String password, DatabaseConnection connection) {
+    public int createNewCustomer(String firstName, String lastName, String email, String password, DatabaseConnection databaseConnection) {
         int key = 0;
-        try {
-            Statement statement = connection.connect().createStatement();
-            statement.executeUpdate("INSERT INTO customers (firstName, lastName, email, password) VALUES ('"+firstName+"', '"+lastName+"', '"+email+"', '"+password+"')", Statement.RETURN_GENERATED_KEYS);
+        String sql = "INSERT INTO customers (firstName, lastName, email, password) VALUES (?, ?, ?, ?)";
+        try (Connection connection = databaseConnection.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            statement.setString(3, email);
+            statement.setString(4, password);
+            statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
             if (rs != null && rs.next()) {
                 key = rs.getInt(1);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
         }
         return key;
     }
 
-    public boolean validateEmail(String email, DatabaseConnection connection) {
-        try {
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM customers WHERE email = ?");
+    public boolean validateEmail(String email, DatabaseConnection databaseConnection) {
+        String sql = "SELECT * FROM customers WHERE email = ?";
+        try (Connection connection = databaseConnection.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, email);
-
             ResultSet set = statement.executeQuery();
             return set.next();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
         }
     }
 
-    public boolean validatePassword(String email, String password, DatabaseConnection connection) {
-        try {
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM customers WHERE email = ?");
+    public boolean validatePassword(String email, String password, DatabaseConnection databaseConnection) {
+        String sql = "SELECT * FROM customers WHERE email = ?";
+        try (Connection connection = databaseConnection.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, email);
-
             ResultSet set = statement.executeQuery();
-
             if (set.next()) {
                 return set.getString("email").equals(email) && set.getString("password").equals(password);
             }
             return false;
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
         }
     }
 
-    public int getId(String email, DatabaseConnection connection) {
+    public int getId(String email, DatabaseConnection databaseConnection) {
         int id = 0;
-        try {
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM customers WHERE email = ?");
+        String sql = "SELECT * FROM customers WHERE email = ?";
+        try (Connection connection = databaseConnection.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, email);
             ResultSet set = statement.executeQuery();
-
             if (set.next()) {
                 id = set.getInt("id");
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
         }
         return id;
     }
 
-    public String getFirstName(String email, DatabaseConnection connection) {
+    public String getFirstName(String email, DatabaseConnection databaseConnection) {
         String firstName = "";
-        try {
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM customers WHERE email = ?");
+        String sql = "SELECT * FROM customers WHERE email = ?";
+        try (Connection connection = databaseConnection.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, email);
             ResultSet set = statement.executeQuery();
-
             if (set.next()) {
                 firstName = set.getString("firstName");
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
         }
         return firstName;
     }
 
-    public String getLastName(String email, DatabaseConnection connection) {
-        String lastName = "";
-        try {
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM customers WHERE email = ?");
-            statement.setString(1, email);
-            ResultSet set = statement.executeQuery();
-
-            if (set.next()) {
-                lastName = set.getString("lastName");
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
-        }
-        return lastName;
-    }
-
-    public String getPassword(String email, DatabaseConnection connection) {
-        String password = "";
-        try {
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM customers WHERE email = ?");
-            statement.setString(1, email);
-            ResultSet set = statement.executeQuery();
-
-            if (set.next()) {
-                password = set.getString("password");
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
-        }
-        return password;
-    }
-
-    public ArrayList<Customer> getAllCustomers(DatabaseConnection connection) {
+    public ArrayList<Customer> getAllCustomers(DatabaseConnection databaseConnection) {
+        OrderFacade orderFacade = new OrderFacade(databaseConnection);
         ArrayList<Customer> customers = new ArrayList<>();
-        try {
-            OrderFacade orderFacade = new OrderFacade();
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM customers");
+        String sql = "SELECT * FROM customers";
+        try (Connection connection = databaseConnection.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet set = statement.executeQuery();
-
             while (set.next()) {
                 customers.add(new Customer(set.getInt("id"), set.getString("firstName"), set.getString("lastName"), set.getString("email"), set.getString("password"), orderFacade.countOrdersForCustomer(set.getInt("id"))));
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
         }
         return customers;
     }
 
-    public Customer getCustomerById(int id, DatabaseConnection connection) {
+    public Customer getCustomerById(int id, DatabaseConnection databaseConnection) {
         Customer customer = new Customer();
-        try {
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM customers WHERE id = ?");
+        String sql = "SELECT * FROM customers WHERE id = ?";
+        try (Connection connection = databaseConnection.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
             ResultSet set = statement.executeQuery();
-            OrderFacade orderFacade = new OrderFacade();
-
             while (set.next()) {
                 customer = new Customer(set.getInt("id"), set.getString("firstName"), set.getString("lastName"), set.getString("email"), set.getString("password"));
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
         }
         return customer;
     }
 
-    public Customer getCustomerByEmail(String email, DatabaseConnection connection) {
+    public Customer getCustomerByEmail(String email, DatabaseConnection databaseConnection) {
         Customer customer = new Customer();
-        try {
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM customers WHERE email = ?");
+        String sql = "SELECT * FROM customers WHERE email = ?";
+        try (Connection connection = databaseConnection.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, email);
             ResultSet set = statement.executeQuery();
-            OrderFacade orderFacade = new OrderFacade();
-
             while (set.next()) {
                 customer = new Customer(set.getInt("id"), set.getString("firstName"), set.getString("lastName"), set.getString("email"), set.getString("password"));
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
         }
         return customer;
     }

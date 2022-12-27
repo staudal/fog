@@ -22,13 +22,6 @@ public class Customer {
         this.password = password;
     }
 
-    public Customer(String firstName, String lastName, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-    }
-
     // Only for loading the customers overview as an employee
     public Customer(int id, String firstName, String lastName, String email, String password, int numberOfOrders) {
         this.id = id;

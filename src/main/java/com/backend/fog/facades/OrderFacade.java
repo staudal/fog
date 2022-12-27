@@ -8,74 +8,53 @@ import com.backend.fog.persistence.DatabaseConnection;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.UUID;
 
 public class OrderFacade {
-    DatabaseConnection connection = new DatabaseConnection();
+    DatabaseConnection databaseConnection;
     OrderMapper orderMapper = new OrderMapper();
 
+    public OrderFacade(DatabaseConnection databaseConnection) {
+        this.databaseConnection = databaseConnection;
+    }
+
     public int createNewOrder(int carportWidth, int carportLength, int shedWidth, int shedLength, int customerId, int totalPrice, int discountPrice, int status) {
-        return orderMapper.createNewOrder(carportWidth, carportLength, shedWidth, shedLength, customerId, totalPrice, discountPrice, status, connection);
+        return orderMapper.createNewOrder(carportWidth, carportLength, shedWidth, shedLength, customerId, totalPrice, discountPrice, status, databaseConnection);
     }
 
     public void createOrderLines(int orderId, int productId, int quantity) {
-        orderMapper.createOrderLines(orderId, productId, quantity, connection);
+        orderMapper.createOrderLines(orderId, productId, quantity, databaseConnection);
     }
 
     public TreeMap<Integer, Order> getCustomerOrders(int customerId) {
-        return orderMapper.getCustomerOrders(customerId, connection);
+        return orderMapper.getCustomerOrders(customerId, databaseConnection);
     }
 
     public Map<Integer, Order> getAllOrders() {
-        return orderMapper.getAllOrders(connection);
+        return orderMapper.getAllOrders(databaseConnection);
     }
 
     public Order getOrder(int id) {
-        return orderMapper.getOrder(id, connection);
+        return orderMapper.getOrder(id, databaseConnection);
     }
 
     public int countOrdersForCustomer(int customerId) {
-        return orderMapper.countOrdersForCustomer(customerId, connection);
+        return orderMapper.countOrdersForCustomer(customerId, databaseConnection);
     }
 
     public ArrayList<Product> getProductsFromOrderLine(int orderId) {
-        return orderMapper.getProductsFromOrderLine(orderId, connection);
-    }
-
-    public int getWidth(UUID id) {
-        return orderMapper.getWidth(id, connection);
-    }
-
-    public int getLength(UUID id) {
-        return orderMapper.getLength(id, connection);
-    }
-
-    public int getTotalPrice(UUID id) {
-        return orderMapper.getTotalPrice(id, connection);
-    }
-
-    public int getDiscountPrice(UUID id) {
-        return orderMapper.getDiscountPrice(id, connection);
+        return orderMapper.getProductsFromOrderLine(orderId, databaseConnection);
     }
 
     public void removeCustomerOrder(int id) {
-        orderMapper.removeCustomerOrder(id, connection);
-    }
-
-    public void updateOrderTotalPrice(int price) {
-        orderMapper.updateOrderTotalPrice(price, connection);
+        orderMapper.removeCustomerOrder(id, databaseConnection);
     }
 
     public void updateOrderDiscountPrice(int price, int orderId) {
-        orderMapper.updateOrderDiscountPrice(price, orderId, connection);
-    }
-
-    public int getStatus(UUID id) {
-        return orderMapper.getStatus(id, connection);
+        orderMapper.updateOrderDiscountPrice(price, orderId, databaseConnection);
     }
 
     public void updateStatus(int status, int orderId) {
-        orderMapper.updateStatus(status, orderId, connection);
+        orderMapper.updateStatus(status, orderId, databaseConnection);
     }
 
     public Product getRafter(ArrayList<Product> products) {
@@ -88,10 +67,6 @@ public class OrderFacade {
 
     public Product getPole(ArrayList<Product> products) {
         return orderMapper.getPole(products);
-    }
-
-    public Product getWindBracer(ArrayList<Product> products) {
-        return orderMapper.getWindBracer(products);
     }
 
     public ArrayList<Product> getCarportWoods(ArrayList<Product> allProducts) {

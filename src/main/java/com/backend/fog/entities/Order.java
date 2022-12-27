@@ -29,19 +29,6 @@ public class Order {
         this.status = status;
     }
 
-    // ONLY USED FOR PARTS LIST
-    public Order(int id, int carportWidth, int carportLength, int shedWidth, int shedLength, int totalPrice, int discountPrice, int status, ArrayList<Product> partsList) {
-        this.id = id;
-        this.carportWidth = carportWidth;
-        this.carportLength = carportLength;
-        this.shedWidth = shedWidth;
-        this.shedLength = shedLength;
-        this.totalPrice = totalPrice;
-        this.discountPrice = discountPrice;
-        this.status = status;
-        this.partsList = partsList;
-    }
-
     public Customer getCustomer() {
         return customer;
     }

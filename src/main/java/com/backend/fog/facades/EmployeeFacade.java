@@ -4,30 +4,34 @@ import com.backend.fog.mappers.EmployeeMapper;
 import com.backend.fog.persistence.DatabaseConnection;
 
 public class EmployeeFacade {
-    DatabaseConnection connection = new DatabaseConnection();
+    DatabaseConnection databaseConnection;
     EmployeeMapper employeeMapper = new EmployeeMapper();
 
+    public EmployeeFacade(DatabaseConnection databaseConnection) {
+        this.databaseConnection = databaseConnection;
+    }
+
     public boolean validateEmail(String email) {
-        return employeeMapper.validateEmail(email, connection);
+        return employeeMapper.validateEmail(email, databaseConnection);
     }
 
     public boolean validatePassword(String email, String password) {
-        return employeeMapper.validatePassword(email, password, connection);
+        return employeeMapper.validatePassword(email, password, databaseConnection);
     }
 
     public String getId(String email) {
-        return employeeMapper.getId(email, connection);
+        return employeeMapper.getId(email, databaseConnection);
     }
 
     public String getFirstname(String email) {
-        return employeeMapper.getFirstName(email, connection);
+        return employeeMapper.getFirstName(email, databaseConnection);
     }
 
     public String getLastname(String email) {
-        return employeeMapper.getLastName(email, connection);
+        return employeeMapper.getLastName(email, databaseConnection);
     }
 
     public String getPassword(String email) {
-        return employeeMapper.getPassword(email, connection);
+        return employeeMapper.getPassword(email, databaseConnection);
     }
 }

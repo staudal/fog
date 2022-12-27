@@ -1,163 +1,58 @@
 package com.backend.fog.mappers;
 
-import com.backend.fog.entities.Customer;
 import com.backend.fog.entities.Order;
 import com.backend.fog.entities.Product;
 import com.backend.fog.facades.CustomerFacade;
-import com.backend.fog.facades.ProductFacade;
 import com.backend.fog.persistence.DatabaseConnection;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.UUID;
 
 public class OrderMapper {
-    public int createNewOrder(int carportWidth, int carportLength, int shedWidth, int shedLength, int customerId, int totalPrice, int discountPrice, int status, DatabaseConnection connection) {
+    public int createNewOrder(int carportWidth, int carportLength, int shedWidth, int shedLength, int customerId, int totalPrice, int discountPrice, int status, DatabaseConnection databaseConnection) {
         int key = 0;
-        try {
-            Statement statement = connection.connect().createStatement();
-            statement.executeUpdate("INSERT INTO orders (carportWidth, carportLength, shedWidth, shedLength, customer_id, totalPrice, discountPrice, status) VALUES ('"+carportWidth+"', '"+carportLength+"', '"+shedWidth+"', '"+shedLength+"', '"+customerId+"', '"+totalPrice+"', '"+discountPrice+"', '"+status+"')", Statement.RETURN_GENERATED_KEYS);
+        String sql = "INSERT INTO orders (carportWidth, carportLength, shedWidth, shedLength, customer_id, totalPrice, discountPrice, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection connection = databaseConnection.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, carportWidth);
+            statement.setInt(2, carportLength);
+            statement.setInt(3, shedWidth);
+            statement.setInt(4, shedLength);
+            statement.setInt(5, customerId);
+            statement.setInt(6, totalPrice);
+            statement.setInt(7, discountPrice);
+            statement.setInt(8, status);
+            statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
             if (rs != null && rs.next()) {
                 key = rs.getInt(1);
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
         }
         return key;
     }
 
-    public void createOrderLines(int orderId, int productId, int quantity, DatabaseConnection connection) {
-        try {
-            PreparedStatement statement = connection.connect().prepareStatement("INSERT INTO order_line (orders_id, products_id, amount) VALUES ('" + orderId + "', '" + productId + "', '" + quantity + "')");
+    public void createOrderLines(int orderId, int productId, int quantity, DatabaseConnection databaseConnection) {
+        String sql = "INSERT INTO order_line (orders_id, products_id, amount) VALUES (?, ?, ?)";
+        try (Connection connection = databaseConnection.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, orderId);
+            statement.setInt(2, productId);
+            statement.setInt(3, quantity);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
         }
     }
 
-    public int getWidth(UUID id, DatabaseConnection connection) {
-        try {
-            int width = 0;
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM orders WHERE id = ?");
-            statement.setString(1, String.valueOf(id));
-
-            ResultSet set = statement.executeQuery();
-            if (set.next()) {
-                width = set.getInt("carportWidth");
-            }
-            return width;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
-        }
-    }
-
-    public int getLength(UUID id, DatabaseConnection connection) {
-        try {
-            int length = 0;
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM orders WHERE id = ?");
-            statement.setString(1, String.valueOf(id));
-
-            ResultSet set = statement.executeQuery();
-            if (set.next()) {
-                length = set.getInt("carportLength");
-            }
-            return length;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
-        }
-    }
-
-    public int getStatus(UUID id, DatabaseConnection connection) {
-        int status = 0;
-        try {
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM orders WHERE id = ?");
-            statement.setString(1, String.valueOf(id));
-
-            ResultSet set = statement.executeQuery();
-            if (set.next()) {
-                status = set.getInt("status");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
-        }
-        return status;
-    }
-
-    public int getTotalPrice(UUID id, DatabaseConnection connection) {
-        try {
-            int totalPrice = 0;
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM orders WHERE id = ?");
-            statement.setString(1, String.valueOf(id));
-
-            ResultSet set = statement.executeQuery();
-            if (set.next()) {
-                totalPrice = set.getInt("totalPrice");
-            }
-            return totalPrice;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
-        }
-    }
-
-    public int getDiscountPrice(UUID id, DatabaseConnection connection) {
-        try {
-            int discountPrice = 0;
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM orders WHERE id = ?");
-            statement.setString(1, String.valueOf(id));
-
-            ResultSet set = statement.executeQuery();
-            if (set.next()) {
-                discountPrice = set.getInt("discountPrice");
-            }
-            return discountPrice;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
-        }
-    }
-
-    public Customer getCustomer(UUID id, DatabaseConnection connection) {
-        Customer customer = new Customer();
-        try {
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM customers WHERE id = ?");
-            statement.setString(1, String.valueOf(id));
-
-            ResultSet set = statement.executeQuery();
-            while (set.next()) {
-
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
-        }
-        return customer;
-    }
-
-    public int countOrdersForCustomer(int customerId, DatabaseConnection connection) {
+    public int countOrdersForCustomer(int customerId, DatabaseConnection databaseConnection) {
         int count = 0;
-        try {
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM orders WHERE customer_id = ?");
+        String sql = "SELECT * FROM orders WHERE customer_id = ?";
+        try (Connection connection = databaseConnection.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, customerId);
             ResultSet set = statement.executeQuery();
             while (set.next()) {
@@ -165,54 +60,48 @@ public class OrderMapper {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.connect();
         }
         return count;
     }
 
-    public TreeMap<Integer, Order> getCustomerOrders(int customerId, DatabaseConnection connection) {
+    public TreeMap<Integer, Order> getCustomerOrders(int customerId, DatabaseConnection databaseConnection) {
         TreeMap<Integer, Order> orders = new TreeMap<>();
-        try {
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM orders WHERE customer_id = ?");
+        String sql = "SELECT * FROM orders WHERE customer_id = ?";
+        try (Connection connection = databaseConnection.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, customerId);
-
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 orders.put(set.getInt("id"), new Order(set.getInt("id"), set.getInt("carportWidth"), set.getInt("carportLength"), set.getInt("shedWidth"), set.getInt("shedLength"), set.getInt("totalPrice"), set.getInt("discountPrice"), set.getInt("status")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
         }
         return orders;
     }
 
-    public Map<Integer, Order> getAllOrders(DatabaseConnection connection) {
+    public Map<Integer, Order> getAllOrders(DatabaseConnection databaseConnection) {
         TreeMap<Integer, Order> orders = new TreeMap<>();
-        try {
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM orders");
-
+        String sql = "SELECT * FROM orders";
+        try (Connection connection = databaseConnection.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 orders.put(set.getInt("id"), new Order(set.getInt("id"), set.getInt("carportWidth"), set.getInt("carportLength"), set.getInt("shedWidth"), set.getInt("shedLength"), set.getInt("totalPrice"), set.getInt("discountPrice"), set.getInt("status")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
         }
         return orders;
     }
 
-    public Order getOrder(int id, DatabaseConnection connection) {
-        CustomerFacade customerFacade = new CustomerFacade();
+    public Order getOrder(int id, DatabaseConnection databaseConnection) {
+        CustomerFacade customerFacade = new CustomerFacade(databaseConnection);
         Order order = new Order();
-        try {
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM orders WHERE id = ?");
+        String sql = "SELECT * FROM orders WHERE id = ?";
+        try (Connection connection = databaseConnection.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
-
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 order.setId(set.getInt("id"));
@@ -231,10 +120,11 @@ public class OrderMapper {
         return order;
     }
 
-    public Product getProductFromId(int productId, int amount, DatabaseConnection connection) {
+    public Product getProductFromId(int productId, int amount, DatabaseConnection databaseConnection) {
         Product product = new Product();
-        try {
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM products WHERE id = ?");
+        String sql = "SELECT * FROM products WHERE id = ?";
+        try (Connection connection = databaseConnection.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, productId);
             ResultSet set = statement.executeQuery();
             while (set.next()) {
@@ -254,28 +144,29 @@ public class OrderMapper {
         return product;
     }
 
-    public ArrayList<Product> getProductsFromOrderLine(int orderId, DatabaseConnection connection) {
+    public ArrayList<Product> getProductsFromOrderLine(int orderId, DatabaseConnection databaseConnection) {
         ArrayList<Product> products = new ArrayList<>();
-        try {
-            PreparedStatement statement = connection.connect().prepareStatement("SELECT * FROM order_line WHERE orders_id = ?");
+        String sql = "SELECT * FROM order_line WHERE orders_id = ?";
+        try (Connection connection = databaseConnection.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, orderId);
 
             ResultSet set = statement.executeQuery();
             while (set.next()) {
-                products.add(getProductFromId(set.getInt("products_id"), set.getInt("amount"), connection));
+                products.add(getProductFromId(set.getInt("products_id"), set.getInt("amount"), databaseConnection));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
         }
         return products;
     }
 
-    public void removeCustomerOrder(int orderId, DatabaseConnection connection) {
-        try {
-            PreparedStatement statement1 = connection.connect().prepareStatement("DELETE FROM order_line WHERE orders_id = ?");
-            PreparedStatement statement2 = connection.connect().prepareStatement("DELETE FROM orders WHERE id = ?");
+    public void removeCustomerOrder(int orderId, DatabaseConnection databaseConnection) {
+        String sql1 = "DELETE FROM order_line WHERE orders_id = ?";
+        String sql2 = "DELETE FROM orders WHERE id = ?";
+        try (Connection connection = databaseConnection.getConnection()) {
+            PreparedStatement statement1 = connection.prepareStatement(sql1);
+            PreparedStatement statement2 = connection.prepareStatement(sql2);
 
             statement1.setInt(1, orderId);
             statement2.setInt(1, orderId);
@@ -284,46 +175,30 @@ public class OrderMapper {
             statement2.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
         }
     }
 
-    public void updateOrderTotalPrice(int price, DatabaseConnection connection) {
-        try {
-            PreparedStatement statement = connection.connect().prepareStatement("UPDATE orders SET totalPrice = ?");
-            statement.setInt(1, price);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
-        }
-    }
-
-    public void updateOrderDiscountPrice(int price, int orderId, DatabaseConnection connection) {
-        try {
-            PreparedStatement statement = connection.connect().prepareStatement("UPDATE orders SET discountPrice = ? WHERE id = ?");
+    public void updateOrderDiscountPrice(int price, int orderId, DatabaseConnection databaseConnection) {
+        String sql = "UPDATE orders SET discountPrice = ? WHERE id = ?";
+        try (Connection connection = databaseConnection.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, price);
             statement.setInt(2, orderId);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
         }
     }
 
-    public void updateStatus(int status, int orderId, DatabaseConnection connection) {
-        try {
-            PreparedStatement statement = connection.connect().prepareStatement("UPDATE orders SET status = ? WHERE id = ?");
+    public void updateStatus(int status, int orderId, DatabaseConnection databaseConnection) {
+        String sql = "UPDATE orders SET status = ? WHERE id = ?";
+        try (Connection connection = databaseConnection.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, status);
             statement.setInt(2, orderId);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.disconnect();
         }
     }
 
@@ -351,16 +226,6 @@ public class OrderMapper {
         Product product = new Product();
         for (Product rafter : products) {
             if (rafter.getCategory().equals("Stolpe")) {
-                product = new Product(rafter.getId(), rafter.getName(), rafter.getLength(), rafter.getPrice(), rafter.getCategory(), rafter.getDescription(), rafter.getQuantity());
-            }
-        }
-        return product;
-    }
-
-    public Product getWindBracer(ArrayList<Product> products) {
-        Product product = new Product();
-        for (Product rafter : products) {
-            if (rafter.getCategory().equals("Hulbånd")) {
                 product = new Product(rafter.getId(), rafter.getName(), rafter.getLength(), rafter.getPrice(), rafter.getCategory(), rafter.getDescription(), rafter.getQuantity());
             }
         }

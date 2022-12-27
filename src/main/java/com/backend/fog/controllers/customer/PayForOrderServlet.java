@@ -3,23 +3,33 @@ package com.backend.fog.controllers.customer;
 import com.backend.fog.entities.Order;
 import com.backend.fog.entities.Product;
 import com.backend.fog.facades.OrderFacade;
-import com.backend.fog.logics.Calculator;
 import com.backend.fog.logics.Drawer;
+import com.backend.fog.persistence.DatabaseConnection;
+import com.backend.fog.services.ApplicationStart;
 import com.backend.fog.services.SVG;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.UUID;
 
 @WebServlet(name = "PayForOrderServlet", value = "/PayForOrderServlet")
 public class PayForOrderServlet extends HttpServlet {
+
+    private DatabaseConnection databaseConnection;
+
+    @Override
+    public void init() {
+        this.databaseConnection = ApplicationStart.getConnectionPool();
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int orderId = Integer.parseInt(request.getParameter("orderId"));
-        OrderFacade orderFacade = new OrderFacade();
+        OrderFacade orderFacade = new OrderFacade(databaseConnection);
         orderFacade.updateStatus(3, orderId);
 
         // retrieving the order from the database using the orderID

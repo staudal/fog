@@ -1,48 +1,47 @@
 package com.backend.fog.persistence;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
 public class DatabaseConnection {
-    private static final String DRIVER = "com.mysql.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://localhost:3306/fog";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "rootroot";
+    private HikariDataSource ds;
+    private static String USER = "root";
+    private static String PASSWORD = "rootroot";
+    private static String URL = "jdbc:mysql://localhost:3306/fog";
 
-    private Connection connection;
-    private Properties properties;
-
-    private Properties getProperties() {
-        if (properties == null) {
-            properties = new Properties();
-            properties.setProperty("user", USERNAME);
-            properties.setProperty("password", PASSWORD);
-        }
-        return properties;
+    public DatabaseConnection() {
+        this(USER, PASSWORD, URL);
     }
 
-    public Connection connect() {
-        if (connection == null) {
-            try {
-                Class.forName(DRIVER);
-                connection = DriverManager.getConnection(URL, getProperties());
-            } catch (ClassNotFoundException | SQLException e) {
-                e.printStackTrace();
-            }
+    public DatabaseConnection(String USER, String PASSWORD, String URL) {
+        String deployed = System.getenv("DEPLOYED");
+        if (deployed != null) {
+            // Prod: hent variabler fra setenv.sh i Tomcats bin folder
+            USER = System.getenv("JDBC_USER");
+            PASSWORD = System.getenv("JDBC_PASSWORD");
+            URL = System.getenv("JDBC_CONNECTION_STRING");
         }
-        return connection;
+
+        HikariConfig config = new HikariConfig();
+        config.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        config.setJdbcUrl(URL);
+        config.setUsername(USER);
+        config.setPassword(PASSWORD);
+        config.setMaximumPoolSize(5);
+        config.addDataSourceProperty("cachePrepStmts", "true");
+        config.addDataSourceProperty("prepStmtCacheSize", "250");
+        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+        this.ds = new HikariDataSource(config);
     }
 
-    public void disconnect() {
-        if (connection != null) {
-            try {
-                connection.close();
-                connection = null;
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    public Connection getConnection() throws SQLException {
+        return ds.getConnection();
+    }
+
+    public void close() {
+        ds.close();
     }
 }

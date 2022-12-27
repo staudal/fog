@@ -1,6 +1,5 @@
 package com.backend.fog.logics;
 
-import com.backend.fog.entities.Order;
 import com.backend.fog.entities.Product;
 import com.backend.fog.facades.OrderFacade;
 import com.backend.fog.services.SVG;
@@ -8,15 +7,15 @@ import com.backend.fog.services.SVG;
 import java.util.ArrayList;
 
 public class Drawer {
-    private ArrayList<Product> woodsCarport;
-    private ArrayList<Product> screwsCarport;
-    private ArrayList<Product> woodsShed;
-    private ArrayList<Product> screwsShed;
+    private final ArrayList<Product> woodsCarport;
+    private final ArrayList<Product> screwsCarport;
+    private final ArrayList<Product> woodsShed;
+    private final ArrayList<Product> screwsShed;
     private OrderFacade orderFacade;
-    private int carportLength;
-    private int carportWidth;
-    private int shedLength;
-    private int shedWidth;
+    private final int carportLength;
+    private final int carportWidth;
+    private final int shedLength;
+    private final int shedWidth;
 
     public Drawer(ArrayList<Product> woodsCarport, ArrayList<Product> screwsCarport, ArrayList<Product> woodsShed, ArrayList<Product> screwsShed, OrderFacade orderFacade, int carportLength, int carportWidth, int shedLength, int shedWidth) {
         this.woodsCarport = woodsCarport;
@@ -100,10 +99,10 @@ public class Drawer {
 
         // carport length affected: 721 - 780
         if (beamQuantity == 4) {
-            svg.addBeam(0, upperY, carportLength / 2);
-            svg.addBeam(carportLength / 2, upperY, carportLength);
-            svg.addBeam(0, lowerY, carportLength / 2);
-            svg.addBeam(carportLength / 2, lowerY, carportLength);
+            svg.addBeam(0, upperY, carportLength / 2.0);
+            svg.addBeam(carportLength / 2.0, upperY, carportLength);
+            svg.addBeam(0, lowerY, carportLength / 2.0);
+            svg.addBeam(carportLength / 2.0, lowerY, carportLength);
         }
     }
     public void drawWindBracers(SVG svg) {

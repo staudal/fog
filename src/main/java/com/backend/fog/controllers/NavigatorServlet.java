@@ -3,6 +3,8 @@ package com.backend.fog.controllers;
 import com.backend.fog.entities.Customer;
 import com.backend.fog.facades.CustomerFacade;
 import com.backend.fog.facades.OrderFacade;
+import com.backend.fog.persistence.DatabaseConnection;
+import com.backend.fog.services.ApplicationStart;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,12 +15,20 @@ import java.io.IOException;
 
 @WebServlet(name = "Navigator", value = "/Navigator")
 public class NavigatorServlet extends HttpServlet {
+
+    private DatabaseConnection databaseConnection;
+
+    @Override
+    public void init() {
+        this.databaseConnection = ApplicationStart.getConnectionPool();
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String route = request.getParameter("route");
 
-        OrderFacade orderFacade = new OrderFacade();
-        CustomerFacade customerFacade = new CustomerFacade();
+        OrderFacade orderFacade = new OrderFacade(databaseConnection);
+        CustomerFacade customerFacade = new CustomerFacade(databaseConnection);
 
         if (route.equals("login")) {
             request.getRequestDispatcher("login.jsp").forward(request, response);
